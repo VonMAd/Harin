@@ -6,7 +6,7 @@
 
 - **Zero Server / Zero Database / Zero Third-Party Scripts:** No backend server, no external JS/CSS CDNs, no npm supply-chain dependencies, no analytics, no ad trackers, and no cookies.
 - **Strict SHA-256 Content-Security-Policy (CSP):**
-  - `default-src 'none'` with an exact cryptographic script hash (`script-src 'sha256-QswborXNGL0zY539MZxmdaNpnACms2JSnvm8xD4FMFY='`) that blocks all injected inline scripts, `eval()`, `new Function()`, inline `on*=` attributes, and external script loads.
+  - `default-src 'none'` with an exact cryptographic script hash (`script-src 'sha256-JpjIPwFTv+3iLkedWfugSOnZk96rR5zD+lwPSZVEErk='`) that blocks all injected inline scripts, `eval()`, `new Function()`, inline `on*=` attributes, and external script loads.
   - `object-src 'none'`, `child-src 'none'`, `frame-src 'none'`, `base-uri 'none'`, `form-action 'none'`, `worker-src 'none'`, `manifest-src 'none'`, and `upgrade-insecure-requests`.
   - Network connections (`connect-src`) are locked strictly to the optional user-initiated Private GitHub Gist sync API (`https://api.github.com`) and the 4 optional TTS API hosts (`texttospeech.googleapis.com`, `api.openai.com`, `*.tts.speech.microsoft.com`, `api.elevenlabs.io`).
 - **Clickjacking & Framing Defense:** Runtime `enforceFrameSafety()` hides and clears the DOM if framed by any untrusted external origin.
@@ -26,9 +26,9 @@ You can cryptographically verify that your local `Harin.html` or `index.html` ma
 
 | File | SHA-256 |
 | --- | --- |
-| `Harin.html` | `676d79545659eab1c2516c3bd1b6ffabee4b146aecaafd398d7a7190463bc3be` |
-| `index.html` | `676d79545659eab1c2516c3bd1b6ffabee4b146aecaafd398d7a7190463bc3be` |
-| Inline `<script>` CSP Digest | `sha256-QswborXNGL0zY539MZxmdaNpnACms2JSnvm8xD4FMFY=` |
+| `Harin.html` | `85f2828177f840416af7acbe2780cc1e9a4b91e9aed7514b1efc2070a2774721` |
+| `index.html` | `85f2828177f840416af7acbe2780cc1e9a4b91e9aed7514b1efc2070a2774721` |
+| Inline `<script>` CSP Digest | `sha256-JpjIPwFTv+3iLkedWfugSOnZk96rR5zD+lwPSZVEErk=` |
 
 **Windows (PowerShell):**
 ```powershell
