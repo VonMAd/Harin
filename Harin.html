@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fK7E3X0M8OGnKlUzbYPEvOlLEP1ZYvmkhD5+r9sC0Y4='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
-  <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,850+ official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 45 Reading passages (including Ordering, Insertion &amp; Blanks), 40 Listening scenarios, and an Official 70-Question 200-Point TOPIK I Mock Exam." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5vlXZrC9/N7/Q4uoeNX/58qCRb7Sh/ULj9GE6s1hUII='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
+  <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,762 official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 70 Reading passages (including Ordering, Insertion &amp; Blanks), 80 Listening scenarios, and a 6-Mode Official TOPIK I Mock Exam Center." />
   <title>Harin (하린 · 夏凜) — TOPIK I (1급–2급) Korean Studio</title>
   <style>
 /* ==========================================================================
@@ -3806,7 +3806,7 @@ button {
             <p class="section-meta">
               <span class="badge badge-g1">TOPIK 1급</span>
               <span class="badge badge-g2">TOPIK 2급</span>
-              <span id="listen-item-count" class="meta-accent">30 authentic scenarios</span>
+              <span id="listen-item-count" class="meta-accent">80 authentic scenarios</span>
             </p>
           </div>
           <div class="controls-row">
@@ -3827,6 +3827,7 @@ button {
           <button id="listen-search-clear" type="button" class="search-clear hidden" aria-label="Clear listening search"><svg class="ico"><use href="#i-close"/></svg></button>
         </div>
         <div id="listen-category-pills" class="pills-bar"></div>
+        <div id="listen-subset-bar" class="subset-bar hidden"></div>
 
         <div id="listen-study-view" class="deutgi-grid"></div>
 
@@ -3934,6 +3935,25 @@ button {
             <div class="exam-preset-card">
               <div>
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span class="badge badge-g2">2급 Intensive</span>
+                  <span style="font-size:12px;font-weight:800;color:var(--ink-muted)">70 Mins &bull; 50 Qs</span>
+                </div>
+                <h3 style="font-size:18px;font-weight:800;margin-top:8px">TOPIK 2급 Challenge Exam</h3>
+                <p style="font-size:12.5px;color:var(--ink-secondary);margin-top:4px;line-height:1.45">Pure 2급 difficulty drill targeting broadcasts, central ideas, passive/causative pairs, Ordering (가–라), and Insertion (ㄱ–ㄹ).</p>
+                <div class="exam-sec-tags" style="margin-top:10px">
+                  <div><strong>Sec 1 • 2급 듣기 (Broadcasts &amp; Ideas):</strong> 20 Qs (100 pts)</div>
+                  <div><strong>Sec 2 • 2급 읽기 (Essays &amp; Drills):</strong> 30 Qs (100 pts)</div>
+                  <div style="color:var(--cobalt-ink);font-weight:800">2급 Target: &ge; 140 / 200 pts</div>
+                </div>
+              </div>
+              <button data-start-exam="topik2hard" type="button" class="btn btn-secondary" style="width:100%;justify-content:center">
+                <svg class="ico"><use href="#i-award"/></svg><span>Start 2급 Challenge</span>
+              </button>
+            </div>
+
+            <div class="exam-preset-card">
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
                   <span class="badge badge-g2">Daily Sprint</span>
                   <span style="font-size:12px;font-weight:800;color:var(--ink-muted)">15 Mins &bull; 15 Qs</span>
                 </div>
@@ -3947,6 +3967,44 @@ button {
               </div>
               <button data-start-exam="topiksprint" type="button" class="btn btn-secondary" style="width:100%;justify-content:center">
                 <svg class="ico"><use href="#i-bolt"/></svg><span>Start TOPIK Sprint</span>
+              </button>
+            </div>
+
+            <div class="exam-preset-card">
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span class="badge badge-soft">Section 1 Only</span>
+                  <span style="font-size:12px;font-weight:800;color:var(--ink-muted)">40 Mins &bull; 30 Qs</span>
+                </div>
+                <h3 style="font-size:18px;font-weight:800;margin-top:8px">Official 듣기 Listening Exam</h3>
+                <p style="font-size:12.5px;color:var(--ink-secondary);margin-top:4px;line-height:1.45">Full 30-question audio exam drawn from 80 scenarios — Q1–4 responses, Q5–6 continuations, scenes, central ideas &amp; broadcasts.</p>
+                <div class="exam-sec-tags" style="margin-top:10px">
+                  <div><strong>Sec 1 • 듣기 Only:</strong> 30 Qs (100 pts)</div>
+                  <div><strong>Pacing:</strong> Official 40-minute audio timer</div>
+                  <div style="color:var(--mugung-ink);font-weight:800">1급: &ge; 40/100 &bull; 2급: &ge; 70/100</div>
+                </div>
+              </div>
+              <button data-start-exam="topiklisten" type="button" class="btn btn-secondary" style="width:100%;justify-content:center">
+                <svg class="ico"><use href="#i-headphones"/></svg><span>Start 30-Q Listening Test</span>
+              </button>
+            </div>
+
+            <div class="exam-preset-card">
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span class="badge badge-soft">Section 2 Only</span>
+                  <span style="font-size:12px;font-weight:800;color:var(--ink-muted)">60 Mins &bull; 40 Qs</span>
+                </div>
+                <h3 style="font-size:18px;font-weight:800;margin-top:8px">Official 읽기 Reading Exam</h3>
+                <p style="font-size:12.5px;color:var(--ink-secondary);margin-top:4px;line-height:1.45">Full 40-question reading &amp; language paper covering blanks, notices, Ordering (가–라), Insertion (ㄱ–ㄹ), grammar &amp; conjugation.</p>
+                <div class="exam-sec-tags" style="margin-top:10px">
+                  <div><strong>Sec 2 • 읽기 Only:</strong> 40 Qs (100 pts)</div>
+                  <div><strong>Pacing:</strong> Official 60-minute reading timer</div>
+                  <div style="color:var(--cobalt-ink);font-weight:800">1급: &ge; 40/100 &bull; 2급: &ge; 70/100</div>
+                </div>
+              </div>
+              <button data-start-exam="topikread" type="button" class="btn btn-secondary" style="width:100%;justify-content:center">
+                <svg class="ico"><use href="#i-book"/></svg><span>Start 40-Q Reading Test</span>
               </button>
             </div>
 
@@ -11886,6 +11944,519 @@ button {
         options: ['한국 친구들의 도움으로 발음 연습을 해서 1등을 했다.', '처음부터 자신감이 넘쳐서 혼자 대회를 준비했다.', '상금으로 한국 여행을 갈 계획을 세우고 있다.', '발음보다 원고 쓰기가 제일 어려워서 포기할 뻔했다.'],
         answer: '한국 친구들의 도움으로 발음 연습을 해서 1등을 했다.',
         explanation: 'He hesitated over pronunciation at first, but Korean friends helped edit his speech and practice every evening (도와준 덕분에).'
+      },
+      // --- EXTRA TOPIK 1급: BEST RESPONSE (알맞은 대답 Q1–4, L41–L50) ---
+      {
+        id: 'L41', level: '1급', category: 'response',
+        title: 'Asking Someone’s Nationality',
+        dialogue: [
+          { speaker: '남자', kr: '민지 씨 친구는 어느 나라 사람이에요?', en: 'Which country is Minji’s friend from?' }
+        ],
+        questionKr: '남자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply to the man’s question.',
+        options: ['베트남에서 온 유학생이에요.', '어제 공항에서 만났어요.', '한국 음식을 아주 좋아해요.', '도서관에서 책을 읽고 있어요.'],
+        answer: '베트남에서 온 유학생이에요.',
+        explanation: '어느 나라 사람이에요? asks for nationality, answered directly by 베트남에서 온 유학생이에요 (an exchange student from Vietnam).'
+      },
+      {
+        id: 'L42', level: '1급', category: 'response',
+        title: 'Asking for a Phone Number',
+        dialogue: [
+          { speaker: '여자', kr: '하린 씨, 전화번호가 몇 번이에요?', en: 'Harin, what is your phone number?' }
+        ],
+        questionKr: '여자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply.',
+        options: ['공일공 일둘삼사의 오육칠팔이에요.', '어제 새 휴대폰을 샀어요.', '지금 전화를 받을 수 없어요.', '집에서 걸어서 십 분 걸려요.'],
+        answer: '공일공 일둘삼사의 오육칠팔이에요.',
+        explanation: '전화번호가 몇 번이에요? asks for a phone number (010-1234-5678).'
+      },
+      {
+        id: 'L43', level: '1급', category: 'response',
+        title: 'Asking How Long the Commute Takes',
+        dialogue: [
+          { speaker: '남자', kr: '집에서 회사까지 지하철로 얼마나 걸려요?', en: 'How long does it take from home to work by subway?' }
+        ],
+        questionKr: '남자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply about travel duration.',
+        options: ['사십 분쯤 걸려요.', '이호선 지하철을 타요.', '아침 여덟 시에 출발해요.', '회사 근처에 식당이 많아요.'],
+        answer: '사십 분쯤 걸려요.',
+        explanation: '얼마나 걸려요? asks how long it takes, answered with 사십 분쯤 걸려요 (about 40 minutes).'
+      },
+      {
+        id: 'L44', level: '1급', category: 'response',
+        title: 'Asking Who Gave a Gift',
+        dialogue: [
+          { speaker: '여자', kr: '그 예쁜 가방은 누가 선물해 줬어요?', en: 'Who gave you that pretty bag as a gift?' }
+        ],
+        questionKr: '여자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply.',
+        options: ['생일에 언니가 사 줬어요.', '백화점 일 층에서 샀어요.', '가방이 아주 가볍고 편해요.', '내일 친구에게 줄 거예요.'],
+        answer: '생일에 언니가 사 줬어요.',
+        explanation: '누가 (who) asks for the giver — 언니가 사 줬어요 (my older sister bought it for me on my birthday).'
+      },
+      {
+        id: 'L45', level: '1급', category: 'response',
+        title: 'Asking When a Birthday Is',
+        dialogue: [
+          { speaker: '남자', kr: '수진 씨 생일이 언제예요?', en: 'When is Sujin’s birthday?' }
+        ],
+        questionKr: '남자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply.',
+        options: ['다음 주 수요일, 시월 십오 일이에요.', '케이크하고 꽃을 준비했어요.', '생일 파티가 정말 즐거웠어요.', '식당에서 같이 저녁을 먹었어요.'],
+        answer: '다음 주 수요일, 시월 십오 일이에요.',
+        explanation: '언제예요? asks for a date — 다음 주 수요일, 시월 십오 일이에요 (next Wednesday, October 15).'
+      },
+      {
+        id: 'L46', level: '1급', category: 'response',
+        title: 'Asking Where the Restroom Is',
+        dialogue: [
+          { speaker: '여자', kr: '실례지만 여기 화장실이 어디에 있어요?', en: 'Excuse me, where is the restroom here?' }
+        ],
+        questionKr: '여자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply giving directions.',
+        options: ['엘리베이터 옆으로 쭉 가면 오른쪽에 있어요.', '화장실이 아주 깨끗하고 넓어요.', '잠깐만 기다려 주세요, 곧 도착해요.', '이 층에는 서점과 카페가 있어요.'],
+        answer: '엘리베이터 옆으로 쭉 가면 오른쪽에 있어요.',
+        explanation: '어디에 있어요? asks for a location, answered by going straight past the elevator on the right.'
+      },
+      {
+        id: 'L47', level: '1급', category: 'response',
+        title: 'Asking How Many Siblings Someone Has',
+        dialogue: [
+          { speaker: '남자', kr: '가족이 모두 몇 명이에요?', en: 'How many people are in your family in total?' }
+        ],
+        questionKr: '남자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply.',
+        options: ['부모님하고 남동생하고 저, 모두 네 명이에요.', '부모님은 지금 부산에 사세요.', '남동생은 대학교 이 학년이에요.', '주말마다 가족들과 등산을 가요.'],
+        answer: '부모님하고 남동생하고 저, 모두 네 명이에요.',
+        explanation: '몇 명이에요? asks for the headcount — 모두 네 명이에요 (four people in total).'
+      },
+      {
+        id: 'L48', level: '1급', category: 'response',
+        title: 'Asking Why Someone Didn’t Come to Class',
+        dialogue: [
+          { speaker: '여자', kr: '어제 왜 한국어 수업에 안 왔어요?', en: 'Why didn’t you come to Korean class yesterday?' }
+        ],
+        questionKr: '여자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply explaining a reason.',
+        options: ['감기에 심하게 걸려서 병원에 갔어요.', '한국어 선생님이 아주 친절하세요.', '내일 오후 두 시에 수업이 있어요.', '도서관에서 숙제를 다 끝냈어요.'],
+        answer: '감기에 심하게 걸려서 병원에 갔어요.',
+        explanation: '왜 안 왔어요? asks for a reason, answered with -아/어서: 감기에 심하게 걸려서 (caught a bad cold and went to the hospital).'
+      },
+      {
+        id: 'L49', level: '1급', category: 'response',
+        title: 'Asking What to Order at a Cafe',
+        dialogue: [
+          { speaker: '남자', kr: '손님, 무엇을 주문하시겠어요?', en: 'Customer, what would you like to order?' }
+        ],
+        questionKr: '남자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply to the cafe clerk.',
+        options: ['따뜻한 녹차 라떼 한 잔 주세요.', '카드로 계산하고 영수증 주세요.', '여기는 분위기가 참 조용하네요.', '창가 자리에 앉아서 마실게요.'],
+        answer: '따뜻한 녹차 라떼 한 잔 주세요.',
+        explanation: '무엇을 주문하시겠어요? asks for the order — 따뜻한 녹차 라떼 한 잔 주세요 (one hot green tea latte, please).'
+      },
+      {
+        id: 'L50', level: '1급', category: 'response',
+        title: 'Asking Whether Someone Can Swim',
+        dialogue: [
+          { speaker: '여자', kr: '민수 씨, 수영할 줄 알아요?', en: 'Minsu, do you know how to swim?' }
+        ],
+        questionKr: '여자의 질문에 가장 알맞은 대답을 고르십시오.',
+        questionEn: 'Choose the best reply.',
+        options: ['아니요, 아직 못 해서 다음 달부터 배울 거예요.', '네, 어제 바다에서 사진을 많이 찍었어요.', '아니요, 수영장이 집에서 아주 가까워요.', '네, 여름보다 겨울을 더 좋아해요.'],
+        answer: '아니요, 아직 못 해서 다음 달부터 배울 거예요.',
+        explanation: '-(으)ㄹ 줄 알아요? asks about learned ability — "No, I can’t yet, so I’ll learn starting next month."'
+      },
+      // --- EXTRA TOPIK 1급–2급: NEXT LINE CONTINUATION (이어질 말 Q5–6, L51–L58) ---
+      {
+        id: 'L51', level: '1급', category: 'continuation',
+        title: 'Borrowing a Pen Before an Exam',
+        dialogue: [
+          { speaker: '남자', kr: '어? 필통을 집에 놓고 왔네요. 혹시 볼펜 하나 더 있어요?', en: 'Oh? I left my pencil case at home. Do you happen to have an extra pen?' },
+          { speaker: '여자', kr: '네, 가방에 검은색 볼펜이 두 개 있어요.', en: 'Yes, I have two black pens in my bag.' }
+        ],
+        questionKr: '여자의 말 다음에 이어질 남자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the man’s most natural next reply.',
+        options: ['정말 고마워요, 잠깐만 빌려 쓸게요!', '그럼 집으로 빨리 돌아가야겠네요.', '검은색보다 빨간색 필통이 더 예뻐요.', '볼펜을 어디서 샀는지 가르쳐 주세요.'],
+        answer: '정말 고마워요, 잠깐만 빌려 쓸게요!',
+        explanation: 'Since she has two pens, thanking her and borrowing one briefly (잠깐만 빌려 쓸게요!) naturally follows.'
+      },
+      {
+        id: 'L52', level: '1급', category: 'continuation',
+        title: 'Offering an Umbrella in the Rain',
+        dialogue: [
+          { speaker: '여자', kr: '밖에 비가 갑자기 많이 오네요. 민호 씨, 우산 가지고 왔어요?', en: 'It suddenly started raining hard outside. Minho, did you bring an umbrella?' },
+          { speaker: '남자', kr: '아니요, 아침에는 맑아서 안 챙겼는데 큰일이네요.', en: 'No, it was sunny this morning so I didn’t pack one—what a problem.' }
+        ],
+        questionKr: '남자의 말 다음에 이어질 여자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the woman’s natural next line.',
+        options: ['제 우산이 크니까 역까지 같이 쓰고 가요.', '그럼 어제 일기예보를 보지 그랬어요?', '내일은 아마 날씨가 더 추워질 거예요.', '우산은 편의점보다 백화점이 더 비싸요.'],
+        answer: '제 우산이 크니까 역까지 같이 쓰고 가요.',
+        explanation: 'Offering to share her large umbrella to the station (같이 쓰고 가요) is the natural polite continuation.'
+      },
+      {
+        id: 'L53', level: '1급', category: 'continuation',
+        title: 'Apologizing for Being Late to a Meeting',
+        dialogue: [
+          { speaker: '남자', kr: '지연 씨, 정말 죄송해요! 도로가 너무 막혀서 십 분이나 늦었네요.', en: 'Jiyeon, I’m so sorry! The road was so congested that I’m ten minutes late.' },
+          { speaker: '여자', kr: '괜찮아요, 저도 방금 도착해서 메뉴 보고 있었어요.', en: 'It’s okay, I just arrived too and was looking at the menu.' }
+        ],
+        questionKr: '여자의 말 다음에 이어질 남자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose what the man would say next.',
+        options: ['다행이네요! 배고프죠? 빨리 맛있는 걸로 주문해요.', '그럼 다음부터는 지하철을 타지 마세요.', '메뉴판이 너무 복잡해서 읽기 어렵네요.', '십 분만 더 기다리면 버스가 올 거예요.'],
+        answer: '다행이네요! 배고프죠? 빨리 맛있는 걸로 주문해요.',
+        explanation: 'Relieved that she also just arrived, he says 다행이네요! and suggests ordering right away.'
+      },
+      {
+        id: 'L54', level: '1급', category: 'continuation',
+        title: 'Confirming a Dinner Invitation',
+        dialogue: [
+          { speaker: '여자', kr: '이번 주 금요일 저녁에 우리 집에서 집들이를 하려고 하는데, 올 수 있어요?', en: 'I’m planning a housewarming at my place this Friday evening—can you come?' },
+          { speaker: '남자', kr: '초대해 줘서 고마워요! 금요일은 일찍 끝나니까 꼭 갈게요.', en: 'Thanks for inviting me! I finish early Friday so I’ll definitely go.' }
+        ],
+        questionKr: '남자의 말 다음에 이어질 여자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the woman’s natural reply.',
+        options: ['좋아요! 제가 문자로 집 주소랑 비밀번호 보내 드릴게요.', '아쉽네요, 그럼 다음 기회에 다시 만나요.', '집들이 선물은 비싼 걸로 꼭 사 오세요.', '금요일에는 회사에 야근이 많아서 힘들어요.'],
+        answer: '좋아요! 제가 문자로 집 주소랑 비밀번호 보내 드릴게요.',
+        explanation: 'After he accepts the invitation, promising to text the address (문자로 집 주소 보내 드릴게요) fits naturally.'
+      },
+      {
+        id: 'L55', level: '2급', category: 'continuation',
+        title: 'Returning Library Books Before Due Date',
+        dialogue: [
+          { speaker: '남자', kr: '도서관에서 빌린 역사책 아직 다 못 읽었는데 내일이 반납일이에요.', en: 'I haven’t finished the history book I borrowed from the library yet, and tomorrow is the due date.' },
+          { speaker: '여자', kr: '예약한 다른 사람이 없으면 홈페이지에서 일주일 연장할 수 있어요.', en: 'If nobody else has reserved it, you can extend it by a week on the website.' }
+        ],
+        questionKr: '여자의 말 다음에 이어질 남자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the man’s natural response.',
+        options: ['아, 정말요? 지금 바로 접속해서 연장 신청해 봐야겠네요!', '그럼 연체료를 내고 한 달 더 빌릴게요.', '도서관에 직접 가서 새 회원증을 만들어야겠어요.', '역사책 대신 소설책을 먼저 읽어 볼게요.'],
+        answer: '아, 정말요? 지금 바로 접속해서 연장 신청해 봐야겠네요!',
+        explanation: 'Learning he can renew online, he naturally decides to log in right away and request an extension.'
+      },
+      {
+        id: 'L56', level: '2급', category: 'continuation',
+        title: 'Exchanging a Sweater That Was Too Small',
+        dialogue: [
+          { speaker: '여자', kr: '어제 여기서 산 스웨터인데 동생에게 조금 작아서 큰 치수로 바꾸고 싶어요.', en: 'I bought this sweater here yesterday, and it’s a bit small for my sibling so I’d like a larger size.' },
+          { speaker: '남자', kr: '네, 손님. 영수증하고 옷에 붙은 택이 그대로 있으신가요?', en: 'Yes, ma’am. Do you still have the receipt and the tag attached to the sweater?' }
+        ],
+        questionKr: '남자의 말 다음에 이어질 여자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the customer’s natural response.',
+        options: ['네, 여기 쇼핑백 안에 영수증이랑 같이 그대로 들어 있어요.', '아니요, 어제 하루 입고 세탁기에 빨았어요.', '색깔이 마음에 들어서 그냥 이 치수로 입을게요.', '카드 결제는 안 되고 현금으로만 계산했어요.'],
+        answer: '네, 여기 쇼핑백 안에 영수증이랑 같이 그대로 들어 있어요.',
+        explanation: 'Answering the clerk’s question directly, she hands over the receipt and untouched sweater inside the shopping bag.'
+      },
+      {
+        id: 'L57', level: '2급', category: 'continuation',
+        title: 'Checking Subway Transfer Direction',
+        dialogue: [
+          { speaker: '남자', kr: '죄송한데, 여기서 시청역 가려면 2호선으로 갈아타야 하나요?', en: 'Excuse me, to get to City Hall Station from here, do I need to transfer to Line 2?' },
+          { speaker: '여자', kr: '네, 지금 타신 1호선으로도 바로 갈 수 있어요. 두 정거장만 더 가면 돼요.', en: 'Actually, you can go straight on Line 1 that you’re on now. Just two more stops.' }
+        ],
+        questionKr: '여자의 말 다음에 이어질 남자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the man’s natural next line.',
+        options: ['아, 갈아타지 않아도 되는군요! 알려 주셔서 감사합니다.', '그럼 다음 역에서 빨리 내려서 2호선으로 뛰어야겠네요.', '시청역까지 버스로 가면 시간이 훨씬 덜 걸리겠어요.', '교통카드를 안 찍고 들어와서 다시 나가야겠어요.'],
+        answer: '아, 갈아타지 않아도 되는군요! 알려 주셔서 감사합니다.',
+        explanation: 'Realizing he doesn’t need to transfer after all, he expresses relief (-는군요!) and thanks her.'
+      },
+      {
+        id: 'L58', level: '2급', category: 'continuation',
+        title: 'Reserving a Quiet Window Table',
+        dialogue: [
+          { speaker: '여자', kr: '여보세요? 오늘 저녁 7시에 네 명 예약하고 싶은데요, 창가 자리 가능할까요?', en: 'Hello? I’d like to book a table for 4 at 7 PM tonight—is a window table available?' },
+          { speaker: '남자', kr: '죄송합니다, 손님. 7시 창가 자리는 이미 마감되었고 안쪽 조용한 방은 비어 있습니다.', en: 'I’m sorry, ma’am. 7 PM window seats are full, but a quiet inside room is available.' }
+        ],
+        questionKr: '남자의 말 다음에 이어질 여자의 말로 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the woman’s natural reply.',
+        options: ['조용한 방도 좋네요! 그럼 거기로 네 명 예약해 주세요.', '그럼 창가 자리로 네 명 꼭 부탁드립니다.', '점심시간에 다시 전화해서 포장 주문할게요.', '다섯 명으로 인원을 줄여서 바깥 자리에 앉을게요.'],
+        answer: '조용한 방도 좋네요! 그럼 거기로 네 명 예약해 주세요.',
+        explanation: 'Accepting the quiet inside room as an alternative fits the reservation flow naturally.'
+      },
+      // --- EXTRA TOPIK 1급–2급: PLACE, TOPIC & SCENE MATCH (장소 · 화제 · 상황 Q7–16, L59–L68) ---
+      {
+        id: 'L59', level: '1급', category: 'place_topic',
+        title: 'Opening a Bank Account',
+        dialogue: [
+          { speaker: '남자', kr: '새 통장을 만들고 싶은데요, 어떤 서류가 필요한가요?', en: 'I’d like to open a new bankbook/account; what documents are required?' },
+          { speaker: '여자', kr: '외국인 등록증과 여권을 보여 주시고 여기 신청서에 서명해 주세요. 체크카드도 함께 발급해 드릴까요?', en: 'Please show your residence card and passport and sign this form. Shall I issue a debit card too?' }
+        ],
+        questionKr: '이 대화는 어디에서 하고 있습니까?',
+        questionEn: 'Where is this conversation taking place?',
+        options: ['은행', '우체국', '병원', '여행사'],
+        answer: '은행',
+        explanation: 'Opening a bankbook (통장) and issuing a debit card (체크카드) happens at a bank (은행).'
+      },
+      {
+        id: 'L60', level: '1급', category: 'place_topic',
+        title: 'Getting Cold Medicine at a Pharmacy',
+        dialogue: [
+          { speaker: '여자', kr: '어제부터 콧물이 나고 목이 따가워서요. 약 좀 주세요.', en: 'Since yesterday I’ve had a runny nose and sore throat. Please give me some medicine.' },
+          { speaker: '남자', kr: '열은 없으세요? 이 약은 하루 세 번 식후 30분에 따뜻한 물과 함께 드세요.', en: 'Do you have a fever? Take this medicine three times a day 30 minutes after meals with warm water.' }
+        ],
+        questionKr: '이 대화는 어디에서 하고 있습니까?',
+        questionEn: 'Where is this conversation taking place?',
+        options: ['약국', '미용실', '세탁소', '식당'],
+        answer: '약국',
+        explanation: 'Asking for medicine and receiving dosage instructions (하루 세 번 식후 30분) happens at a pharmacy (약국).'
+      },
+      {
+        id: 'L61', level: '1급', category: 'place_topic',
+        title: 'Getting a Haircut at a Salon',
+        dialogue: [
+          { speaker: '남자', kr: '어서 오세요! 오늘은 어떻게 해 드릴까요?', en: 'Welcome! How would you like it done today?' },
+          { speaker: '여자', kr: '길이는 어깨 정도까지 자르고, 앞머리는 눈썹에 닿지 않게 가볍게 다듬어 주세요.', en: 'Please cut the length to shoulder-level, and trim my bangs lightly so they don’t touch my eyebrows.' }
+        ],
+        questionKr: '이 대화는 어디에서 하고 있습니까?',
+        questionEn: 'Where is this dialogue taking place?',
+        options: ['미용실', '옷 가게', '안경점', '백화점'],
+        answer: '미용실',
+        explanation: 'Cutting hair to shoulder length and trimming bangs (앞머리) happens at a hair salon (미용실).'
+      },
+      {
+        id: 'L62', level: '1급', category: 'place_topic',
+        title: 'Dropping Off a Coat for Dry Cleaning',
+        dialogue: [
+          { speaker: '여자', kr: '이 겨울 코트 소매에 커피가 묻었는데 깨끗하게 지워질까요?', en: 'Coffee got on the sleeve of this winter coat—can it be cleaned out?' },
+          { speaker: '남자', kr: '네, 드라이클리닝하면 깨끗해집니다. 금요일 오후 세 시 이후에 찾으러 오세요.', en: 'Yes, dry cleaning will make it spotless. Come pick it up after 3 PM on Friday.' }
+        ],
+        questionKr: '이 대화는 어디에서 하고 있습니까?',
+        questionEn: 'Where is this conversation happening?',
+        options: ['세탁소', '카페', '신발 가게', '편의점'],
+        answer: '세탁소',
+        explanation: 'Removing a stain via dry cleaning (드라이클리닝) happens at a dry cleaner / laundry shop (세탁소).'
+      },
+      {
+        id: 'L63', level: '1급', category: 'place_topic',
+        title: 'Buying Movie Tickets & Popcorn',
+        dialogue: [
+          { speaker: '남자', kr: '오후 네 시에 시작하는 한국 영화 두 장 주세요. 가운데 자리가 있나요?', en: 'Two tickets for the Korean movie starting at 4 PM, please. Are there center seats?' },
+          { speaker: '여자', kr: '네, G열 7번과 8번 자리가 비어 있습니다. 상영관은 3층 2관입니다.', en: 'Yes, Row G seats 7 and 8 are open. The theater hall is Hall 2 on the 3rd floor.' }
+        ],
+        questionKr: '이 대화는 어디에서 하고 있습니까?',
+        questionEn: 'Where are the speakers?',
+        options: ['영화관', '기차역', '박물관', '도서관'],
+        answer: '영화관',
+        explanation: 'Buying movie tickets, Row G seats, and theater hall (상영관) indicates a cinema (영화관).'
+      },
+      {
+        id: 'L64', level: '1급', category: 'place_topic',
+        title: 'Topic Identification: Favorite Weekend Hobby',
+        dialogue: [
+          { speaker: '여자', kr: '지훈 씨는 쉬는 날 보통 뭘 하면서 보내요?', en: 'Jihun, what do you usually do on your days off?' },
+          { speaker: '남자', kr: '저는 사진 찍는 걸 좋아해서 카메라를 들고 서울 골목이나 공원을 돌아다녀요. 찍은 사진은 블로그에 올려요.', en: 'I love taking photos, so I carry my camera around Seoul alleys and parks and post them on my blog.' }
+        ],
+        questionKr: '두 사람은 무엇에 대해 이야기하고 있습니까?',
+        questionEn: 'What are the two speakers talking about?',
+        options: ['취미', '직업', '날씨', '가족'],
+        answer: '취미',
+        explanation: 'Talking about taking photos on days off describes his hobby (취미).'
+      },
+      {
+        id: 'L65', level: '2급', category: 'place_topic',
+        title: 'Topic Identification: Healthy Sleep Routine',
+        dialogue: [
+          { speaker: '남자', kr: '요즘 밤에 잠이 잘 안 와서 아침마다 너무 피곤해요.', en: 'Lately I can’t fall asleep well at night so I’m exhausted every morning.' },
+          { speaker: '여자', kr: '자기 한 시간 전에는 스마트폰을 보지 말고 따뜻한 물로 샤워해 보세요. 숙면에 정말 도움이 돼요.', en: 'Try not looking at your smartphone an hour before bed and taking a warm shower. It really helps deep sleep.' }
+        ],
+        questionKr: '두 사람은 무엇에 대해 이야기하고 있습니까?',
+        questionEn: 'What topic are the speakers discussing?',
+        options: ['잠을 잘 자는 방법', '스마트폰 고치는 방법', '아침 운동의 장점', '따뜻한 차 만드는 법'],
+        answer: '잠을 잘 자는 방법',
+        explanation: 'They discuss tips for falling asleep well and getting deep sleep (숙면 / 잠을 잘 자는 방법).'
+      },
+      {
+        id: 'L66', level: '2급', category: 'place_topic',
+        title: 'Scene Match: Registering for a Gym Membership (Q15–16)',
+        dialogue: [
+          { speaker: '여자', kr: '여기 헬스장 석 달 등록하면 운동복하고 개인 사물함도 무료로 쓸 수 있나요?', en: 'If I sign up for 3 months at this gym, can I use workout clothes and a personal locker for free too?' },
+          { speaker: '남자', kr: '운동복은 무료로 드리고요, 사물함은 한 달에 오천 원만 추가하시면 됩니다. 여기 시설부터 먼저 구경하실래요?', en: 'Workout clothes are free, and a locker is just 5,000 won extra per month. Would you like to tour the facility first?' }
+        ],
+        questionKr: '두 사람은 지금 어떤 상황에 있습니까?',
+        questionEn: 'What situation are the two speakers in?',
+        options: ['헬스장 안내 데스크에서 회원 등록 상담을 하고 있다.', '백화점에서 새 운동복을 고르고 있다.', '수영장 사물함 열쇠를 잃어버려 찾고 있다.', '트레이너와 함께 기구 운동을 배우고 있다.'],
+        answer: '헬스장 안내 데스크에서 회원 등록 상담을 하고 있다.',
+        explanation: 'Asking about a 3-month gym membership, workout clothes, and locker fees is a registration inquiry at the gym front desk.'
+      },
+      {
+        id: 'L67', level: '2급', category: 'place_topic',
+        title: 'Scene Match: Renting a Hanbok Near Gyeongbokgung (Q15–16)',
+        dialogue: [
+          { speaker: '남자', kr: '이 연한 청자색 한복이 정말 잘 어울리네요! 머리 장식도 고를 수 있나요?', en: 'This pale celadon hanbok really suits you! Can you pick a hair accessory too?' },
+          { speaker: '여자', kr: '네, 손님. 치마 색깔에 맞춰서 머리띠와 손가방까지 무료로 빌려 드립니다. 반납은 오후 여섯 시까지 해 주세요.', en: 'Yes! Matching your skirt color, we lend a headband and handbag for free. Please return them by 6 PM.' }
+        ],
+        questionKr: '두 사람은 지금 어디에서 무엇을 하고 있습니까?',
+        questionEn: 'Where are they and what are they doing?',
+        options: ['한복 대여점에서 한복과 장식을 고르고 있다.', '박물관에서 고려 청자를 구경하고 있다.', '사진관에서 졸업 사진을 찍고 있다.', '백화점에서 가방을 교환하고 있다.'],
+        answer: '한복 대여점에서 한복과 장식을 고르고 있다.',
+        explanation: 'Trying on hanbok, lending matching hair accessories for free, and returning by 6 PM happens at a hanbok rental shop (한복 대여점).'
+      },
+      {
+        id: 'L68', level: '2급', category: 'place_topic',
+        title: 'Scene Match: Checking In at a Hotel Reception (Q15–16)',
+        dialogue: [
+          { speaker: '여자', kr: '김하린 이름으로 오늘부터 2박 예약했습니다. 체크인 부탁드려요.', en: 'I reserved 2 nights starting today under Kim Harin. Check-in, please.' },
+          { speaker: '남자', kr: '확인되었습니다, 고객님. 바다가 보이는 1205호 카드 키 두 장 드립니다. 조식은 매일 오전 7시부터 10시까지 2층 식당입니다.', en: 'Confirmed. Here are two keycards for ocean-view Room 1205. Breakfast is 7–10 AM daily at the 2F restaurant.' }
+        ],
+        questionKr: '두 사람의 상황으로 가장 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the matching scene.',
+        options: ['호텔 프런트에서 객실 카드 키와 조식 안내를 받고 있다.', '공항 카운터에서 비행기 탑승권을 받고 있다.', '부동산에서 새 원룸 계약서를 쓰고 있다.', '식당에서 아침 뷔페 요금을 계산하고 있다.'],
+        answer: '호텔 프런트에서 객실 카드 키와 조식 안내를 받고 있다.',
+        explanation: 'Checking in for 2 nights and receiving Room 1205 keycards + breakfast hours happens at a hotel front desk.'
+      },
+      // --- EXTRA TOPIK 2급: DIALOGUE DETAILS, CENTRAL THOUGHT & BROADCASTS (Q17–30, L69–L80) ---
+      {
+        id: 'L69', level: '2급', category: 'detail',
+        title: 'Dialogue Detail: Planning a Hiking Trip',
+        dialogue: [
+          { speaker: '남자', kr: '이번 토요일에 북한산 등산 가기로 한 거 기억하죠? 오전 여덟 시에 정문에서 만나요.', en: 'You remember we planned to hike Bukhansan this Saturday, right? Let’s meet at 8 AM at the main gate.' },
+          { speaker: '여자', kr: '네, 그런데 일기예보를 보니까 토요일 오전에 비가 조금 온대요. 길이 미끄러울 수 있으니까 일요일로 미루는 게 어때요?', en: 'Yes, but the forecast says it’ll rain a bit Saturday morning. The trail could be slippery, so how about postponing to Sunday?' },
+          { speaker: '남자', kr: '좋은 생각이에요! 일요일은 맑다고 하니까 그때 같은 시간에 만나요.', en: 'Good idea! Sunday is supposed to be sunny, so let’s meet at the same time then.' }
+        ],
+        questionKr: '두 사람이 등산 날짜를 바꾼 이유는 무엇입니까?',
+        questionEn: 'Why did the two change the hiking date?',
+        options: ['토요일 오전에 비 예보가 있어서', '남자가 토요일에 출장을 가야 해서', '일요일에 정문이 무료로 개방되어서', '등산화를 아직 못 사서'],
+        answer: '토요일 오전에 비 예보가 있어서',
+        explanation: 'Because rain is forecasted Saturday morning (토요일 오전에 비가 조금 온대요), they moved the hike to sunny Sunday.'
+      },
+      {
+        id: 'L70', level: '2급', category: 'detail',
+        title: 'Dialogue Detail: Ordering Delivery Food Together',
+        dialogue: [
+          { speaker: '여자', kr: '저녁으로 김치찌개랑 불고기 시킬까요? 배달 앱에서 보니까 2만 원 이상 주문하면 배달비가 무료래요.', en: 'Shall we order kimchi stew and bulgogi for dinner? On the delivery app, orders over 20,000 won get free delivery.' },
+          { speaker: '남자', kr: '지금 두 가지 합치면 18,000원인데, 2천 원짜리 계란말이 하나 추가하면 배달비를 아낄 수 있겠네요!', en: 'Those two together are 18,000 won, so adding a 2,000-won rolled omelet saves the delivery fee!' },
+          { speaker: '여자', kr: '딱 좋네요! 그럼 그렇게 주문하고 30분 뒤에 먹어요.', en: 'Perfect! Let’s order that and eat in 30 minutes.' }
+        ],
+        questionKr: '두 사람이 계란말이를 추가한 이유는 무엇입니까?',
+        questionEn: 'Why did they add the rolled omelet?',
+        options: ['2만 원을 채워서 배달비를 무료로 받으려고', '김치찌개가 다 매진되어서 대신 시키려고', '계란말이가 오늘 반값 할인 행사 중이어서', '남자가 불고기를 못 먹어서'],
+        answer: '2만 원을 채워서 배달비를 무료로 받으려고',
+        explanation: 'Adding the 2,000-won omelet brings the total from 18,000 to 20,000 won to qualify for free delivery (배달비 무료).'
+      },
+      {
+        id: 'L71', level: '2급', category: 'detail',
+        title: 'Dialogue Detail: Applying for a Korean Cooking Class',
+        dialogue: [
+          { speaker: '남자', kr: '주민센터에서 여는 전통 떡 만들기 수업 신청했어요?', en: 'Did you apply for the traditional rice cake making class at the community center?' },
+          { speaker: '여자', kr: '어제 인터넷으로 신청하려고 했는데 이미 정원 20명이 다 차서 대기자로 올렸어요.', en: 'I tried to apply online yesterday, but all 20 spots were already full, so I joined the waitlist.' },
+          { speaker: '남자', kr: '아, 아쉽네요. 취소하는 사람이 나오면 바로 연락이 올 테니까 조금 기다려 보세요.', en: 'Oh, what a pity. If someone cancels they’ll contact you right away, so hang tight.' }
+        ],
+        questionKr: '들은 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement matching the dialogue.',
+        options: ['여자는 정원이 다 차서 대기자로 신청했다.', '여자는 어제 주민센터에 직접 가서 등록했다.', '이 수업은 50명까지 신청할 수 있다.', '남자는 이미 수업을 취소했다.'],
+        answer: '여자는 정원이 다 차서 대기자로 신청했다.',
+        explanation: 'Because the 20 spots were full, she placed her name on the waitlist (대기자로 올렸어요).'
+      },
+      {
+        id: 'L72', level: '2급', category: 'detail',
+        title: 'Central Thought: Learning Languages Through Cooking (Q22–24)',
+        dialogue: [
+          { speaker: '여자', kr: '민수 씨는 한국어 단어 외울 때 특별한 비결이 있어요?', en: 'Minsu, do you have a special secret for memorizing Korean vocabulary?' },
+          { speaker: '남자', kr: '책상에 앉아서 단어장만 보면 금방 잊어버리더라고요. 그래서 저는 한국 요리 영상을 보면서 재료 이름과 동사를 직접 따라 말해 봐요. 몸을 움직이며 재미있게 배우니까 훨씬 오래 기억에 남아요.', en: 'Just staring at a vocab book at a desk makes me forget fast. So I watch Korean cooking videos and repeat ingredient names and verbs aloud. Learning enjoyably while moving sticks in memory far longer.' }
+        ],
+        questionKr: '남자의 중심 생각으로 가장 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the man’s central idea.',
+        options: ['관심 있는 활동과 함께 즐겁게 공부하면 단어가 오래 기억된다.', '단어장을 매일 열 번씩 쓰는 것이 가장 좋은 방법이다.', '외국어를 배우려면 요리 학원에 반드시 등록해야 한다.', '책상에 오래 앉아 있을수록 암기 실력이 빨리 는다.'],
+        answer: '관심 있는 활동과 함께 즐겁게 공부하면 단어가 오래 기억된다.',
+        explanation: 'His core message is that tying study to an enjoyable hands-on activity helps words stay in memory much longer.'
+      },
+      {
+        id: 'L73', level: '2급', category: 'detail',
+        title: 'Central Thought: Walking Short Distances Instead of Driving (Q22–24)',
+        dialogue: [
+          { speaker: '남자', kr: '요즘 짧은 거리도 자동차를 타는 사람이 너무 많아서 시내 공기가 점점 나빠지는 것 같아요.', en: 'Lately so many people drive even short distances that city air seems to be getting worse.' },
+          { speaker: '여자', kr: '맞아요. 15분 이내의 거리는 걸어 다니거나 자전거를 타면 건강에도 좋고 미세먼지도 줄일 수 있으니 일석이조죠.', en: 'Right. Walking or biking distances within 15 minutes is good for health and cuts fine dust—two birds with one stone.' }
+        ],
+        questionKr: '두 사람의 공통된 중심 생각은 무엇입니까?',
+        questionEn: 'What central thought do both speakers share?',
+        options: ['가까운 거리는 차 대신 걷거나 자전거를 이용하는 것이 좋다.', '자동차 요금을 올리면 교통 체증이 완전히 사라진다.', '시내에서는 자전거 전용 도로를 모두 없애야 한다.', '미세먼지가 심할수록 자동차를 타고 이동해야 한다.'],
+        answer: '가까운 거리는 차 대신 걷거나 자전거를 이용하는 것이 좋다.',
+        explanation: 'Both advocate walking or cycling short distances for better air quality and personal health.'
+      },
+      {
+        id: 'L74', level: '2급', category: 'detail',
+        title: 'Central Thought: Keeping a Daily Gratitude Journal (Q22–24)',
+        dialogue: [
+          { speaker: '여자', kr: '하린 씨는 매일 잠들기 전에 공책에 뭘 그렇게 열심히 적어요?', en: 'Harin, what do you write so diligently in your notebook every night before bed?' },
+          { speaker: '남자', kr: '하루 동안 고마웠던 작은 일 세 가지를 적는 감사 일기예요. 별것 아닌 것 같지만 매일 긍정적인 일들을 떠올리다 보면 스트레스도 줄고 하루를 기분 좋게 마무리할 수 있어요.', en: 'It’s a gratitude journal listing three small things I was thankful for today. It seems simple, but recalling positive moments daily lowers stress and ends the day happily.' }
+        ],
+        questionKr: '남자가 감사 일기를 쓰는 이유로 가장 알맞은 것은 무엇입니까?',
+        questionEn: 'Why does the man keep a gratitude journal?',
+        options: ['긍정적인 마음으로 스트레스를 줄이고 하루를 좋게 마무리하려고', '한국어 글씨를 빠르게 쓰는 연습을 하려고', '내일 회사에서 해야 할 업무 목록을 정리하려고', '친구의 생일과 약속 시간을 잊어버리지 않으려고'],
+        answer: '긍정적인 마음으로 스트레스를 줄이고 하루를 좋게 마무리하려고',
+        explanation: 'Writing three thankful moments helps reduce stress and end the day positively.'
+      },
+      {
+        id: 'L75', level: '2급', category: 'detail',
+        title: 'Public Broadcast: Department Store Closing Announcement (Q25–30)',
+        dialogue: [
+          { speaker: '안내', kr: '하늘 백화점을 이용해 주시는 고객 여러분께 안내 말씀 드립니다. 잠시 후 오후 여덟 시에 오늘 영업을 마감합니다. 식품관 마감 세일은 일곱 시 삼십 분부터 지하 일 층에서 진행 중이며, 주차 정산은 출차 전 무인 정산기를 이용해 주시면 빠릅니다. 잊으신 물건이 없는지 확인하시고 안녕히 돌아가시기 바랍니다.', en: 'Attention shoppers at Haneul Department Store. We will close for the day shortly at 8:00 PM. The food hall closing sale is underway on B1 since 7:30 PM, and parking payment is faster at the automated kiosks before exiting. Please check for forgotten belongings and have a safe trip home.' }
+        ],
+        questionKr: '이 안내 방송의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement matching the store announcement.',
+        options: ['지하 일 층 식품관에서 7시 30분부터 마감 할인을 한다.', '이 백화점은 오후 9시에 영업을 마친다.', '주차 요금은 출구에서 현금으로만 낼 수 있다.', '식품관 행사는 지상 1층에서 열리고 있다.'],
+        answer: '지하 일 층 식품관에서 7시 30분부터 마감 할인을 한다.',
+        explanation: 'The broadcast says the B1 food hall closing sale started at 7:30 PM, and the store closes at 8:00 PM.'
+      },
+      {
+        id: 'L76', level: '2급', category: 'detail',
+        title: 'Public Broadcast: Weather Typhoon Advisory (Q25–30)',
+        dialogue: [
+          { speaker: '안내', kr: '기상청 날씨 속보입니다. 강한 비바람을 동반한 제7호 태풍이 오늘 밤 제주도를 지나 내일 새벽 남해안에 상륙할 예정입니다. 산사태와 침수 피해가 우려되오니 외출을 삼가시고, 창문과 간판이 흔들리지 않도록 미리 단단히 고정해 주시기 바랍니다. 항공편과 여객선 운항 여부는 출발 전 반드시 확인하시기 바랍니다.', en: 'Weather bulletin from the Korea Meteorological Administration. Typhoon #7 with strong winds and rain will pass Jeju tonight and reach the southern coast early tomorrow morning. Due to landslide and flooding risks, avoid going out and secure windows and signs in advance. Always check flight and ferry status before departure.' }
+        ],
+        questionKr: '이 방송에서 시민들에게 당부하지 않은 것은 무엇입니까?',
+        questionEn: 'Which precaution was NOT mentioned in the bulletin?',
+        options: ['해변 근처로 이동해 대피하기', '외출을 최대한 자제하기', '창문과 간판을 미리 고정하기', '항공편 운항 여부를 출발 전 확인하기'],
+        answer: '해변 근처로 이동해 대피하기',
+        explanation: 'The bulletin warns to stay inside, secure windows/signs, and check flights/ferries—never to go near the beach!'
+      },
+      {
+        id: 'L77', level: '2급', category: 'detail',
+        title: 'Public Broadcast: National Museum Free Docent Tour (Q25–30)',
+        dialogue: [
+          { speaker: '안내', kr: '국립중앙박물관 관람객 여러분께 알려 드립니다. 잠시 후 오후 두 시부터 일 층 로비 안내 데스크 앞에서 ‘고려 청자와 조선 백자’ 무료 해설 프로그램이 시작됩니다. 참가를 원하시는 분은 따로 예약하지 않으셔도 되며, 시작 오 분 전까지 로비로 모여 주시면 이어폰을 무료로 빌려 드립니다.', en: 'Attention National Museum of Korea visitors. At 2:00 PM, a free guided tour "Goryeo Celadon & Joseon White Porcelain" starts at the 1F lobby desk. No advance reservation is required; gather in the lobby 5 minutes early to borrow free earphones.' }
+        ],
+        questionKr: '무료 해설 프로그램에 참가하려는 관람객은 어떻게 해야 합니까?',
+        questionEn: 'What should a visitor do to join the free guided tour?',
+        options: ['오후 1시 55분까지 1층 로비 안내 데스크 앞으로 간다.', '홈페이지에서 하루 전에 반드시 예약을 해야 한다.', '이어폰 대여료 천 원을 먼저 결제해야 한다.', '2층 전시실 안에서 해설사를 기다린다.'],
+        answer: '오후 1시 55분까지 1층 로비 안내 데스크 앞으로 간다.',
+        explanation: 'No booking needed—just gather at the 1F lobby desk 5 minutes before 2:00 PM (1:55 PM) for free earphones.'
+      },
+      {
+        id: 'L78', level: '2급', category: 'detail',
+        title: 'Public Broadcast: KTX Train Platform & Transfer Info (Q25–30)',
+        dialogue: [
+          { speaker: '안내', kr: '서울역에서 안내 말씀 드립니다. 오전 열 시 삼십 분 출발 부산행 KTX 105 열차는 7번 승강장에서 출발합니다. 1호차부터 4호차까지는 특실, 5호차부터 18호차까지는 일반실이며, 자판기와 화장실은 각 객차 연결 통로에 마련되어 있습니다. 출발 삼 분 전에는 출입문이 닫히오니 서둘러 탑승해 주시기 바랍니다.', en: 'Announcement at Seoul Station. KTX Train 105 to Busan departing at 10:30 AM leaves from Platform 7. Cars 1–4 are First Class, Cars 5–18 are Economy, and vending machines and restrooms are in the vestibules between cars. Doors close 3 minutes before departure, so please board promptly.' }
+        ],
+        questionKr: '이 안내 방송의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement matching the station announcement.',
+        options: ['일반실 승객은 5호차에서 18호차 사이로 타면 된다.', '부산행 KTX 열차는 10번 승강장에서 출발한다.', '열차 출입문은 출발 정각에 닫힌다.', '화장실은 1호차 특실에만 설치되어 있다.'],
+        answer: '일반실 승객은 5호차에서 18호차 사이로 타면 된다.',
+        explanation: 'Economy class (일반실) is Cars 5–18; Platform is 7, doors close 3 minutes early, and restrooms are between cars.'
+      },
+      {
+        id: 'L79', level: '2급', category: 'detail',
+        title: 'Dialogue Detail: University Scholarship Application',
+        dialogue: [
+          { speaker: '여자', kr: '선배님, 이번 학기 외국인 우수 장학금 신청 조건이 어떻게 되나요?', en: 'Senior, what are the requirements for this semester’s international merit scholarship?' },
+          { speaker: '남자', kr: '지난 학기 평점이 3.5 이상이고 출석률이 90퍼센트 넘으면 지원할 수 있어요. 단, 토픽 성적표를 같이 제출해야 가산점을 받아요.', en: 'You can apply with last semester’s GPA 3.5+ and over 90% attendance. Also, submitting a TOPIK score report earns bonus points.' },
+          { speaker: '여자', kr: '마침 지난 달에 토픽 2급에 합격해서 성적표가 있어요! 금요일 마감 전에 꼭 내야겠네요.', en: 'Perfect—I passed TOPIK Level 2 last month so I have the score report! I’ll submit it before Friday’s deadline.' }
+        ],
+        questionKr: '들은 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the true statement based on the conversation.',
+        options: ['토픽 성적표를 함께 내면 장학금 심사에서 가산점을 받는다.', '여자는 아직 토픽 시험을 본 적이 없다.', '장학금 마감일은 다음 주 월요일이다.', '출석률이 80퍼센트만 넘으면 지원할 수 있다.'],
+        answer: '토픽 성적표를 함께 내면 장학금 심사에서 가산점을 받는다.',
+        explanation: 'Submitting a TOPIK score report grants bonus points (가산점을 받아요), and she already passed TOPIK 2급.'
+      },
+      {
+        id: 'L80', level: '2급', category: 'detail',
+        title: 'Public Broadcast: Concert Hall Entry & Photo Rules (Q25–30)',
+        dialogue: [
+          { speaker: '안내', kr: '공연장을 찾아 주신 관객 여러분 환영합니다. 잠시 후 일곱 시 정각에 가야금 독주회가 시작됩니다. 공연이 시작된 이후에는 중간 입장이 제한되며, 공연 중 사진 촬영과 녹음은 금지되어 있습니다. 생수를 제외한 모든 음식물과 큰 꽃다발은 1층 물품 보관소에 무료로 맡기신 뒤 입장해 주시기 바랍니다.', en: 'Welcome to the concert hall. The Gayageum solo recital begins promptly at 7:00 PM. Late entry is restricted once started, and photos or recordings during the show are prohibited. Except bottled water, please store all food and large bouquets free of charge at the 1F cloakroom before entering.' }
+        ],
+        questionKr: '공연장 안에 가지고 들어갈 수 있는 것은 무엇입니까?',
+        questionEn: 'What may visitors bring inside the concert hall?',
+        options: ['뚜껑 있는 생수', '따뜻한 커피와 빵', '큰 축하 꽃다발', '소리 나는 녹음기'],
+        answer: '뚜껑 있는 생수',
+        explanation: '생수를 제외한 모든 음식물과 큰 꽃다발은 맡기신 뒤 입장 means bottled water (생수) is the one exception allowed inside.'
       }
     ];
 
@@ -12450,6 +13021,310 @@ button {
         options: ['중요한 내용을 오래 기억하려면 직접 손으로 써 보는 것이 효과적이다.', '외국어 단어는 스마트폰으로 자주 보는 편이 가장 빨리 외워진다.', '요즘 사람들은 키보드보다 손글씨를 훨씬 더 빠르게 쓴다.', '컴퓨터와 스마트폰은 외국어 공부에 전혀 도움이 되지 않는다.'],
         answer: '중요한 내용을 오래 기억하려면 직접 손으로 써 보는 것이 효과적이다.',
         explanation: 'The writer concludes that handwriting engages finger movement and shapes to boost retention (직접 적어 보는 것이 좋습니다).'
+      },
+      // --- EXTRA SHORT TEXTS, TOPICS & MESSAGES (R46–R52) ---
+      {
+        id: 'R46', level: '1급', category: 'short', format: 'Topic Identification (Q31–33 주제)',
+        title: 'Choosing What to Wear Today',
+        body: '오늘은 아침 {기온|temperature}이 영하로 내려가서 아주 춥습니다. 얇은 옷을 한 벌 입는 것보다 {스웨터|sweater} 위에 따뜻한 {외투|coat}를 겹쳐 입는 것이 좋습니다. {목도리|scarf}와 장갑도 꼭 챙기세요.',
+        translation: 'Today morning temperatures dropped below zero so it is very cold. Rather than wearing one thin layer, layering a warm coat over a sweater is better. Be sure to pack a scarf and gloves too.',
+        vocab: ['기온:기온:Temperature', '겹쳐 입다:겹쳐 입따:To wear in layers', '챙기다:챙기다:To pack / Bring'],
+        questionKr: '이 글은 무엇에 대한 이야기입니까?',
+        questionEn: 'What is this passage about?',
+        options: ['추운 날 옷차림', '겨울 실내 운동', '백화점 할인 행사', '따뜻한 겨울 음식'],
+        answer: '추운 날 옷차림',
+        explanation: 'Layering a coat, sweater, scarf, and gloves describes how to dress on a cold day (추운 날 옷차림).'
+      },
+      {
+        id: 'R47', level: '1급', category: 'short', format: 'Topic Identification (Q31–33 주제)',
+        title: 'Using Seoul’s Transit Card Transfer Discount',
+        body: '서울에서 {버스|bus}와 {지하철|subway}을 탈 때 {교통카드|transit card}를 쓰면 매우 편리합니다. 내릴 때 카드를 단말기에 찍고 30분 안에 다른 교통수단으로 {갈아타면|transfer} 요금을 할인받을 수 있습니다.',
+        translation: 'In Seoul, using a transit card on buses and subways is very convenient. If you tap your card when getting off and transfer within 30 minutes, you get a fare discount.',
+        vocab: ['교통카드:교통카드:Transit card', '갈아타다:가라타다:To transfer', '요금:요금:Fare / Fee'],
+        questionKr: '이 글은 무엇에 대한 이야기입니까?',
+        questionEn: 'What is this short text about?',
+        options: ['교통카드 환승 혜택', '지하철 노선 종류', '서울 관광지 추천', '버스 기사님의 친절'],
+        answer: '교통카드 환승 혜택',
+        explanation: 'Tapping off and transferring within 30 minutes for a discount describes transit card transfer benefits (교통카드 환승 혜택).'
+      },
+      {
+        id: 'R48', level: '1급', category: 'short', format: 'Birthday Invitation (초대 문자)',
+        title: 'Invitation to a Housewarming Dinner',
+        body: '여러분, 안녕하세요? 민수예요!\n저 드디어 학교 근처로 {이사|move}했어요. 이번 주 토요일 오후 6시에 작은 {집들이|housewarming}를 하려고 합니다. 맛있는 잡채와 불고기를 준비할 테니 빈손으로 편하게 오세요! 오실 분은 목요일까지 {답장|reply} 주세요.',
+        translation: 'Hello everyone, it’s Minsu! I finally moved near school. I plan to host a small housewarming this Saturday at 6 PM. I’ll prepare delicious japchae and bulgogi, so come empty-handed and relaxed! Please reply by Thursday if coming.',
+        vocab: ['집들이:집뜨리:Housewarming party', '빈손:빈손:Empty-handed', '답장:답짱:Reply message'],
+        questionKr: '이 문자 메시지의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement matching the invitation.',
+        options: ['참석할 사람은 목요일까지 민수 씨에게 알려 줘야 한다.', '집들이에 갈 때 음식을 직접 만들어 가야 한다.', '집들이는 이번 주 일요일 점심에 열린다.', '민수 씨는 다음 달에 학교 근처로 이사할 예정이다.'],
+        answer: '참석할 사람은 목요일까지 민수 씨에게 알려 줘야 한다.',
+        explanation: 'Minsu asks attendees to reply by Thursday (목요일까지 답장 주세요) and come empty-handed (빈손으로).'
+      },
+      {
+        id: 'R49', level: '1급', category: 'short', format: 'Receipt Check (영수증 확인)',
+        title: 'Bookstore Purchase Receipt',
+        body: '[청자 {서점|bookstore} {영수증|receipt}]\n• 구입 날짜: 2026년 5월 12일\n• 상품: 토픽 1 종합 교재 (18,000원) + 한국어 단어장 (9,000원)\n• 합계: 27,000원 (신용카드 결제)\n※ {교환|exchange} 및 {환불|refund}은 영수증 지참 시 7일 이내 가능합니다.',
+        translation: '[Cheongja Bookstore Receipt] Date: May 12, 2026. Items: TOPIK I Complete Textbook (18,000 won) + Korean Vocab Book (9,000 won). Total: 27,000 won (Credit card). *Exchanges & refunds available within 7 days with receipt.',
+        vocab: ['영수증:영수증:Receipt', '합계:합께:Total sum', '지참:지참:Bringing along'],
+        questionKr: '이 영수증의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the true statement from the receipt.',
+        options: ['영수증을 가지고 5월 18일에 가면 교환할 수 있다.', '손님은 책 두 권을 현금으로 계산했다.', '한국어 단어장이 토픽 교재보다 더 비싸다.', '책 두 권의 합계 금액은 25,000원이다.'],
+        answer: '영수증을 가지고 5월 18일에 가면 교환할 수 있다.',
+        explanation: 'May 18 is 6 days after May 12—within the 7-day exchange window with the receipt!'
+      },
+      {
+        id: 'R50', level: '2급', category: 'short', format: 'Clinic Prescription Memo (처방 안내)',
+        title: 'Doctor’s Care Instructions After a Dental Visit',
+        body: '[치료 후 {주의 사항|precautions}]\n1. 마취가 풀릴 때까지 약 2시간 동안은 음식을 드시지 마세요.\n2. 오늘은 너무 맵거나 뜨거운 음식, 딱딱한 과자는 {피해|avoid} 주세요.\n3. {처방|prescribed}해 드린 약은 통증이 없더라도 3일 치를 끝까지 드셔야 합니다.',
+        translation: '[Post-Treatment Precautions] 1. Do not eat for about 2 hours until anesthesia wears off. 2. Today please avoid very spicy, hot, or hard crunchy foods. 3. Take the full 3-day prescribed medicine even if you feel no pain.',
+        vocab: ['주의 사항:주의 사항:Precautions', '피하다:피하다:To avoid', '통증:통쯩:Pain / Ache'],
+        questionKr: '치료를 받은 환자가 지켜야 할 것으로 맞는 것은 무엇입니까?',
+        questionEn: 'Which instruction must the patient follow?',
+        options: ['안 아파도 처방받은 약을 3일 동안 다 먹어야 한다.', '치료를 마친 직후에 따뜻한 죽을 바로 먹어야 한다.', '오늘 저녁에는 매운 찌개를 먹어도 괜찮다.', '통증이 사라지면 약 먹는 것을 즉시 중단해야 한다.'],
+        answer: '안 아파도 처방받은 약을 3일 동안 다 먹어야 한다.',
+        explanation: 'Rule 3 states patients must finish the entire 3-day prescription even if pain disappears (통증이 없더라도).'
+      },
+      {
+        id: 'R51', level: '2급', category: 'short', format: 'Apartment Recycling Rule (생활 공지)',
+        title: 'Plastic Bottle Recycling Guide',
+        body: '[투명 {페트병|PET bottle} {분리배출|recycling sorting} 방법]\n1. 병 안에 남은 음료수를 깨끗이 비우고 물로 헹궈 주세요.\n2. 겉에 붙어 있는 비닐 {라벨|label}을 반드시 떼어 내세요.\n3. 부피를 줄이기 위해 병을 발로 밟아 찌그러뜨린 뒤 뚜껑을 닫아 전용 수거함에 넣어 주세요.',
+        translation: '[Clear PET Bottle Recycling Guide] 1. Empty remaining drink and rinse cleanly with water. 2. Be sure to peel off the outer plastic label. 3. Flatten the bottle to reduce volume, close the cap, and place in the dedicated bin.',
+        vocab: ['헹구다:헹구다:To rinse', '떼어 내다:떼어 내다:To peel off', '부피:부피:Volume / Bulk'],
+        questionKr: '투명 페트병을 버릴 때 올바른 방법은 무엇입니까?',
+        questionEn: 'What is the proper way to recycle clear plastic bottles?',
+        options: ['라벨을 떼고 찌그러뜨린 뒤 뚜껑을 닫아 버린다.', '음료수가 조금 남아 있어도 뚜껑만 꼭 닫아 버린다.', '라벨은 그대로 두고 물로만 헹궈서 버린다.', '병을 찌그러뜨리지 않고 일반 쓰레기봉투에 넣는다.'],
+        answer: '라벨을 떼고 찌그러뜨린 뒤 뚜껑을 닫아 버린다.',
+        explanation: 'Follow all 3 steps: rinse, remove label (라벨을 떼고), crush flat, close cap, and place in the dedicated recycling bin.'
+      },
+      {
+        id: 'R52', level: '2급', category: 'short', format: 'Main Idea (중심 생각)',
+        title: 'Why Asking Questions Helps You Learn Faster',
+        body: '수업 시간에 모르는 내용이 나와도 {부끄러워서|embarrassed} 질문하지 않고 넘어가는 학생들이 많습니다. 하지만 작은 {궁금증|curiosity/doubt}을 그때그때 해결하지 않으면 다음 단계를 이해하기가 더 어려워집니다. 실수를 두려워하지 않고 적극적으로 질문하는 {태도|attitude}가 실력을 키우는 가장 빠른 길입니다.',
+        translation: 'Many students skip asking questions in class out of embarrassment when something is unclear. However, leaving small doubts unresolved makes the next stage harder to grasp. An active attitude of asking questions without fearing mistakes is the fastest path to growing your skills.',
+        vocab: ['부끄럽다:부끄럽따:Shy / Embarrassed', '해결하다:해결하다:To resolve', '태도:태도:Attitude'],
+        questionKr: '이 글의 중심 생각으로 가장 알맞은 것을 고르십시오.',
+        questionEn: 'Choose the writer’s central idea.',
+        options: ['모르는 것이 있으면 부끄러워하지 말고 바로 질문하는 것이 좋다.', '수업 중에는 질문하지 말고 혼자 조용히 복습해야 한다.', '실수를 한 학생은 다음 단계 수업을 들을 수 없다.', '질문이 많은 학생은 수업 진도를 늦추게 된다.'],
+        answer: '모르는 것이 있으면 부끄러워하지 말고 바로 질문하는 것이 좋다.',
+        explanation: 'The writer emphasizes that proactively asking questions without embarrassment is the fastest way to improve.'
+      },
+      // --- EXTRA PRACTICAL INFO FLYERS, TABLES & GUIDES (R53–R58) ---
+      {
+        id: 'R53', level: '1급', category: 'info', format: 'Train Timetable (기차 시간표)',
+        title: 'Seoul → Gyeongju KTX Schedule',
+        body: '[서울역 → 경주역 KTX {시간표|timetable}]\n• 101호: 08:00 출발 → 10:05 도착 (요금 49,300원)\n• 105호: 10:30 출발 → 12:38 도착 (요금 49,300원)\n• 109호: 13:15 출발 → 15:20 도착 (요금 49,300원)\n※ {청소년|youth} 회원은 인터넷 예매 시 10% ~ 30% 할인됩니다.',
+        translation: '[Seoul → Gyeongju KTX Schedule] Train 101: Dep 08:00 → Arr 10:05. Train 105: Dep 10:30 → Arr 12:38. Train 109: Dep 13:15 → Arr 15:20 (Fare: 49,300 won). *Youth members get 10–30% off when booking online.',
+        vocab: ['시간표:시간표:Timetable', '출발:출발:Departure', '도착:도착:Arrival'],
+        questionKr: '경주역에 낮 1시 전에 도착하려면 몇 호 기차를 타야 합니까?',
+        questionEn: 'Which train can you take to arrive in Gyeongju before 1:00 PM?',
+        options: ['101호 또는 105호', '109호만 가능', '105호만 가능', '아무 기차도 불가능'],
+        answer: '101호 또는 105호',
+        explanation: 'Train 101 arrives at 10:05 AM and Train 105 arrives at 12:38 PM—both arrive before 1:00 PM (13:00).'
+      },
+      {
+        id: 'R54', level: '1급', category: 'info', format: 'Club Poster (동아리 모집)',
+        title: 'Korean-English Language Exchange Club',
+        body: '[서울 {언어 교환|language exchange} 모임 ‘하린톡’ 신입 모집]\n• 일시: 매주 수요일 오후 7:00 ~ 9:00\n• 장소: 홍대입구역 3번 출구 앞 스터디 카페\n• 활동: 1시간 한국어 대화 + 1시간 영어 대화\n• {참가비|fee}: 무료 (개인 음료 1잔만 주문)\n• 대상: 한국어나 영어를 배우고 싶은 성인 누구나',
+        translation: '[Seoul Language Exchange "HarinTalk" New Members] Time: Every Wed 7–9 PM. Place: Study cafe outside Hongik Univ. Stn Exit 3. Activity: 1 hr Korean + 1 hr English. Fee: Free (just order 1 drink). Open to any adult wanting to learn Korean or English.',
+        vocab: ['언어 교환:어너 교환:Language exchange', '참가비:참가비:Participation fee', '성인:성인:Adult'],
+        questionKr: '이 모임에 대한 설명으로 맞는 것은 무엇입니까?',
+        questionEn: 'Which statement about this club is true?',
+        options: ['따로 참가비는 없고 자기 음료만 시키면 된다.', '매주 주말 저녁에 두 시간 동안 모인다.', '한국어만 사용하고 영어는 쓰지 않는다.', '대학생만 가입할 수 있는 모임이다.'],
+        answer: '따로 참가비는 없고 자기 음료만 시키면 된다.',
+        explanation: 'Participation is free (무료), and members only need to order one drink for themselves (개인 음료 1잔만 주문).'
+      },
+      {
+        id: 'R55', level: '2급', category: 'info', format: 'Library Membership Guide (이용 안내)',
+        title: 'City Public Library Borrowing Policy',
+        body: '[시립 {도서관|library} {대출|borrowing} 안내]\n• {대출 권수|limit}: 1인당 최대 5권 (DVD는 2점까지 별도)\n• {대출 기간|loan period}: 14일 (예약자가 없으면 1회 7일 {연장|extension} 가능)\n• {연체|overdue} 규정: 연체한 일수만큼 새 책을 빌릴 수 없음\n• 휴관일: 매주 월요일 및 법정 공휴일',
+        translation: '[City Library Borrowing Guide] Limit: Max 5 books per person (+ up to 2 DVDs separately). Loan period: 14 days (1 extension of 7 days if unreserved). Overdue rule: Cannot borrow new books for the number of days overdue. Closed: Mondays & public holidays.',
+        vocab: ['대출:대출:Book checkout / Loan', '연장:연장:Renewal / Extension', '연체:연체:Overdue'],
+        questionKr: '이 도서관 규정에 맞는 것을 고르십시오.',
+        questionEn: 'Choose the statement that matches the library policy.',
+        options: ['예약한 사람이 없으면 책을 최대 21일까지 빌려 볼 수 있다.', '한 번에 책 5권과 DVD 2점을 합쳐서 총 5개까지만 빌린다.', '책을 늦게 반납하면 하루에 천 원씩 벌금을 내야 한다.', '공휴일에도 월요일이 아니면 문을 연다.'],
+        answer: '예약한 사람이 없으면 책을 최대 21일까지 빌려 볼 수 있다.',
+        explanation: '14 days + one 7-day extension when unreserved = up to 21 days total!'
+      },
+      {
+        id: 'R56', level: '2급', category: 'info', format: 'Hanbok Rental Guide (체험 안내)',
+        title: 'Bukchon Traditional Hanbok Rental',
+        body: '[북촌 {한복|hanbok} 대여 요금표]\n• 2시간: 15,000원 / 4시간: 22,000원 / 종일권: 30,000원\n• {무료 혜택|free perks}: 머리 손질, 속치마, 작은 손가방 대여\n• 안내: 한복을 입고 경복궁·창덕궁에 가시면 궁궐 {입장료|admission}가 무료입니다!\n※ 신분증 또는 보증금 10,000원을 맡기셔야 합니다.',
+        translation: '[Bukchon Hanbok Rental Rates] 2 hrs: 15,000 won / 4 hrs: 22,000 won / All-day: 30,000 won. Free perks: Hair styling, underskirt, small purse. Info: Wearing hanbok grants free admission to Gyeongbokgung & Changdeokgung Palaces! *ID or 10,000 won deposit required.',
+        vocab: ['종일권:종일꿘:All-day pass', '궁궐:궁궐:Royal palace', '보증금:보증금:Deposit'],
+        questionKr: '이 안내문의 내용과 다른 것을 고르십시오.',
+        questionEn: 'Choose the statement that does NOT match the guide.',
+        options: ['머리 손질과 손가방은 따로 돈을 내고 빌려야 한다.', '한복을 입으면 경복궁에 무료로 들어갈 수 있다.', '신분증이 없으면 보증금 만 원을 맡기고 빌릴 수 있다.', '4시간 대여 요금은 22,000원이다.'],
+        answer: '머리 손질과 손가방은 따로 돈을 내고 빌려야 한다.',
+        explanation: 'Question asks for 다른 것 (false)! Hair styling and purses are included under 무료 혜택 (free perks).'
+      },
+      {
+        id: 'R57', level: '2급', category: 'info', format: 'Health Checkup Notice (건강검진 안내)',
+        title: 'Pre-Checkup Fasting Instructions',
+        body: '[정기 {건강검진|health checkup} 전날 안내]\n• 검진 전날 저녁 9시 이후부터는 물, 껌, 커피를 포함한 모든 음식물을 드시지 마세요({금식|fasting}).\n• 혈압약이나 당뇨약을 복용 중인 분은 반드시 사전에 의사와 상담하세요.\n• 검진 당일에는 {신분증|ID}을 지참하시고 예약 시간 15분 전까지 접수처로 오세요.',
+        translation: '[Day-Before Health Checkup Guide] From 9 PM the night before, consume nothing including water, gum, or coffee (fasting). Those taking blood pressure or diabetes medication must consult a doctor beforehand. Bring ID on exam day and arrive at reception 15 minutes early.',
+        vocab: ['금식:금식:Fasting', '복용하다:보굥하다:To take medicine', '접수처:접쑤처:Reception desk'],
+        questionKr: '건강검진을 받는 사람이 주의해야 할 점으로 맞는 것은 무엇입니까?',
+        questionEn: 'What precaution matches the health checkup guide?',
+        options: ['전날 밤 9시 이후에는 물도 마시지 말고 금식해야 한다.', '검진 당일 아침에 가벼운 커피 한 잔은 마셔도 된다.', '예약 시간에 딱 맞춰 도착하면 신분증 없이 접수된다.', '혈압약을 먹는 사람은 상담 없이 무조건 약을 끊어야 한다.'],
+        answer: '전날 밤 9시 이후에는 물도 마시지 말고 금식해야 한다.',
+        explanation: 'After 9 PM the night before, patients must fast completely—including water, gum, and coffee.'
+      },
+      {
+        id: 'R58', level: '2급', category: 'info', format: 'Festival Schedule (축제 안내)',
+        title: 'Seoul Lantern Festival Guide',
+        body: '[청계천 {등불 축제|Lantern Festival} 안내]\n• 기간: 11월 1일 ~ 11월 17일 (매일 오후 6:00 ~ 10:00 {점등|lighting})\n• 구간: 청계광장 ~ 광통교 (도보 약 40분)\n• 체험: 소원 등불 띄우기 (현장 접수, 체험비 3,000원)\n• 교통: 축제 기간 중 주변 도로가 매우 혼잡하오니 지하철 5호선 광화문역을 이용해 주세요.',
+        translation: '[Cheonggyecheon Lantern Festival] Dates: Nov 1–17 (Lights on daily 6–10 PM). Route: Cheonggye Plaza to Gwangtonggyo Bridge (~40 min walk). Activity: Floating wish lanterns (on-site signup, 3,000 won). Transit: Surrounding roads are crowded, so please use Subway Line 5 Gwanghwamun Stn.',
+        vocab: ['점등:점등:Turning on lights', '구간:구간:Section / Route', '혼잡하다:혼자파다:Crowded / Congested'],
+        questionKr: '이 축제의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement that matches the festival poster.',
+        options: ['소원 등불 띄우기는 현장에서 신청하고 3,000원을 낸다.', '등불은 오전 10시부터 저녁 6시까지 켜진다.', '축제장 근처 주차장이 넓어서 자동차로 가는 게 편하다.', '등불 구간을 다 걷는 데 두 시간 넘게 걸린다.'],
+        answer: '소원 등불 띄우기는 현장에서 신청하고 3,000원을 낸다.',
+        explanation: 'Floating wish lanterns is registered on-site (현장 접수) for 3,000 won.'
+      },
+      // --- EXTRA MEDIUM ESSAYS & CULTURAL STORIES (R59–R63) ---
+      {
+        id: 'R59', level: '1급', category: 'medium', format: 'Holiday Story (명절 이야기)',
+        title: 'Making Songpyeon on Chuseok',
+        body: '{추석|Chuseok}은 한국의 가장 큰 명절 중 하나입니다. 추석이 되면 멀리 떨어져 살던 {가족|family}들이 한자리에 모여서 맛있는 음식을 나누어 먹습니다. 특히 반달 모양의 ‘{송편|songpyeon}’을 온 가족이 둘러앉아 함께 빚습니다. 한국에서는 예로부터 송편을 예쁘게 빚으면 좋은 일이 생긴다는 재미있는 이야기가 전해집니다.',
+        translation: 'Chuseok is one of Korea’s biggest holidays. On Chuseok, families who live far apart gather in one place to share delicious food. In particular, the whole family sits around together shaping half-moon rice cakes called "songpyeon". In Korea, a fun tradition says good things happen if you shape songpyeon nicely.',
+        vocab: ['명절:명절:Traditional holiday', '빚다:빋따:To shape (rice cakes/dumplings)', '전해지다:전해지다:To be handed down'],
+        questionKr: '이 글의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement matching the Chuseok passage.',
+        options: ['추석에는 가족들이 모여 반달 모양의 송편을 만든다.', '송편은 겨울 설날에만 만들어 먹는 음식이다.', '추석에는 가족들이 각자 따로 여행을 떠난다.', '송편은 혼자 조용히 만들어야 맛이 좋다.'],
+        answer: '추석에는 가족들이 모여 반달 모양의 송편을 만든다.',
+        explanation: 'On Chuseok, families gather together and shape half-moon songpyeon (반달 모양의 송편을 함께 빚습니다).'
+      },
+      {
+        id: 'R60', level: '1급', category: 'medium', format: 'City Life Essay (생활 에세이)',
+        title: 'Picnics at Han River Park',
+        body: '서울을 가로지르는 {한강|Han River} 주변에는 시민들이 쉴 수 있는 넓은 공원이 많습니다. 따뜻한 봄이나 선선한 가을 저녁이 되면 사람들이 돗자리를 펴고 앉아 {노을|sunset}을 감상합니다. 자전거를 빌려 강바람을 맞으며 달리거나, 공원에서 먹는 라면 맛은 서울 여행에서 빼놓을 수 없는 즐거움입니다.',
+        translation: 'Along the Han River running through Seoul, there are many spacious parks where citizens can relax. On warm spring or cool autumn evenings, people spread mats to watch the sunset. Renting a bike to feel the river breeze or eating ramen at the park is an unforgettable joy of visiting Seoul.',
+        vocab: ['돗자리:돋짜리:Picnic mat', '노을:노을:Sunset glow', '강바람:강빠람:River breeze'],
+        questionKr: '한강 공원에서 사람들이 즐기는 활동으로 언급되지 않은 것은 무엇입니까?',
+        questionEn: 'Which activity is NOT mentioned in the passage?',
+        options: ['강에서 수영 대회 열기', '돗자리를 펴고 노을 감상하기', '자전거를 빌려 강변 달리기', '공원에서 라면 먹기'],
+        answer: '강에서 수영 대회 열기',
+        explanation: 'Picnic mats/sunsets, biking, and eating ramen are mentioned; swimming competitions are not.'
+      },
+      {
+        id: 'R61', level: '2급', category: 'medium', format: 'Culture Essay (문화 에세이)',
+        title: 'Why Koreans Take Off Shoes Indoors',
+        body: '한국 집이나 일부 전통 식당에 들어갈 때는 반드시 현관에서 {신발|shoes}을 벗어야 합니다. 옛날부터 한국 사람들은 바닥에 난방이 되는 {온돌|ondol} 방에서 앉아서 밥을 먹고 잠을 잤기 때문입니다. 신발을 신고 들어가면 바깥의 먼지가 방 안으로 들어와 생활 공간이 더러워집니다. 오늘날에는 침대와 식탁을 쓰는 집이 많아졌지만, 실내를 깨끗하게 유지하는 이 {습관|habit}은 여전히 소중히 지켜지고 있습니다.',
+        translation: 'When entering a Korean home or some traditional restaurants, you must take off your shoes at the entryway. Since long ago, Koreans sat, ate, and slept on heated ondol floors. Wearing shoes inside would bring outdoor dust and dirty the living space. Although many homes use beds and tables today, this habit of keeping indoors clean is still cherished.',
+        vocab: ['현관:현관:Entryway', '실내:실래:Indoors', '유지하다:유지하다:To maintain'],
+        questionKr: '한국에서 실내에 들어갈 때 신발을 벗는 원래 이유는 무엇입니까?',
+        questionEn: 'What is the original reason Koreans remove shoes indoors?',
+        options: ['온돌 방바닥에서 앉고 자며 생활해서 깨끗이 유지하려고', '신발을 현관에 두면 빨리 마르기 때문에', '현관문이 좁아서 신발을 신고 들어가기 어려워서', '전통 식당에서만 지켜지는 법이기 때문에'],
+        answer: '온돌 방바닥에서 앉고 자며 생활해서 깨끗이 유지하려고',
+        explanation: 'Because people historically sat, ate, and slept directly on heated ondol floors, keeping floors dust-free started this custom.'
+      },
+      {
+        id: 'R62', level: '2급', category: 'medium', format: 'Personal Essay (경험 수필)',
+        title: 'Volunteering at an Animal Shelter',
+        body: '저는 지난달부터 매주 일요일마다 유기견 보호소에서 {봉사활동|volunteering}을 하고 있습니다. 처음에는 낯선 강아지들이 짖을까 봐 조금 긴장했지만, 먹이를 챙겨 주고 털을 빗겨 주니 금방 꼬리를 흔들며 다가왔습니다. 몇 시간 동안 청소하느라 몸은 조금 {힘들지만|tiring}, 강아지들이 새로운 가족을 만나 입양되는 모습을 볼 때마다 말로 다 할 수 없는 {보람|fulfillment}을 느낍니다.',
+        translation: 'Since last month I have been volunteering every Sunday at a stray dog shelter. At first I was slightly nervous that unfamiliar dogs might bark, but after feeding and brushing them they soon came wagging their tails. Although cleaning for hours is tiring, seeing dogs meet new families and get adopted brings indescribable fulfillment.',
+        vocab: ['유기견:유기견:Abandoned dog', '입양되다:이뱡되다:To be adopted', '보람:보람:Sense of reward/worth'],
+        questionKr: '이 글의 내용과 같은 것을 고르십시오.',
+        questionEn: 'Choose the statement matching the writer’s experience.',
+        options: ['글쓴이는 강아지들이 새 가족에게 입양될 때 큰 보람을 느낀다.', '글쓴이는 작년부터 매일 보호소에서 일하고 있다.', '강아지들은 끝까지 글쓴이에게 다가오지 않았다.', '보호소 일은 몸이 전혀 힘들지 않고 아주 쉽다.'],
+        answer: '글쓴이는 강아지들이 새 가족에게 입양될 때 큰 보람을 느낀다.',
+        explanation: 'Although cleaning is tiring, seeing the dogs get adopted brings deep fulfillment (말로 다 할 수 없는 보람).'
+      },
+      {
+        id: 'R63', level: '2급', category: 'medium', format: 'Lifestyle Article (생활 기사)',
+        title: 'The Joy of Early Morning Traditional Markets',
+        body: '대형 마트는 깔끔하고 편리하지만, 주말 아침 일찍 동네 {전통 시장|traditional market}에 가 보면 또 다른 매력이 있습니다. 갓 쪄 낸 따뜻한 떡 냄새와 상인들의 활기찬 인사가 아침 잠을 깨워 줍니다. 제철 과일을 직접 맛보고 고를 수 있을 뿐만 아니라, 단골이 되면 주인 할머니가 과일을 한두 개 더 챙겨 주는 따뜻한 {정|affection}도 느낄 수 있습니다.',
+        translation: 'Large supermarkets are neat and convenient, yet visiting a neighborhood traditional market early on a weekend morning offers another charm. The scent of freshly steamed warm rice cakes and lively vendor greetings wake you right up. Not only can you taste and pick seasonal fruit yourself, but once you become a regular, you also feel the warm kindness of getting an extra piece or two.',
+        vocab: ['매력:매력:Charm / Appeal', '제철:제철:In season', '단골:단골:Regular customer'],
+        questionKr: '이 글의 내용과 다른 것을 고르십시오.',
+        questionEn: 'Choose the statement that does NOT match the passage.',
+        options: ['전통 시장에서는 과일을 맛보지 않고 사야 한다.', '전통 시장은 대형 마트와는 다른 활기찬 매력이 있다.', '단골 손님이 되면 주인이 과일을 더 챙겨 주기도 한다.', '아침 일찍 가면 갓 찐 따뜻한 떡을 만날 수 있다.'],
+        answer: '전통 시장에서는 과일을 맛보지 않고 사야 한다.',
+        explanation: 'Note 다른 것 (NOT matching)! The text explicitly says 제철 과일을 직접 맛보고 고를 수 있을 뿐만 아니라 (you CAN taste and pick fruit).'
+      },
+      // --- EXTRA OFFICIAL EXAM DRILLS: BLANKS, ORDERING (가–라), INSERTION (ㄱ–ㄹ) (R64–R70) ---
+      {
+        id: 'R64', level: '1급', category: 'exam_types', format: 'Fill-in-the-Blank (Q34–39 빈칸)',
+        title: 'Official Blank Drill: Sequential Connector (그리고 / 그러면)',
+        body: '주말에 날씨가 좋으면 한강 공원에 갈 거예요. (   ) 돗자리를 펴고 맛있는 김밥을 먹으면서 쉴 거예요.',
+        translation: 'If the weather is nice this weekend, I will go to Han River Park. (   ) I will spread a mat and relax while eating delicious gimbap.',
+        vocab: ['그리고:그리고:And / Also', '그러나:그러나:However', '하지만:하지만:But'],
+        questionKr: '(   )에 들어갈 가장 알맞은 말을 고르십시오.',
+        questionEn: 'Choose the best connector for the blank.',
+        options: ['그리고', '그러나', '하지만', '그런데도'],
+        answer: '그리고',
+        explanation: 'Adding a second activity in sequence (go to the park AND spread a mat to eat) uses 그리고.'
+      },
+      {
+        id: 'R65', level: '2급', category: 'exam_types', format: 'Fill-in-the-Blank (Q34–39 빈칸)',
+        title: 'Official Blank Drill: Conditional Proposal (그러면)',
+        body: '가: 오늘 저녁에 식당에 손님이 너무 많아서 1시간 넘게 기다려야 한대요.\n나: 정말요? (   ) 기다리지 말고 음식을 포장해서 집에서 편하게 먹어요.',
+        translation: 'A: They say there are so many customers at the restaurant tonight we’d have to wait over an hour. B: Really? (   ) Let’s not wait—let’s get takeout and eat comfortably at home.',
+        vocab: ['그러면:그러면:Then / If so', '포장하다:포장하다:To get takeout', '편하게:편하게:Comfortably'],
+        questionKr: '(   )에 들어갈 가장 알맞은 말을 고르십시오.',
+        questionEn: 'Choose the best connector responding to the situation.',
+        options: ['그러면', '그러나', '게다가', '왜냐하면'],
+        answer: '그러면',
+        explanation: 'Accepting the given condition ("if we must wait an hour, THEN let’s get takeout") uses 그러면.'
+      },
+      {
+        id: 'R66', level: '1급', category: 'exam_types', format: 'Sentence Ordering (Q57–58 순서 배열)',
+        title: 'Ordering: Borrowing a Book at the Library',
+        body: '(가) 다 읽고 나서는 반납 기한 안에 도서관에 돌려주어야 합니다.\n(나) 도서관에서 책을 빌리려면 먼저 회원증을 만들어야 합니다.\n(다) 원하는 책을 고른 뒤 안내 데스크에서 회원증과 함께 보여 주면 됩니다.\n(라) 회원증은 신분증을 가지고 가면 누구나 무료로 발급받을 수 있습니다.',
+        translation: '(가) After finishing it, you must return it within the due date. (나) To borrow books at a library, you must first make a membership card. (다) After picking your desired book, just show it with your card at the desk. (라) Anyone can get a membership card for free by bringing ID.',
+        vocab: ['회원증:회원쯩:Membership card', '발급받다:발급빧따:To be issued', '반납 기한:반납 끼한:Return deadline'],
+        questionKr: '다음을 순서대로 맞게 배열한 것을 고르십시오.',
+        questionEn: 'Put the four library steps in logical order (Official Q57–58 format!).',
+        options: ['(나) - (라) - (다) - (가)', '(나) - (다) - (라) - (가)', '(라) - (나) - (다) - (가)', '(나) - (라) - (가) - (다)'],
+        answer: '(나) - (라) - (다) - (가)',
+        explanation: '(나) First make a card → (라) How to get that card free with ID → (다) Pick book & check out with card → (가) Return it after finishing.'
+      },
+      {
+        id: 'R67', level: '2급', category: 'exam_types', format: 'Sentence Ordering (Q57–58 순서 배열)',
+        title: 'Ordering: Making Fresh Iced Tea at Home',
+        body: '(가) 찻잎이 충분히 우러나면 얼음이 가득 담긴 유리잔에 천천히 붓습니다.\n(나) 더운 여름에는 집에서도 시원한 녹차 아이스티를 손쉽게 만들 수 있습니다.\n(다) 마지막으로 레몬 조각을 하나 올리면 카페 못지않은 상큼한 음료가 완성됩니다.\n(라) 먼저 따뜻한 물에 녹차 티백을 넣고 2분 정도 진하게 우려냅니다.',
+        translation: '(가) Once the tea leaves steep enough, slowly pour into a glass full of ice. (나) In hot summer you can easily make refreshing iced green tea at home. (다) Finally, topping with a lemon slice completes a crisp drink rivaling a cafe. (라) First place a green tea bag in warm water and steep strongly for about 2 minutes.',
+        vocab: ['우러나다:우러나다:To steep / Infuse', '붓다:붇따:To pour', '완성되다:완성되다:To be completed'],
+        questionKr: '다음을 순서대로 맞게 배열한 것을 고르십시오.',
+        questionEn: 'Order the recipe steps chronologically.',
+        options: ['(나) - (라) - (가) - (다)', '(나) - (가) - (라) - (다)', '(라) - (나) - (가) - (다)', '(나) - (라) - (다) - (가)'],
+        answer: '(나) - (라) - (가) - (다)',
+        explanation: '(나) Intro → (라) 먼저 (First) steep tea bag → (가) Once steeped, pour over ice → (다) 마지막으로 (Finally) add lemon.'
+      },
+      {
+        id: 'R68', level: '2급', category: 'exam_types', format: 'Sentence Ordering (Q57–58 순서 배열)',
+        title: 'Ordering: Finding a Lost Wallet on the Subway',
+        body: '(가) 역무실 직원에게서 지갑이 보관되어 있다는 반가운 연락을 받았습니다.\n(나) 어제 지하철에서 내린 뒤에야 바지 주머니에 지갑이 없다는 것을 알았습니다.\n(다) 앞으로는 내리기 전에 소지품을 한 번 더 확인하는 습관을 길러야겠습니다.\n(라) 깜짝 놀라서 곧바로 분실물 센터에 전화를 걸어 지갑 색깔과 탄 열차 시간을 알려 주었습니다.',
+        translation: '(가) I got a happy call from the station staff saying my wallet was being held. (나) Only after getting off the subway yesterday did I realize my wallet wasn’t in my pocket. (다) From now on I’ll build the habit of double-checking belongings before getting off. (라) Startled, I immediately called Lost & Found to share the wallet color and train time.',
+        vocab: ['분실물 센터:분실물 센터:Lost & Found', '보관되다:보관되다:To be stored/kept', '소지품:소지품:Personal belongings'],
+        questionKr: '다음을 순서대로 맞게 배열한 것을 고르십시오.',
+        questionEn: 'Arrange the lost-wallet story in chronological order.',
+        options: ['(나) - (라) - (가) - (다)', '(나) - (가) - (라) - (다)', '(라) - (나) - (가) - (다)', '(나) - (라) - (다) - (가)'],
+        answer: '(나) - (라) - (가) - (다)',
+        explanation: '(나) Realized wallet missing → (라) Immediately called Lost & Found → (가) Received happy call that it was found → (다) Lesson learned for the future (앞으로는).'
+      },
+      {
+        id: 'R69', level: '2급', category: 'exam_types', format: 'Sentence Insertion (Q59–60 문장 삽입)',
+        title: 'Insert the Missing Sentence: Eating Seaweed Soup on Birthdays',
+        body: '[넣을 문장] 여기에는 아기를 낳느라 고생하신 어머니의 은혜를 기억하고 감사하자는 뜻이 담겨 있습니다.\n\n( ㄱ ) 한국 사람들은 생일 아침에 꼭 미역국을 먹습니다. ( ㄴ ) 미역은 영양이 풍부해서 옛날부터 한국에서는 아기를 낳은 어머니들이 건강을 회복하기 위해 즐겨 먹었습니다. ( ㄷ ) 그래서 한국에서는 생일을 맞은 사람에게 “오늘 미역국 먹었어?”라고 묻는 경우가 많습니다. ( ㄹ ) 외국인 친구들도 이 따뜻한 의미를 알고 나면 미역국을 더욱 맛있게 먹습니다.',
+        translation: '[Insert] Embedded in this is the meaning of remembering and thanking one’s mother who worked hard giving birth. | (ㄱ) Koreans always eat seaweed soup on their birthday morning. (ㄴ) Rich in nutrients, seaweed soup has long been eaten by mothers after childbirth to recover health. (ㄷ) Therefore Koreans often ask birthday celebrants, "Did you eat seaweed soup today?" (ㄹ) Foreign friends enjoy it even more once they learn this warm meaning.',
+        vocab: ['은혜:으네:Grace / Kindness', '풍부하다:풍부하다:Rich / Abundant', '회복하다:회보카다:To recover'],
+        questionKr: '[넣을 문장]이 들어가기에 가장 알맞은 곳을 고르십시오.',
+        questionEn: 'Choose the exact slot (ㄱ)–(ㄹ) where the target sentence belongs.',
+        options: ['( ㄷ )', '( ㄱ )', '( ㄴ )', '( ㄹ )'],
+        answer: '( ㄷ )',
+        explanation: '(ㄴ) explains that mothers eat seaweed soup after childbirth; inserting the meaning of thanking one’s mother right at (ㄷ) connects the childbirth origin directly to the birthday custom.'
+      },
+      {
+        id: 'R70', level: '2급', category: 'exam_types', format: 'Sentence Insertion (Q59–60 문장 삽입)',
+        title: 'Insert the Missing Sentence: Planting Trees on Arbor Day',
+        body: '[넣을 문장] 하지만 나무를 심는 것만큼이나 심은 뒤에 정성껏 가꾸고 보호하는 일도 중요합니다.\n\n( ㄱ ) 한국에서는 매년 4월 5일을 ‘식목일’로 정해 나무를 심습니다. ( ㄴ ) 이날이 되면 시민들과 학생들이 산과 공원에 모여 어린 묘목을 정성껏 심습니다. ( ㄷ ) 특히 봄철에는 날씨가 건조해서 작은 불씨로도 큰 산불이 나기 쉽습니다. ( ㄹ ) 소중한 숲을 지키기 위해 산에 갈 때는 라이터 등 화기를 절대 가져가지 말아야 합니다.',
+        translation: '[Insert] However, caring for and protecting trees after planting them is just as important as planting them. | (ㄱ) In Korea, April 5 each year is Arbor Day for planting trees. (ㄴ) On this day, citizens and students gather at mountains and parks to plant saplings. (ㄷ) Especially in spring, dry weather makes forest fires easy from a tiny spark. (ㄹ) To protect precious forests, never bring lighters or flammable items into the mountains.',
+        vocab: ['식목일:싱모길:Arbor Day (Apr 5)', '건조하다:건조하다:Dry (weather)', '산불:산뿔:Forest fire'],
+        questionKr: '[넣을 문장]이 들어가기에 가장 알맞은 곳을 고르십시오.',
+        questionEn: 'Choose where the contrasting transition sentence fits.',
+        options: ['( ㄷ )', '( ㄱ )', '( ㄴ )', '( ㄹ )'],
+        answer: '( ㄷ )',
+        explanation: 'Right after (ㄴ) describes planting saplings, the 하지만 (However) sentence pivots from planting to protecting trees—setting up the spring wildfire warning right at (ㄷ).'
       }
     ];
 
@@ -12464,6 +13339,7 @@ button {
     let listenFilter = 'ALL';
     let listenCategory = 'ALL';
     let listenSearch = '';
+    let listenSetIndex = 0;
     const listenQuizState = { active: false, queue: [], idx: 0, correct: 0, mistakes: [], locked: false, finished: false, isMistakesReview: false };
 
     function getFilteredListening() {
@@ -12481,7 +13357,7 @@ button {
     }
 
     function resetListeningFilters() {
-      listenFilter = 'ALL'; listenCategory = 'ALL'; listenSearch = '';
+      listenFilter = 'ALL'; listenCategory = 'ALL'; listenSearch = ''; listenSetIndex = 0;
       const inp = document.getElementById('listen-search');
       if (inp) inp.value = '';
       updateSearchClearBtn('listen-search', 'listen-search-clear');
@@ -12506,7 +13382,7 @@ button {
         btn.innerHTML = '<span>' + escapeHtml(cat.label) + '</span><span class="cnt">' + (counts[cat.key] || 0) + '</span>';
         btn.addEventListener('click', () => {
           SoundFX.playSubTab();
-          listenCategory = cat.key;
+          listenCategory = cat.key; listenSetIndex = 0;
           renderListening();
           if (listenQuizState.active) startListeningQuiz();
         });
@@ -12519,7 +13395,7 @@ button {
           savedBtn.innerHTML = '<span><svg class="ico"><use href="#i-star"/></svg>Saved</span><span class="cnt">' + counts.SAVED + '</span>';
           savedBtn.addEventListener('click', () => {
             SoundFX.playSubTab();
-            listenCategory = 'SAVED';
+            listenCategory = 'SAVED'; listenSetIndex = 0;
             renderListening();
             if (listenQuizState.active) startListeningQuiz();
           });
@@ -12538,9 +13414,21 @@ button {
         btn.className = 'listen-level-btn seg-btn' + (active ? ' is-active' : '') + (active && lvl === '1급' ? ' is-g1' : '') + (active && lvl === '2급' ? ' is-g2' : '');
       });
 
-      const list = getFilteredListening();
+      const fullList = getFilteredListening();
+      const setInfo = slicePassageSet(fullList, listenSetIndex);
+      if (setInfo.isSplit && listenSetIndex !== -1) listenSetIndex = setInfo.activeSet;
+      else if (!setInfo.isSplit) listenSetIndex = 0;
+      renderPassageSubSetBar('listen-subset-bar', 'listening', fullList, listenFilter, listenCategory, listenSetIndex, nextIdx => {
+        listenSetIndex = nextIdx; renderListening();
+        if (listenQuizState.active) startListeningQuiz();
+      });
+      const list = setInfo.items;
       const cntEl = document.getElementById('listen-item-count');
-      if (cntEl) cntEl.textContent = 'Showing ' + list.length + ' of ' + LISTENING_DATA.length + ' TOPIK I listening scenarios';
+      if (cntEl) {
+        cntEl.textContent = setInfo.isSplit && listenSetIndex !== -1
+          ? 'Set ' + (setInfo.activeSet + 1) + ' (' + setInfo.start + '–' + setInfo.end + ') of ' + fullList.length + ' matching scenarios (' + LISTENING_DATA.length + ' total)'
+          : 'Showing ' + list.length + ' of ' + LISTENING_DATA.length + ' TOPIK I listening scenarios';
+      }
 
       const container = document.getElementById('listen-study-view');
       if (!container) return;
@@ -12663,7 +13551,9 @@ button {
     }
 
     function startListeningQuiz(customQueue = null) {
-      const pool = (customQueue && customQueue.length) ? customQueue : getFilteredListening();
+      const fullList = getFilteredListening();
+      const setInfo = slicePassageSet(fullList, listenSetIndex);
+      const pool = (customQueue && customQueue.length) ? customQueue : setInfo.items;
       if (pool.length === 0) {
         if (listenQuizState.active) exitListeningQuiz();
         showToast('No matching listening scenarios to launch Simulator.');
@@ -12712,7 +13602,7 @@ button {
       const attempted = listenQuizState.correct + listenQuizState.mistakes.length;
       const pct = attempted > 0 ? Math.round((listenQuizState.correct / attempted) * 100) : 0;
       const cleared = !listenQuizState.isMistakesReview && didClearSet(listenQuizState.correct, attempted, listenQuizState.queue.length);
-      if (cleared) markSetCompleted('listening', listenFilter, listenCategory, 0);
+      if (cleared) markSetCompleted('listening', listenFilter, listenCategory, listenSetIndex >= 0 ? listenSetIndex : 0);
       updateQuizProgressUI('listen', listenQuizState.queue.length, listenQuizState.queue.length, listenQuizState.correct, attempted);
       document.getElementById('listen-quiz-summary').textContent =
         'Score: ' + listenQuizState.correct + ' / ' + attempted + ' (' + pct + '% accuracy • ' + listenQuizState.queue.length + ' scenarios)'
@@ -12849,7 +13739,7 @@ button {
       for (let i = 0; i < totalSets; i++) if (completedSets.has(getSetKey(mod, lvl, cat, i))) doneCount++;
       wrap.innerHTML =
         '<div class="subset-head">' +
-          '<span class="subset-kicker">Reading Practice Sets &bull; ' + PASSAGE_SET_SIZE + ' per set</span>' +
+          '<span class="subset-kicker">' + (mod === 'listening' ? 'Listening' : 'Reading') + ' Practice Sets &bull; ' + PASSAGE_SET_SIZE + ' per set</span>' +
           '<span class="subset-progress">' + doneCount + ' / ' + totalSets + ' sets cleared</span>' +
         '</div><div class="subset-track"></div>';
       const track = wrap.querySelector('.subset-track');
@@ -13227,9 +14117,12 @@ button {
     // 11A-3. TIMED TOPIK I 200-POINT MOCK EXAM SIMULATOR (모의시험)
     // =========================================================================
     const EXAM_PRESETS = Object.freeze({
-      topikfull:   Object.freeze({ key: 'topikfull', title: 'Full Official TOPIK I (70 Qs)', level: 'ALL', durationSec: 100 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 30, hanja: 4, vocab: 6, conj: 4, gram: 10, read: 16 }) }),
-      topiksprint: Object.freeze({ key: 'topiksprint', title: 'Quick TOPIK I Mini-Mock', level: 'ALL', durationSec: 15 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 6, hanja: 1, vocab: 2, conj: 1, gram: 3, read: 2 }) }),
-      topik1:      Object.freeze({ key: 'topik1', title: 'TOPIK 1급 Foundation Exam', level: '1급', durationSec: 25 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 10, hanja: 2, vocab: 3, conj: 2, gram: 4, read: 4 }) })
+      topikfull:   Object.freeze({ key: 'topikfull', title: 'Full Official TOPIK I (70 Qs)', level: 'ALL', mode: 'full', maxScore: 200, durationSec: 100 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 30, hanja: 4, vocab: 6, conj: 4, gram: 10, read: 16 }) }),
+      topik2hard:  Object.freeze({ key: 'topik2hard', title: 'TOPIK 2급 Challenge Exam', level: '2급', mode: 'full', maxScore: 200, durationSec: 70 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 20, hanja: 2, vocab: 4, conj: 3, gram: 7, read: 14 }) }),
+      topiksprint: Object.freeze({ key: 'topiksprint', title: 'Quick TOPIK I Mini-Mock', level: 'ALL', mode: 'full', maxScore: 200, durationSec: 15 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 6, hanja: 1, vocab: 2, conj: 1, gram: 3, read: 2 }) }),
+      topiklisten: Object.freeze({ key: 'topiklisten', title: 'Official 듣기 Listening Exam (30 Qs)', level: 'ALL', mode: 'listen', maxScore: 100, durationSec: 40 * 60, passG1: 40, passG2: 70, counts: Object.freeze({ listen: 30, hanja: 0, vocab: 0, conj: 0, gram: 0, read: 0 }) }),
+      topikread:   Object.freeze({ key: 'topikread', title: 'Official 읽기 Reading Exam (40 Qs)', level: 'ALL', mode: 'read', maxScore: 100, durationSec: 60 * 60, passG1: 40, passG2: 70, counts: Object.freeze({ listen: 0, hanja: 3, vocab: 5, conj: 4, gram: 10, read: 18 }) }),
+      topik1:      Object.freeze({ key: 'topik1', title: 'TOPIK 1급 Foundation Exam', level: '1급', mode: 'full', maxScore: 200, durationSec: 25 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 10, hanja: 2, vocab: 3, conj: 2, gram: 4, read: 4 }) })
     });
 
     const mockExamState = {
@@ -13240,14 +14133,18 @@ button {
 
     function sanitizeExamHistoryList(arr) {
       if (!Array.isArray(arr)) return [];
-      return arr.slice(0, 8).filter(h => h && typeof h === 'object').map(h => ({
-        title: sanitizeShortText(h.title, 70) || 'TOPIK I Mock',
-        date: sanitizeShortText(h.date, 24),
-        listenScore: clampInt(h.listenScore, 0, 100, 0),
-        readScore: clampInt(h.readScore, 0, 100, 0),
-        totalScore: clampInt(h.totalScore, 0, 200, 0),
-        grade: sanitizeShortText(h.grade, 20) || '재도전'
-      }));
+      return arr.slice(0, 10).filter(h => h && typeof h === 'object').map(h => {
+        const maxScore = [100, 200].includes(Number(h.maxScore)) ? Number(h.maxScore) : 200;
+        return {
+          title: sanitizeShortText(h.title, 70) || 'TOPIK I Mock',
+          date: sanitizeShortText(h.date, 24),
+          maxScore,
+          listenScore: clampInt(h.listenScore, 0, 100, 0),
+          readScore: clampInt(h.readScore, 0, 100, 0),
+          totalScore: clampInt(h.totalScore, 0, maxScore, 0),
+          grade: sanitizeShortText(h.grade, 20) || '재도전'
+        };
+      });
     }
 
     function loadExamHistory() {
@@ -13416,14 +14313,17 @@ button {
         } else {
           histCard.classList.remove('hidden');
           histList.innerHTML = mockExamState.history.map(h => {
+            const maxSc = [100, 200].includes(Number(h.maxScore)) ? Number(h.maxScore) : 200;
             const lSc = clampInt(h.listenScore, 0, 100, 0);
             const rSc = clampInt(h.readScore, 0, 100, 0);
-            const tSc = clampInt(h.totalScore, 0, 200, 0);
+            const tSc = clampInt(h.totalScore, 0, maxSc, 0);
+            const g2Cut = maxSc === 200 ? 140 : 70;
+            const g1Cut = maxSc === 200 ? 80 : 40;
             return '<div class="exam-hist-row">' +
               '<div><span>' + escapeHtml(h.title) + '</span> <span style="color:var(--ink-muted);font-weight:600">(' + escapeHtml(h.date) + ')</span></div>' +
               '<div style="display:flex;align-items:center;gap:8px">' +
-                '<span style="color:var(--ink-secondary)">듣기 ' + lSc + '/100 &bull; 읽기 ' + rSc + '/100</span>' +
-                '<span class="badge ' + (tSc >= 140 ? 'badge-g2' : (tSc >= 80 ? 'badge-g1' : 'badge-soft')) + '">' + tSc + ' / 200 ' + escapeHtml(h.grade) + '</span>' +
+                (maxSc === 200 ? '<span style="color:var(--ink-secondary)">듣기 ' + lSc + '/100 &bull; 읽기 ' + rSc + '/100</span>' : '') +
+                '<span class="badge ' + (tSc >= g2Cut ? 'badge-g2' : (tSc >= g1Cut ? 'badge-g1' : 'badge-soft')) + '">' + tSc + ' / ' + maxSc + ' ' + escapeHtml(h.grade) + '</span>' +
               '</div>' +
             '</div>';
           }).join('');
@@ -13590,22 +14490,25 @@ button {
         if (!isRight) missed.push(q);
       });
 
+      const maxScore = preset.maxScore || 200;
       const listenScore = listenTotal > 0 ? Math.round((listenOk / listenTotal) * 100) : 0;
       const readScore = readTotal > 0 ? Math.round((readOk / readTotal) * 100) : 0;
-      const totalScore = listenScore + readScore;
+      const totalScore = preset.mode === 'listen' ? listenScore : (preset.mode === 'read' ? readScore : (listenScore + readScore));
       const passedG2 = totalScore >= preset.passG2;
       const passedG1 = totalScore >= preset.passG1;
       const gradeLabel = passedG2 ? '2급 합격' : (passedG1 ? '1급 합격' : '재도전');
 
       StudyProgress.examsCompleted = (StudyProgress.examsCompleted || 0) + 1;
-      if (totalScore > (StudyProgress.bestExamScore || 0)) StudyProgress.bestExamScore = totalScore;
-      if (passedG1) StudyProgress.passedTopik1 = true;
-      if (passedG2) StudyProgress.passedTopik2 = true;
+      if (maxScore === 200) {
+        if (totalScore > (StudyProgress.bestExamScore || 0)) StudyProgress.bestExamScore = totalScore;
+        if (passedG1) StudyProgress.passedTopik1 = true;
+        if (passedG2) StudyProgress.passedTopik2 = true;
+      }
       StudyProgress.save();
       awardXP(passedG2 ? 90 : (passedG1 ? 65 : 35), passedG1);
 
       const todayStr = new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-      mockExamState.history.unshift({ title: preset.title, date: todayStr, listenScore, readScore, totalScore, grade: gradeLabel });
+      mockExamState.history.unshift({ title: preset.title, date: todayStr, maxScore, listenScore, readScore, totalScore, grade: gradeLabel });
       saveExamHistory();
 
       const navEx = document.getElementById('nav-count-exam');
@@ -13624,27 +14527,38 @@ button {
         preset.title + ' — ' + (passedG2 ? 'TOPIK I · 2급 PASSED (합격)!' : (passedG1 ? 'TOPIK I · 1급 PASSED (합격)!' : 'NEEDS REVIEW (조금 더 힘내요!)'));
       document.getElementById('exam-cert-sub').textContent =
         passedG2
-          ? 'Outstanding! You cleared the official TOPIK I Grade 2 threshold (≥ 140 / 200 points)!'
+          ? 'Outstanding! You cleared the TOPIK I Grade 2 threshold (≥ ' + preset.passG2 + ' / ' + maxScore + ' points)!'
           : (passedG1
-              ? 'Great work! You passed TOPIK I Grade 1 (≥ 80 / 200). Reach 140+ points for Grade 2 certification!'
-              : 'Official TOPIK I Pass Marks: Grade 1 ≥ 80 / 200 • Grade 2 ≥ 140 / 200.');
+              ? 'Great work! You passed TOPIK I Grade 1 (≥ ' + preset.passG1 + ' / ' + maxScore + '). Reach ' + preset.passG2 + '+ points for Grade 2!'
+              : 'Pass Marks: Grade 1 ≥ ' + preset.passG1 + ' / ' + maxScore + ' • Grade 2 ≥ ' + preset.passG2 + ' / ' + maxScore + '.');
 
-      document.getElementById('exam-score-grid').innerHTML =
-        '<div class="exam-score-box">' +
-          '<span class="prog-stat-lbl">듣기 (Listening)</span>' +
-          '<span class="prog-stat-val">' + listenScore + ' / 100</span>' +
-          '<span style="font-size:11px;font-weight:700;color:var(--ink-secondary)">Raw ' + listenOk + '/' + listenTotal + '</span>' +
-        '</div>' +
-        '<div class="exam-score-box">' +
-          '<span class="prog-stat-lbl">읽기 (Reading &amp; Lang)</span>' +
-          '<span class="prog-stat-val">' + readScore + ' / 100</span>' +
-          '<span style="font-size:11px;font-weight:700;color:var(--ink-secondary)">Raw ' + readOk + '/' + readTotal + '</span>' +
-        '</div>' +
+      const scoreBoxes = [];
+      if (listenTotal > 0) {
+        scoreBoxes.push(
+          '<div class="exam-score-box">' +
+            '<span class="prog-stat-lbl">듣기 (Listening)</span>' +
+            '<span class="prog-stat-val">' + listenScore + ' / 100</span>' +
+            '<span style="font-size:11px;font-weight:700;color:var(--ink-secondary)">Raw ' + listenOk + '/' + listenTotal + '</span>' +
+          '</div>'
+        );
+      }
+      if (readTotal > 0) {
+        scoreBoxes.push(
+          '<div class="exam-score-box">' +
+            '<span class="prog-stat-lbl">읽기 (Reading &amp; Lang)</span>' +
+            '<span class="prog-stat-val">' + readScore + ' / 100</span>' +
+            '<span style="font-size:11px;font-weight:700;color:var(--ink-secondary)">Raw ' + readOk + '/' + readTotal + '</span>' +
+          '</div>'
+        );
+      }
+      scoreBoxes.push(
         '<div class="exam-score-box">' +
           '<span class="prog-stat-lbl">총점 (Total Scaled)</span>' +
-          '<span class="prog-stat-val" style="color:' + (passedG1 ? 'var(--ok-ink)' : 'var(--mod-ink)') + '">' + totalScore + ' / 200</span>' +
+          '<span class="prog-stat-val" style="color:' + (passedG1 ? 'var(--ok-ink)' : 'var(--mod-ink)') + '">' + totalScore + ' / ' + maxScore + '</span>' +
           '<span style="font-size:11px;font-weight:800;color:' + (passedG1 ? 'var(--ok-ink)' : 'var(--ink-muted)') + '">' + escapeHtml(gradeLabel) + '</span>' +
-        '</div>';
+        '</div>'
+      );
+      document.getElementById('exam-score-grid').innerHTML = scoreBoxes.join('');
 
       const mTitle = document.getElementById('exam-mistakes-title');
       const mList = document.getElementById('exam-review-list');
@@ -14637,7 +15551,7 @@ button {
           '#grammar-list', '#gram-category-pills', '#gram-subset-bar',
           '#vocab-quick-list', '#vocab-category-pills', '#vocab-subset-bar', '#vocab-tense-grid',
           '#reading-study-view', '#reading-category-pills', '#reading-subset-bar',
-          '#listen-study-view', '#listen-category-pills',
+          '#listen-study-view', '#listen-category-pills', '#listen-subset-bar',
           '#roadmap-stages-list', '#roadmap-stage-pills',
           '#progress-stats-grid', '#progress-dojang-grid', '#progress-modules-list', '#petal-layer'
         ].forEach(sel => {
@@ -14883,12 +15797,12 @@ button {
       document.querySelectorAll('.listen-level-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           SoundFX.playSubTab();
-          listenFilter = btn.dataset.listenLevel; renderListening();
+          listenFilter = btn.dataset.listenLevel; listenSetIndex = 0; renderListening();
           if (listenQuizState.active) startListeningQuiz();
         });
       });
       const debouncedListenSearch = debounce(val => {
-        listenSearch = val; renderListening();
+        listenSearch = val; listenSetIndex = 0; renderListening();
         if (listenQuizState.active) startListeningQuiz();
       }, 120);
       document.getElementById('listen-search')?.addEventListener('input', e => {
@@ -14898,7 +15812,7 @@ button {
       document.getElementById('listen-search-clear')?.addEventListener('click', () => {
         const inp = document.getElementById('listen-search'); if (inp) { inp.value = ''; inp.focus(); }
         updateSearchClearBtn('listen-search', 'listen-search-clear');
-        listenSearch = ''; renderListening();
+        listenSearch = ''; listenSetIndex = 0; renderListening();
         if (listenQuizState.active) startListeningQuiz();
       });
       document.getElementById('listen-quiz-toggle')?.addEventListener('click', () => {

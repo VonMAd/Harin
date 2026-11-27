@@ -6,7 +6,7 @@
 
 - **Zero Server / Zero Database / Zero Third-Party Scripts:** No backend server, no external JS/CSS CDNs, no npm supply-chain dependencies, no analytics, no ad trackers, and no cookies.
 - **Strict SHA-256 Content-Security-Policy (CSP):**
-  - `default-src 'none'` with an exact cryptographic script hash (`script-src 'sha256-fK7E3X0M8OGnKlUzbYPEvOlLEP1ZYvmkhD5+r9sC0Y4='`) that blocks all injected inline scripts, `eval()`, `new Function()`, inline `on*=` attributes, and external script loads.
+  - `default-src 'none'` with an exact cryptographic script hash (`script-src 'sha256-5vlXZrC9/N7/Q4uoeNX/58qCRb7Sh/ULj9GE6s1hUII='`) that blocks all injected inline scripts, `eval()`, `new Function()`, inline `on*=` attributes, and external script loads.
   - `object-src 'none'`, `child-src 'none'`, `frame-src 'none'`, `base-uri 'none'`, `form-action 'none'`, `worker-src 'none'`, `manifest-src 'none'`, and `upgrade-insecure-requests`.
   - Network connections (`connect-src`) are locked strictly to the 4 optional user-initiated TTS API hosts (`texttospeech.googleapis.com`, `api.openai.com`, `*.tts.speech.microsoft.com`, `api.elevenlabs.io`).
 - **Clickjacking & Framing Defense:** Runtime `enforceFrameSafety()` hides and clears the DOM if framed by any untrusted external origin.
@@ -26,9 +26,9 @@ You can cryptographically verify that your local `Harin.html` or `index.html` ma
 
 | File | SHA-256 |
 | --- | --- |
-| `Harin.html` | `527ac826a580315a412c2ee2fbb2543e7b06b22f43cd81b254d67b828bd1bfea` |
-| `index.html` | `527ac826a580315a412c2ee2fbb2543e7b06b22f43cd81b254d67b828bd1bfea` |
-| Inline `<script>` CSP Digest | `sha256-fK7E3X0M8OGnKlUzbYPEvOlLEP1ZYvmkhD5+r9sC0Y4=` |
+| `Harin.html` | `e4ce3446fb7a9b04f4c53d6696c136e211ece6af43622202f2c58e3db603eecc` |
+| `index.html` | `e4ce3446fb7a9b04f4c53d6696c136e211ece6af43622202f2c58e3db603eecc` |
+| Inline `<script>` CSP Digest | `sha256-5vlXZrC9/N7/Q4uoeNX/58qCRb7Sh/ULj9GE6s1hUII=` |
 
 **Windows (PowerShell):**
 ```powershell
