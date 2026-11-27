@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-itVbFrD7CAGPsLvd1MxA7UZoVKZDd+VrnkoFB4WKkHI='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://translate.googleapis.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TEdCS0TCkkolFDyuVVYiJiaRMI+ATYJM+BCB4WHYvhY='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://translate.googleapis.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
   <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,850+ official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 45 Reading passages (including Ordering, Insertion &amp; Blanks), 40 Listening scenarios, and an Official 70-Question 200-Point TOPIK I Mock Exam." />
   <title>Harin (하린 · 夏凜) — TOPIK I (1급–2급) Korean Studio</title>
   <style>
@@ -4193,6 +4194,7 @@ button {
           const allowedFrame = !ref || /^(https?:\/\/(localhost|127\.0\.0\.1|vonmad\.github\.io)([:/]|$)|file:|vscode-webview:|chrome-extension:)/i.test(ref);
           if (!allowedFrame) {
             document.documentElement.style.display = 'none';
+            try { document.documentElement.replaceChildren(); } catch (e) {}
             try { window.top.location = window.self.location.href; } catch (e) {}
           }
         }
@@ -4200,6 +4202,7 @@ button {
         // Cross-origin frame access error when referrer is empty in sandboxed preview is safe; only hide if untrusted http referrer
         if (/^https?:\/\//i.test(String(document.referrer || ''))) {
           document.documentElement.style.display = 'none';
+          try { document.documentElement.replaceChildren(); } catch (err) {}
         }
       }
     })();
@@ -4215,6 +4218,16 @@ button {
       } catch (e) {
         return fallback;
       }
+    }
+
+    function clampInt(val, min, max, fallback = 0) {
+      const n = Number(val);
+      if (!Number.isFinite(n)) return fallback;
+      return Math.min(max, Math.max(min, Math.round(n)));
+    }
+
+    function sanitizeShortText(val, maxLen = 80) {
+      return String(val ?? '').replace(/[\u0000-\u001F\u007F<>]/g, '').trim().slice(0, maxLen);
     }
 
     // =========================================================================
@@ -5041,13 +5054,15 @@ button {
         }
       }
     };
+    Object.freeze(VOICE_PROVIDERS);
+    Object.values(VOICE_PROVIDERS).forEach(p => { Object.freeze(p); if (p.presets) Object.freeze(p.presets); });
 
-    const VOICE_TONES = {
-      warm:   { rateMul: 0.94, pitch: 1.03, volume: 0.92, label: 'Warm & Friendly (언니 톤)' },
-      gentle: { rateMul: 0.90, pitch: 1.06, volume: 0.90, label: 'Gentle & Sweet' },
-      soft:   { rateMul: 0.85, pitch: 0.95, volume: 0.86, label: 'Soft & Calm' },
-      crisp:  { rateMul: 1.00, pitch: 1.00, volume: 0.95, label: 'TOPIK Exam Announcer' }
-    };
+    const VOICE_TONES = Object.freeze({
+      warm:   Object.freeze({ rateMul: 0.94, pitch: 1.03, volume: 0.92, label: 'Warm & Friendly (언니 톤)' }),
+      gentle: Object.freeze({ rateMul: 0.90, pitch: 1.06, volume: 0.90, label: 'Gentle & Sweet' }),
+      soft:   Object.freeze({ rateMul: 0.85, pitch: 0.95, volume: 0.86, label: 'Soft & Calm' }),
+      crisp:  Object.freeze({ rateMul: 1.00, pitch: 1.00, volume: 0.95, label: 'TOPIK Exam Announcer' })
+    });
 
     const HarinVoice = {
       config: {
@@ -5264,6 +5279,7 @@ button {
           if (mySeq !== this.speakSeq) { resolve(false); return; }
           const audio = new Audio();
           audio.preload = 'auto';
+          audio.referrerPolicy = 'no-referrer';
           audio.src = url;
           audio.preservesPitch = true;
           audio.mozPreservesPitch = true;
@@ -5443,13 +5459,24 @@ button {
       async fetchProviderAudioBlob(text, signal) {
         const p = this.config.provider;
         const apiKey = (this.config.keys[p] || '').trim();
+        if (!/^[!-~]{8,256}$/.test(apiKey)) throw new Error('Invalid API key format');
         const tone = this.getToneProfile();
         const isWarm = this.config.tone === 'warm' || this.config.tone === 'gentle';
         const speed = Math.min(1.25, Math.max(0.75, (Number(this.config.speed) || 1) * tone.rateMul));
+        const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
+        const safeFetchOpts = { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'no-store', redirect: 'error' };
+        const validateAudioBlob = async (res) => {
+          const blob = await res.blob();
+          if (!blob || blob.size === 0 || blob.size > MAX_AUDIO_BYTES) throw new Error('Audio payload rejected');
+          if (blob.type && !/^(audio\/|application\/octet-stream)/i.test(blob.type)) throw new Error('Unexpected media type');
+          return blob;
+        };
 
         if (p === 'google') {
-          const voiceName = this.config.presets.google || 'ko-KR-Neural2-A';
+          const rawVoice = String(this.config.presets.google || 'ko-KR-Neural2-A');
+          const voiceName = /^[A-Za-z0-9-]{4,48}$/.test(rawVoice) ? rawVoice : 'ko-KR-Neural2-A';
           const res = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${encodeURIComponent(apiKey)}`, {
+            ...safeFetchOpts,
             method: 'POST',
             signal,
             headers: { 'Content-Type': 'application/json' },
@@ -5461,6 +5488,9 @@ button {
           });
           if (!res.ok) throw new Error(`Google TTS HTTP ${res.status}`);
           const data = await res.json();
+          if (!data || typeof data.audioContent !== 'string' || data.audioContent.length > 14000000) {
+            throw new Error('Invalid Google TTS response');
+          }
           const bin = atob(data.audioContent);
           const bytes = new Uint8Array(bin.length);
           for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -5468,8 +5498,10 @@ button {
         }
 
         if (p === 'openai') {
-          const voice = this.config.presets.openai || 'coral';
+          const rawVoice = String(this.config.presets.openai || 'coral');
+          const voice = /^[a-z]{2,24}$/.test(rawVoice) ? rawVoice : 'coral';
           const res = await fetch('https://api.openai.com/v1/audio/speech', {
+            ...safeFetchOpts,
             method: 'POST',
             signal,
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
@@ -5484,7 +5516,7 @@ button {
             })
           });
           if (!res.ok) throw new Error(`OpenAI TTS HTTP ${res.status}`);
-          return await res.blob();
+          return await validateAudioBlob(res);
         }
 
         if (p === 'azure') {
@@ -5497,6 +5529,7 @@ button {
           const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&apos;').replace(/"/g, '&quot;');
           const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='https://www.w3.org/2001/mstts' xml:lang='ko-KR'><voice xml:lang='ko-KR' xml:gender='Female' name='${voice}'><prosody rate='${ratePct}' pitch='${pitchPct}'>${escaped}</prosody></voice></speak>`;
           const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+            ...safeFetchOpts,
             method: 'POST',
             signal,
             headers: {
@@ -5507,7 +5540,7 @@ button {
             body: ssml
           });
           if (!res.ok) throw new Error(`Azure Speech HTTP ${res.status}`);
-          return await res.blob();
+          return await validateAudioBlob(res);
         }
 
         if (p === 'elevenlabs') {
@@ -5516,6 +5549,7 @@ button {
           const candidateId = customId || (preset === 'custom' ? 'EXAVITQu4vr4xnSDxMaL' : preset);
           const voiceId = /^[A-Za-z0-9]{10,48}$/.test(candidateId) ? candidateId : 'EXAVITQu4vr4xnSDxMaL';
           const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}`, {
+            ...safeFetchOpts,
             method: 'POST',
             signal,
             headers: { 'Content-Type': 'application/json', 'xi-api-key': apiKey, 'Accept': 'audio/mpeg' },
@@ -5526,7 +5560,7 @@ button {
             })
           });
           if (!res.ok) throw new Error(`ElevenLabs HTTP ${res.status}`);
-          return await res.blob();
+          return await validateAudioBlob(res);
         }
         return null;
       },
@@ -8637,11 +8671,11 @@ button {
     // =========================================================================
     // 6. STATE, PRE-INDEXED SEARCH & UTILITIES
     // =========================================================================
-    const STUDY_TARGETS = {
-      hanja: { g1Min: 150, g1Max: 200, g2CumMin: 300, g2CumMax: 380 },
-      grammar: { g1Min: 70, g1Max: 90, g2CumMin: 150, g2CumMax: 175 },
-      vocabs: { g1Min: 800, g1Max: 860, g2CumMin: 1800, g2CumMax: 1850 }
-    };
+    const STUDY_TARGETS = Object.freeze({
+      hanja: Object.freeze({ g1Min: 150, g1Max: 200, g2CumMin: 300, g2CumMax: 380 }),
+      grammar: Object.freeze({ g1Min: 70, g1Max: 90, g2CumMin: 150, g2CumMax: 175 }),
+      vocabs: Object.freeze({ g1Min: 800, g1Max: 860, g2CumMin: 1800, g2CumMax: 1850 })
+    });
 
     const SET_SIZE = 50;
     const TAB_ORDER = ['roadmap', 'hangul', 'batchim', 'hanja', 'grammar', 'vocabs', 'reading', 'listening', 'exam'];
@@ -13183,11 +13217,11 @@ button {
     // =========================================================================
     // 11A-3. TIMED TOPIK I 200-POINT MOCK EXAM SIMULATOR (모의시험)
     // =========================================================================
-    const EXAM_PRESETS = {
-      topikfull:   { key: 'topikfull', title: 'Full Official TOPIK I (70 Qs)', level: 'ALL', durationSec: 100 * 60, passG1: 80, passG2: 140, counts: { listen: 30, hanja: 4, vocab: 6, conj: 4, gram: 10, read: 16 } },
-      topiksprint: { key: 'topiksprint', title: 'Quick TOPIK I Mini-Mock', level: 'ALL', durationSec: 15 * 60, passG1: 80, passG2: 140, counts: { listen: 6, hanja: 1, vocab: 2, conj: 1, gram: 3, read: 2 } },
-      topik1:      { key: 'topik1', title: 'TOPIK 1급 Foundation Exam', level: '1급', durationSec: 25 * 60, passG1: 80, passG2: 140, counts: { listen: 10, hanja: 2, vocab: 3, conj: 2, gram: 4, read: 4 } }
-    };
+    const EXAM_PRESETS = Object.freeze({
+      topikfull:   Object.freeze({ key: 'topikfull', title: 'Full Official TOPIK I (70 Qs)', level: 'ALL', durationSec: 100 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 30, hanja: 4, vocab: 6, conj: 4, gram: 10, read: 16 }) }),
+      topiksprint: Object.freeze({ key: 'topiksprint', title: 'Quick TOPIK I Mini-Mock', level: 'ALL', durationSec: 15 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 6, hanja: 1, vocab: 2, conj: 1, gram: 3, read: 2 }) }),
+      topik1:      Object.freeze({ key: 'topik1', title: 'TOPIK 1급 Foundation Exam', level: '1급', durationSec: 25 * 60, passG1: 80, passG2: 140, counts: Object.freeze({ listen: 10, hanja: 2, vocab: 3, conj: 2, gram: 4, read: 4 }) })
+    });
 
     const mockExamState = {
       timed: true, instantFeedback: false, active: false, paused: false,
@@ -13195,12 +13229,24 @@ button {
       remainingSec: 0, timerId: null, history: []
     };
 
+    function sanitizeExamHistoryList(arr) {
+      if (!Array.isArray(arr)) return [];
+      return arr.slice(0, 8).filter(h => h && typeof h === 'object').map(h => ({
+        title: sanitizeShortText(h.title, 70) || 'TOPIK I Mock',
+        date: sanitizeShortText(h.date, 24),
+        listenScore: clampInt(h.listenScore, 0, 100, 0),
+        readScore: clampInt(h.readScore, 0, 100, 0),
+        totalScore: clampInt(h.totalScore, 0, 200, 0),
+        grade: sanitizeShortText(h.grade, 20) || '재도전'
+      }));
+    }
+
     function loadExamHistory() {
       try {
         const raw = SafeStore.getItem('harin_exam_history_v1');
         if (raw) {
           const parsed = safeJsonParse(raw);
-          if (Array.isArray(parsed)) mockExamState.history = parsed.slice(0, 8);
+          mockExamState.history = sanitizeExamHistoryList(parsed);
         }
       } catch (e) {}
     }
@@ -13360,15 +13406,18 @@ button {
           histCard.classList.add('hidden');
         } else {
           histCard.classList.remove('hidden');
-          histList.innerHTML = mockExamState.history.map(h =>
-            '<div class="exam-hist-row">' +
+          histList.innerHTML = mockExamState.history.map(h => {
+            const lSc = clampInt(h.listenScore, 0, 100, 0);
+            const rSc = clampInt(h.readScore, 0, 100, 0);
+            const tSc = clampInt(h.totalScore, 0, 200, 0);
+            return '<div class="exam-hist-row">' +
               '<div><span>' + escapeHtml(h.title) + '</span> <span style="color:var(--ink-muted);font-weight:600">(' + escapeHtml(h.date) + ')</span></div>' +
               '<div style="display:flex;align-items:center;gap:8px">' +
-                '<span style="color:var(--ink-secondary)">듣기 ' + h.listenScore + '/100 &bull; 읽기 ' + h.readScore + '/100</span>' +
-                '<span class="badge ' + (h.totalScore >= 140 ? 'badge-g2' : (h.totalScore >= 80 ? 'badge-g1' : 'badge-soft')) + '">' + h.totalScore + ' / 200 ' + escapeHtml(h.grade) + '</span>' +
+                '<span style="color:var(--ink-secondary)">듣기 ' + lSc + '/100 &bull; 읽기 ' + rSc + '/100</span>' +
+                '<span class="badge ' + (tSc >= 140 ? 'badge-g2' : (tSc >= 80 ? 'badge-g1' : 'badge-soft')) + '">' + tSc + ' / 200 ' + escapeHtml(h.grade) + '</span>' +
               '</div>' +
-            '</div>'
-          ).join('');
+            '</div>';
+          }).join('');
         }
       }
     }
@@ -13776,20 +13825,20 @@ button {
     // =========================================================================
     // 11C. SMART SPACED REPETITION ENGINE (HarinSRS) & 5-STAGE TOPIK I ROADMAP
     // =========================================================================
-    const SRS_INTERVALS_MS = {
+    const SRS_INTERVALS_MS = Object.freeze({
       1: 5 * 60 * 1000,
       2: 12 * 60 * 60 * 1000,
       3: 3 * 24 * 60 * 60 * 1000,
       4: 7 * 24 * 60 * 60 * 1000,
       5: 21 * 24 * 60 * 60 * 1000
-    };
-    const SRS_BOX_LABELS = {
+    });
+    const SRS_BOX_LABELS = Object.freeze({
       1: 'Box 1 • Learning (5m)',
       2: 'Box 2 • Short-Term (12h)',
       3: 'Box 3 • Consolidating (3d)',
       4: 'Box 4 • Strong Recall (7d)',
       5: 'Box 5 • Mastered (21d)'
-    };
+    });
 
     const HarinSRS = {
       items: {},
@@ -14451,24 +14500,67 @@ button {
         const reader = new FileReader();
         reader.onload = () => {
           const data = safeJsonParse(String(reader.result || ''), null, 262144);
-          if (!data || data.app !== 'Harin-TOPIK1-Studio' || typeof data.progress !== 'object') {
+          if (!data || data.app !== 'Harin-TOPIK1-Studio' || !data.progress || typeof data.progress !== 'object' || Array.isArray(data.progress)) {
             showToast('Invalid or unrecognized Harin backup file.');
             return;
           }
-          SafeStore.setItem('harin_progress_v1', JSON.stringify(data.progress));
+          // Strict allowlisted schema sanitization before writing to storage
+          const p = data.progress;
+          const cleanStrList = (arr) => Array.isArray(arr)
+            ? arr.filter(x => typeof x === 'string' && x.length > 0 && x.length <= 120).slice(0, 3000)
+            : [];
+          const safeDate = (s) => (typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s)) ? s : '';
+          const safeProgress = {
+            xp: clampInt(p.xp, 0, 10000000, 0),
+            streak: clampInt(p.streak, 0, 100000, 0),
+            bestStreak: clampInt(p.bestStreak, 0, 100000, 0),
+            answered: clampInt(p.answered, 0, 10000000, 0),
+            correct: clampInt(p.correct, 0, 10000000, 0),
+            dailyXp: clampInt(p.dailyXp, 0, 1000000, 0),
+            dailyGoal: [100, 150, 300].includes(Number(p.dailyGoal)) ? Number(p.dailyGoal) : 150,
+            dayStreak: clampInt(p.dayStreak, 0, 10000, 0),
+            lastStudyDate: safeDate(p.lastStudyDate),
+            goalCelebratedDate: safeDate(p.goalCelebratedDate),
+            bestExamScore: clampInt(p.bestExamScore, 0, 200, 0),
+            examsCompleted: clampInt(p.examsCompleted, 0, 100000, 0),
+            passedTopik1: Boolean(p.passedTopik1),
+            passedTopik2: Boolean(p.passedTopik2),
+            readingSolved: clampInt(p.readingSolved, 0, 100000, 0),
+            saved: {
+              hanja: cleanStrList(p.saved && p.saved.hanja),
+              grammar: cleanStrList(p.saved && p.saved.grammar),
+              vocabs: cleanStrList(p.saved && p.saved.vocabs),
+              reading: cleanStrList(p.saved && p.saved.reading),
+              listening: cleanStrList(p.saved && p.saved.listening)
+            }
+          };
+          SafeStore.setItem('harin_progress_v1', JSON.stringify(safeProgress));
           if (Array.isArray(data.completedSets)) {
-            const safeSets = data.completedSets.filter(s => typeof s === 'string' && s.length < 120).slice(0, 500);
+            const safeSets = data.completedSets.filter(s => typeof s === 'string' && s.length > 0 && s.length <= 120).slice(0, 500);
             completedSets = new Set(safeSets);
             SafeStore.setItem('harin_completed_sets', JSON.stringify(safeSets));
           }
           if (data.srs && typeof data.srs === 'object') {
+            const safeItems = {};
+            if (data.srs.items && typeof data.srs.items === 'object' && !Array.isArray(data.srs.items)) {
+              const entries = Object.entries(data.srs.items).slice(0, 3000);
+              for (const [k, v] of entries) {
+                if (!/^(hanja|grammar|vocabs|reading|listening):.{1,120}$/.test(k) || !v || typeof v !== 'object') continue;
+                safeItems[k] = {
+                  b: clampInt(v.b, 1, 5, 1),
+                  t: clampInt(v.t, 0, 8640000000000000, Date.now()),
+                  l: clampInt(v.l, 0, 100000, 0),
+                  r: clampInt(v.r, 0, 100000, 0)
+                };
+              }
+            }
             SafeStore.setItem('harin_srs_v1', JSON.stringify({
-              items: (data.srs.items && typeof data.srs.items === 'object') ? data.srs.items : {},
-              totalReviewed: Math.max(0, Number(data.srs.totalReviewed) || 0)
+              items: safeItems,
+              totalReviewed: clampInt(data.srs.totalReviewed, 0, 10000000, 0)
             }));
           }
           if (Array.isArray(data.examHistory)) {
-            SafeStore.setItem('harin_exam_history_v1', JSON.stringify(data.examHistory.slice(0, 8)));
+            SafeStore.setItem('harin_exam_history_v1', JSON.stringify(sanitizeExamHistoryList(data.examHistory)));
           }
           StudyProgress.load();
           HarinSRS.load();
