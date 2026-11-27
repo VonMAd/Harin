@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9FseNCcljK9p0bItYOtiZEGKb0cGonjgbtkC0wENbk8='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-QswborXNGL0zY539MZxmdaNpnACms2JSnvm8xD4FMFY='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://api.github.com https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
   <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,762 official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 70 Reading passages (including Ordering, Insertion &amp; Blanks), 80 Listening scenarios, and a 6-Mode Official TOPIK I Mock Exam Center." />
   <title>Harin (하린 · 夏凜) — TOPIK I (1급–2급) Korean Studio</title>
   <style>
@@ -2813,6 +2813,230 @@ button {
 .dojang-ach-info { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .dojang-ach-title { font-size: 12px; font-weight: 800; color: var(--ink); line-height: 1.25; }
 .dojang-ach-desc { font-size: 10.5px; color: var(--ink-muted); line-height: 1.3; }
+
+/* Cross-Device Sync & Backup Studio */
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.22);
+  flex-shrink: 0;
+  margin-left: 2px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.sync-dot.is-syncing {
+  background: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.28);
+}
+.sync-dot.is-error {
+  background: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.24);
+}
+.sync-incoming-banner {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-raised, var(--surface));
+  border: 2px solid var(--celadon);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sync-incoming-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--celadon);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sync-incoming-meta {
+  font-size: 12px;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+.sync-studio-card {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-recessed);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sync-studio-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sync-studio-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sync-status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink-secondary);
+}
+.sync-status-badge.is-connected {
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.1);
+}
+[data-theme="dark"] .sync-status-badge.is-connected {
+  color: #34d399;
+}
+.sync-status-badge.is-syncing {
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.45);
+  background: rgba(245, 158, 11, 0.12);
+}
+[data-theme="dark"] .sync-status-badge.is-syncing {
+  color: #fbbf24;
+}
+.sync-status-badge.is-error {
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+}
+[data-theme="dark"] .sync-status-badge.is-error {
+  color: #f87171;
+}
+.sync-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.sync-mode-tab {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-secondary);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 7px 8px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  text-align: center;
+}
+.sync-mode-tab:hover {
+  border-color: var(--celadon);
+  color: var(--ink);
+}
+.sync-mode-tab.is-active {
+  background: var(--celadon);
+  color: #fff;
+  border-color: var(--celadon-deep);
+}
+.sync-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sync-note {
+  font-size: 11.5px;
+  color: var(--ink-secondary);
+  line-height: 1.48;
+  margin: 0;
+}
+.sync-field-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.sync-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+}
+.sync-input:focus {
+  border-color: var(--celadon);
+}
+.sync-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  resize: vertical;
+  min-height: 54px;
+  outline: none;
+}
+.sync-textarea:focus {
+  border-color: var(--celadon);
+}
+.sync-check-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+.sync-btn-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.sync-guide {
+  border-radius: 9px;
+  border: 1px dashed var(--border);
+  padding: 7px 10px;
+  background: var(--surface);
+  font-size: 11.5px;
+  color: var(--ink-secondary);
+}
+.sync-guide summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--ink);
+  list-style: none;
+}
+.sync-guide summary::-webkit-details-marker { display: none; }
+.sync-guide ol {
+  margin: 7px 0 2px 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.45;
+}
+.sync-guide code {
+  font-size: 11px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--surface-recessed);
+  color: var(--ink);
+}
+@media (max-width: 560px) {
+  .sync-mode-tabs {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2861,11 +3085,12 @@ button {
       </div>
 
       <div class="header-actions">
-        <button id="xp-pill" type="button" class="xp-pill" title="Open TOPIK I Progress, Daily Goal &amp; Dojang Seals" aria-label="Study Progress Dashboard">
+        <button id="xp-pill" type="button" class="xp-pill" title="Open TOPIK I Progress, Cross-Device Sync &amp; Dojang Seals" aria-label="Study Progress and Sync Dashboard">
           <span class="xp-item"><svg class="ico xp-star"><use href="#i-star"/></svg><span id="xp-count">0</span> XP</span>
           <span class="xp-sep"></span>
           <span class="xp-item"><svg class="ico xp-flame"><use href="#i-flame"/></svg><span id="streak-count">0</span></span>
           <span id="combo-badge" class="combo-pill hidden">1.5x</span>
+          <span id="cloud-sync-dot" class="sync-dot hidden" aria-hidden="true"></span>
         </button>
 
         <button id="srs-header-btn" type="button" class="srs-pill" title="Smart Spaced Repetition Reviews Due" aria-label="Spaced Repetition Reviews">
@@ -4205,7 +4430,7 @@ button {
       <div class="modal-head">
         <div>
           <h3 id="progress-modal-title" class="modal-title">Study Progress &amp; TOPIK I Readiness</h3>
-          <p class="modal-sub">Saved locally in your browser. Clear sets by scoring &ge; 80% accuracy on at least 80% of the set.</p>
+          <p class="modal-sub">Saved locally + cross-device sync across phone, tablet &amp; PC. Clear sets by scoring &ge; 80% accuracy on at least 80% of the set.</p>
         </div>
         <button id="progress-modal-close" type="button" class="icon-btn" aria-label="Close progress dashboard"><svg class="ico"><use href="#i-close"/></svg></button>
       </div>
@@ -4220,12 +4445,84 @@ button {
       </div>
       <div id="progress-modules-list" class="prog-mod-list"></div>
 
-      <div class="prog-saved-row" style="padding:10px 12px;border-radius:10px;background:var(--surface-recessed);border:1px solid var(--border)">
-        <span style="font-size:12px;font-weight:700;color:var(--ink-secondary)">Safe Local Progress Backup (Zero Cloud / Zero Tracking)</span>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button id="progress-export-btn" type="button" class="btn btn-secondary btn-sm"><svg class="ico"><use href="#i-download"/></svg><span>Export Backup (.json)</span></button>
-          <button id="progress-import-btn" type="button" class="btn btn-secondary btn-sm">Import Backup</button>
-          <input id="progress-import-file" type="file" accept=".json,application/json" class="hidden" />
+      <!-- Incoming Magic Sync Link Confirmation Banner -->
+      <div id="sync-incoming-banner" class="sync-incoming-banner hidden" role="status" aria-live="polite">
+        <div class="sync-incoming-title"><svg class="ico"><use href="#i-repeat"/></svg><span>Incoming Cross-Device Progress Detected</span></div>
+        <div id="sync-incoming-summary" class="sync-incoming-meta"></div>
+        <div class="sync-btn-row">
+          <button id="sync-incoming-merge-btn" type="button" class="btn btn-primary btn-sm" style="background:var(--celadon);box-shadow:0 2px 0 var(--celadon-deep)">Smart Merge (Keep Higher)</button>
+          <button id="sync-incoming-replace-btn" type="button" class="btn btn-secondary btn-sm">Replace This Device</button>
+          <button id="sync-incoming-dismiss-btn" type="button" class="btn btn-secondary btn-sm">Dismiss</button>
+        </div>
+      </div>
+
+      <!-- Cross-Device Sync & Backup Studio -->
+      <div class="sync-studio-card">
+        <div class="sync-studio-head">
+          <span class="sync-studio-title"><svg class="ico"><use href="#i-repeat"/></svg><span>Cross-Device Progress Sync</span></span>
+          <span id="sync-status-badge" class="sync-status-badge">Local Only</span>
+        </div>
+
+        <div class="sync-mode-tabs" role="tablist" aria-label="Sync methods">
+          <button id="sync-tab-cloud" type="button" class="sync-mode-tab is-active" data-sync-tab="cloud" role="tab" aria-selected="true">Auto Cloud Sync</button>
+          <button id="sync-tab-code" type="button" class="sync-mode-tab" data-sync-tab="code" role="tab" aria-selected="false">Sync Link / Code</button>
+          <button id="sync-tab-file" type="button" class="sync-mode-tab" data-sync-tab="file" role="tab" aria-selected="false">Backup File (.json)</button>
+        </div>
+
+        <!-- Tab 1: Automatic Private GitHub Gist Cloud Sync -->
+        <div id="sync-panel-cloud" class="sync-panel">
+          <p class="sync-note">Automatically remembers your XP, streaks, cleared sets, bookmarks, SRS &amp; mock exams across phone, tablet &amp; PC using your own private GitHub Gist (free, zero third-party server). The same Gist token works for both <strong>Harin</strong> &amp; <strong>Haruka</strong>.</p>
+          <div class="sync-field-row">
+            <input id="sync-gh-token" type="password" class="sync-input" placeholder="Paste GitHub Gist Token (ghp_... or github_pat_...)" autocomplete="off" spellcheck="false" />
+            <button id="sync-gh-token-toggle" type="button" class="btn btn-secondary btn-sm" aria-label="Show or hide sync token">Show</button>
+          </div>
+          <input id="sync-gh-gist-id" type="text" class="sync-input" placeholder="Private Sync Vault ID (auto-detected — leave blank)" autocomplete="off" spellcheck="false" />
+          <label class="sync-check-label">
+            <input id="sync-gh-remember" type="checkbox" checked />
+            <span>Remember auto-sync on this device (stored locally only — never exported)</span>
+          </label>
+          <div class="sync-btn-row">
+            <button id="sync-gh-connect-btn" type="button" class="btn btn-primary btn-sm" style="background:var(--celadon);box-shadow:0 2px 0 var(--celadon-deep)">Connect &amp; Auto-Sync</button>
+            <button id="sync-gh-now-btn" type="button" class="btn btn-secondary btn-sm hidden">Sync Now</button>
+            <button id="sync-gh-disconnect-btn" type="button" class="btn btn-secondary btn-sm hidden">Disconnect</button>
+          </div>
+          <details class="sync-guide">
+            <summary>How to create a free 30-second GitHub Sync Token (one-time setup) ▾</summary>
+            <ol>
+              <li>Open GitHub → <strong>Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong> (or <em>Tokens (classic)</em>).</li>
+              <li>Click <strong>Generate new token</strong>, name it <code>Harin-Haruka-Sync</code>, and enable <strong>ONLY</strong> <code>Gists: Read and write</code> (or classic <code>gist</code>).</li>
+              <li>Copy the token and paste it above on your PC and phone — click <strong>Connect &amp; Auto-Sync</strong>.</li>
+              <li>Harin automatically finds or creates your private secret vault and smart-merges progress whenever you study!</li>
+            </ol>
+          </details>
+        </div>
+
+        <!-- Tab 2: Zero-Account Sync Link & Code -->
+        <div id="sync-panel-code" class="sync-panel hidden">
+          <p class="sync-note">No account needed. Generate a private link or compact code (100% client-side in URL <code>#hash</code> — never sent to any server), open it on your other device, and Smart Merge.</p>
+          <div class="sync-btn-row">
+            <button id="sync-copy-link-btn" type="button" class="btn btn-primary btn-sm" style="background:var(--celadon);box-shadow:0 2px 0 var(--celadon-deep)">Copy Magic Sync Link</button>
+            <button id="sync-copy-code-btn" type="button" class="btn btn-secondary btn-sm">Copy Sync Code</button>
+          </div>
+          <textarea id="sync-code-input" class="sync-textarea" placeholder="Paste HARIN1Z:... Sync Code or Magic Sync Link from your other device here..."></textarea>
+          <div class="sync-btn-row">
+            <button id="sync-apply-merge-btn" type="button" class="btn btn-secondary btn-sm">Smart Merge Code</button>
+            <button id="sync-apply-replace-btn" type="button" class="btn btn-secondary btn-sm">Replace Local</button>
+          </div>
+        </div>
+
+        <!-- Tab 3: Local JSON File Backup -->
+        <div id="sync-panel-file" class="sync-panel hidden">
+          <p class="sync-note">Export or restore a sanitized <code>.json</code> snapshot (great for offline backups or iCloud / Google Drive / OneDrive). Never includes API keys or sync tokens.</p>
+          <label class="sync-check-label">
+            <input id="sync-import-merge-toggle" type="checkbox" checked />
+            <span>Smart Merge imported backup with current device (uncheck to overwrite)</span>
+          </label>
+          <div class="sync-btn-row">
+            <button id="progress-export-btn" type="button" class="btn btn-secondary btn-sm"><svg class="ico"><use href="#i-download"/></svg><span>Export Backup (.json)</span></button>
+            <button id="progress-import-btn" type="button" class="btn btn-secondary btn-sm">Import Backup (.json)</button>
+            <input id="progress-import-file" type="file" accept=".json,application/json" class="hidden" />
+          </div>
         </div>
       </div>
 
@@ -4310,6 +4607,9 @@ button {
         setItem(k, v) {
           mem.set(k, String(v));
           if (native) { try { native.setItem(k, String(v)); } catch (e) {} }
+          if (typeof CrossDeviceSync !== 'undefined' && (k === 'harin_progress_v1' || k === 'harin_completed_sets' || k === 'harin_srs_v1' || k === 'harin_exam_history_v1')) {
+            CrossDeviceSync.onLocalDataChanged();
+          }
         },
         removeItem(k) {
           mem.delete(k);
@@ -15438,6 +15738,918 @@ button {
       listWrap.appendChild(sFrag);
     }
 
+
+    // =========================================================================
+    // CROSS-DEVICE PROGRESS SYNC ENGINE (Private GitHub Gist + Sync Link/Code + JSON)
+    // =========================================================================
+    const CrossDeviceSync = (() => {
+        const APP_ID = 'Harin-TOPIK1-Studio';
+        const APP_SHORT = 'Harin';
+        const CODE_PREFIX = 'HARIN';
+        const CANONICAL_URL = 'https://vonmad.github.io/Harin/';
+        const GIST_FILE = 'harin-progress-sync.json';
+        const GIST_DESC = 'Harin (하린) TOPIK I Private Progress Sync Vault — Auto-managed';
+        const KEYS = Object.freeze({
+          progress: 'harin_progress_v1',
+          sets: 'harin_completed_sets',
+          srs: 'harin_srs_v1',
+          exam: 'harin_exam_history_v1',
+          meta: 'harin_sync_meta_v1',
+          cfg: 'harin_cloud_sync_v1'
+        });
+        const SAVED_CATS = Object.freeze(['hanja', 'grammar', 'vocabs', 'reading', 'listening']);
+        const TOKEN_RE = /^(ghp_[A-Za-z0-9]{20,255}|github_pat_[A-Za-z0-9_]{20,255})$/;
+        const GIST_ID_RE = /^[a-f0-9]{16,64}$/i;
+        const SRS_KEY_RE = /^(hanja|grammar|vocabs|reading|listening):.{1,120}$/;
+
+        let memCfg = { token: '', gistId: '', lastSyncAt: 0, remember: true };
+        let syncTimer = null;
+        let syncing = false;
+        let pendingPush = false;
+        let lastFocusPull = 0;
+        let lastSyncedFingerprint = '';
+        let pendingIncomingPayload = null;
+        let suppressAutoPush = false;
+
+        function getMeta() {
+          const m = safeJsonParse(SafeStore.getItem(KEYS.meta), null, 4096);
+          return {
+            updatedAt: clampInt(m && m.updatedAt, 0, 8640000000000000, 0),
+            resetAt: clampInt(m && m.resetAt, 0, 8640000000000000, 0)
+          };
+        }
+
+        function saveMeta(updatedAt, resetAt) {
+          suppressAutoPush = true;
+          try {
+            SafeStore.setItem(KEYS.meta, JSON.stringify({
+              updatedAt: clampInt(updatedAt, 0, 8640000000000000, Date.now()),
+              resetAt: clampInt(resetAt, 0, 8640000000000000, 0)
+            }));
+          } finally {
+            suppressAutoPush = false;
+          }
+        }
+
+        function loadCfg() {
+          const raw = safeJsonParse(SafeStore.getItem(KEYS.cfg), null, 4096);
+          if (raw && typeof raw === 'object') {
+            const tok = typeof raw.token === 'string' && TOKEN_RE.test(raw.token.trim()) ? raw.token.trim() : '';
+            const gid = typeof raw.gistId === 'string' && GIST_ID_RE.test(raw.gistId.trim()) ? raw.gistId.trim() : '';
+            memCfg = {
+              token: tok,
+              gistId: gid,
+              lastSyncAt: clampInt(raw.lastSyncAt, 0, 8640000000000000, 0),
+              remember: raw.remember !== false
+            };
+          }
+          return memCfg;
+        }
+
+        function saveCfg(next) {
+          memCfg = {
+            token: typeof next.token === 'string' ? next.token.trim() : '',
+            gistId: typeof next.gistId === 'string' ? next.gistId.trim() : '',
+            lastSyncAt: clampInt(next.lastSyncAt, 0, 8640000000000000, 0),
+            remember: next.remember !== false
+          };
+          suppressAutoPush = true;
+          try {
+            if (memCfg.remember && memCfg.token) {
+              SafeStore.setItem(KEYS.cfg, JSON.stringify(memCfg));
+            } else {
+              SafeStore.removeItem(KEYS.cfg);
+            }
+          } finally {
+            suppressAutoPush = false;
+          }
+        }
+
+        function clearCfg() {
+          memCfg = { token: '', gistId: '', lastSyncAt: 0, remember: true };
+          suppressAutoPush = true;
+          try { SafeStore.removeItem(KEYS.cfg); } finally { suppressAutoPush = false; }
+        }
+
+        function isConnected() {
+          return Boolean(memCfg.token && TOKEN_RE.test(memCfg.token));
+        }
+
+        function sanitizePayload(data) {
+          if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+          if (data.app !== APP_ID || !data.progress || typeof data.progress !== 'object' || Array.isArray(data.progress)) {
+            return null;
+          }
+          const p = data.progress;
+          const cleanStrList = (arr) => Array.isArray(arr)
+            ? [...new Set(arr.filter(x => typeof x === 'string' && x.length > 0 && x.length <= 120))].slice(0, 3000)
+            : [];
+          const safeDate = (s) => (typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s)) ? s : '';
+          const answered = clampInt(p.answered, 0, 10000000, 0);
+          const correct = Math.min(answered, clampInt(p.correct, 0, 10000000, 0));
+          const safeProgress = {
+            xp: clampInt(p.xp, 0, 10000000, 0),
+            streak: clampInt(p.streak, 0, 100000, 0),
+            bestStreak: clampInt(p.bestStreak, 0, 100000, 0),
+            answered,
+            correct,
+            dailyXp: clampInt(p.dailyXp, 0, 1000000, 0),
+            dailyGoal: [100, 150, 300].includes(Number(p.dailyGoal)) ? Number(p.dailyGoal) : 150,
+            dayStreak: clampInt(p.dayStreak, 0, 10000, 0),
+            lastStudyDate: safeDate(p.lastStudyDate),
+            goalCelebratedDate: safeDate(p.goalCelebratedDate),
+            bestExamScore: clampInt(p.bestExamScore, 0, 200, 0),
+            examsCompleted: clampInt(p.examsCompleted, 0, 100000, 0),
+            passedTopik1: Boolean(p.passedTopik1),
+            passedTopik2: Boolean(p.passedTopik2),
+            readingSolved: clampInt(p.readingSolved, 0, 100000, 0),
+            saved: {
+              hanja: cleanStrList(p.saved && p.saved.hanja),
+              grammar: cleanStrList(p.saved && p.saved.grammar),
+              vocabs: cleanStrList(p.saved && p.saved.vocabs),
+              reading: cleanStrList(p.saved && p.saved.reading),
+              listening: cleanStrList(p.saved && p.saved.listening)
+            }
+          };
+          const safeSets = Array.isArray(data.completedSets)
+            ? [...new Set(data.completedSets.filter(s => typeof s === 'string' && s.length > 0 && s.length <= 120))].slice(0, 500)
+            : [];
+          const safeItems = {};
+          let totalReviewed = 0;
+          if (data.srs && typeof data.srs === 'object') {
+            totalReviewed = clampInt(data.srs.totalReviewed, 0, 10000000, 0);
+            if (data.srs.items && typeof data.srs.items === 'object' && !Array.isArray(data.srs.items)) {
+              const entries = Object.entries(data.srs.items).slice(0, 3000);
+              for (const [k, v] of entries) {
+                if (!SRS_KEY_RE.test(k) || !v || typeof v !== 'object') continue;
+                safeItems[k] = {
+                  b: clampInt(v.b, 1, 5, 1),
+                  t: clampInt(v.t, 0, 8640000000000000, Date.now()),
+                  l: clampInt(v.l, 0, 100000, 0),
+                  r: clampInt(v.r, 0, 100000, 0)
+                };
+              }
+            }
+          }
+          const safeHistory = Array.isArray(data.examHistory)
+            ? sanitizeExamHistoryList(data.examHistory)
+            : [];
+          const parsedExport = typeof data.exportedAt === 'string' ? Date.parse(data.exportedAt) : 0;
+          const updatedAt = clampInt(data.updatedAt, 0, 8640000000000000, Number.isFinite(parsedExport) && parsedExport > 0 ? parsedExport : 0);
+          const resetAt = clampInt(data.resetAt, 0, 8640000000000000, 0);
+          return {
+            app: APP_ID,
+            schemaVersion: 7,
+            exportedAt: typeof data.exportedAt === 'string' ? data.exportedAt.slice(0, 40) : new Date().toISOString(),
+            updatedAt,
+            resetAt,
+            progress: safeProgress,
+            completedSets: safeSets,
+            srs: { items: safeItems, totalReviewed },
+            examHistory: safeHistory
+          };
+        }
+
+        function buildLocalPayload() {
+          const meta = getMeta();
+          const savedObj = {};
+          SAVED_CATS.forEach(c => {
+            savedObj[c] = StudyProgress.saved[c] ? [...StudyProgress.saved[c]] : [];
+          });
+          const raw = {
+            app: APP_ID,
+            schemaVersion: 7,
+            exportedAt: new Date().toISOString(),
+            updatedAt: meta.updatedAt || (StudyProgress.xp > 0 || completedSets.size > 0 || Object.keys(HarinSRS.items).length > 0 ? Date.now() : 0),
+            resetAt: meta.resetAt || 0,
+            progress: safeJsonParse(SafeStore.getItem(KEYS.progress), {
+              xp: StudyProgress.xp,
+              streak: StudyProgress.streak,
+              bestStreak: StudyProgress.bestStreak,
+              answered: StudyProgress.answered,
+              correct: StudyProgress.correct,
+              dailyXp: StudyProgress.dailyXp,
+              dailyGoal: StudyProgress.dailyGoal,
+              dayStreak: StudyProgress.dayStreak,
+              lastStudyDate: StudyProgress.lastStudyDate,
+              goalCelebratedDate: StudyProgress.goalCelebratedDate,
+              bestExamScore: StudyProgress.bestExamScore,
+              examsCompleted: StudyProgress.examsCompleted,
+              passedTopik1: StudyProgress.passedTopik1,
+              passedTopik2: StudyProgress.passedTopik2,
+              readingSolved: StudyProgress.readingSolved,
+              saved: savedObj
+            }),
+            completedSets: [...completedSets],
+            srs: { items: HarinSRS.items, totalReviewed: HarinSRS.totalReviewed },
+            examHistory: mockExamState.history.slice(0, 8)
+          };
+          return sanitizePayload(raw);
+        }
+
+        function fingerprint(payload) {
+          if (!payload) return '';
+          const savedNorm = {};
+          SAVED_CATS.forEach(c => {
+            savedNorm[c] = [...(payload.progress.saved[c] || [])].sort();
+          });
+          const srsKeys = Object.keys(payload.srs.items || {}).sort();
+          const srsNorm = {};
+          srsKeys.forEach(k => { srsNorm[k] = payload.srs.items[k]; });
+          return JSON.stringify({
+            resetAt: payload.resetAt || 0,
+            progress: Object.assign({}, payload.progress, { saved: savedNorm }),
+            completedSets: [...payload.completedSets].sort(),
+            srs: { items: srsNorm, totalReviewed: payload.srs.totalReviewed },
+            examHistory: payload.examHistory
+          });
+        }
+
+        function mergePayloads(local, incoming, mergeOpts = {}) {
+          if (!local) return incoming;
+          if (!incoming) return local;
+          // Honor strictly newer explicit Reset Progress tombstones ONLY during background Cloud Sync
+          if (mergeOpts.respectResetTombstone) {
+            if (incoming.resetAt > 0 && incoming.resetAt > (local.updatedAt || 0) && incoming.resetAt >= (local.resetAt || 0)) {
+              return incoming;
+            }
+            if (local.resetAt > 0 && local.resetAt > (incoming.updatedAt || 0) && local.resetAt >= (incoming.resetAt || 0)) {
+              return local;
+            }
+          }
+          const lp = local.progress;
+          const ip = incoming.progress;
+          const incomingNewer = (incoming.updatedAt || 0) >= (local.updatedAt || 0);
+          const mergedAnswered = Math.max(lp.answered, ip.answered);
+          const mergedCorrect = Math.min(mergedAnswered, Math.max(lp.correct, ip.correct));
+          const latestDate = lp.lastStudyDate >= ip.lastStudyDate ? lp.lastStudyDate : ip.lastStudyDate;
+          let mergedDailyXp = 0;
+          if (latestDate) {
+            if (lp.lastStudyDate === latestDate && ip.lastStudyDate === latestDate) {
+              mergedDailyXp = Math.max(lp.dailyXp, ip.dailyXp);
+            } else {
+              mergedDailyXp = lp.lastStudyDate === latestDate ? lp.dailyXp : ip.dailyXp;
+            }
+          }
+          let mergedDayStreak = Math.max(lp.dayStreak, ip.dayStreak);
+          if (lp.lastStudyDate !== ip.lastStudyDate) {
+            mergedDayStreak = lp.lastStudyDate === latestDate ? Math.max(lp.dayStreak, ip.dayStreak > 0 && !lp.lastStudyDate ? ip.dayStreak : lp.dayStreak) : ip.dayStreak;
+          }
+          let mergedStreak = incomingNewer ? ip.streak : lp.streak;
+          if (ip.xp === 0 && lp.xp > 0) mergedStreak = lp.streak;
+          else if (lp.xp === 0 && ip.xp > 0) mergedStreak = ip.streak;
+          const mergedGoal = (incomingNewer && ip.xp > 0) ? ip.dailyGoal : (lp.xp > 0 ? lp.dailyGoal : ip.dailyGoal);
+
+          const mergedSrsItems = {};
+          const allSrsKeys = new Set([...Object.keys(local.srs.items || {}), ...Object.keys(incoming.srs.items || {})]);
+          let srsCount = 0;
+          for (const k of allSrsKeys) {
+            if (srsCount >= 3000) break;
+            const a = local.srs.items[k];
+            const b = incoming.srs.items[k];
+            if (!a) mergedSrsItems[k] = b;
+            else if (!b) mergedSrsItems[k] = a;
+            else {
+              const pickB = (b.r > a.r) || (b.r === a.r && b.b > a.b) || (b.r === a.r && b.b === a.b && b.t > a.t);
+              mergedSrsItems[k] = pickB ? b : a;
+            }
+            srsCount++;
+          }
+
+          const histSeen = new Set();
+          const mergedHistory = [];
+          const combinedHist = [...(incomingNewer ? incoming.examHistory : local.examHistory), ...(incomingNewer ? local.examHistory : incoming.examHistory)];
+          for (const h of combinedHist) {
+            const sig = [h.date, h.mode, h.totalScore ?? h.score, h.maxScore ?? h.total, h.correct].join('|');
+            if (histSeen.has(sig)) continue;
+            histSeen.add(sig);
+            mergedHistory.push(h);
+            if (mergedHistory.length >= 8) break;
+          }
+
+          return sanitizePayload({
+            app: APP_ID,
+            schemaVersion: 7,
+            exportedAt: new Date().toISOString(),
+            updatedAt: Math.max(local.updatedAt || 0, incoming.updatedAt || 0, Date.now()),
+            resetAt: mergeOpts.respectResetTombstone ? Math.max(local.resetAt || 0, incoming.resetAt || 0) : 0,
+            progress: {
+              xp: Math.max(lp.xp, ip.xp),
+              streak: mergedStreak,
+              bestStreak: Math.max(lp.bestStreak, ip.bestStreak),
+              answered: mergedAnswered,
+              correct: mergedCorrect,
+              dailyXp: mergedDailyXp,
+              dailyGoal: mergedGoal,
+              dayStreak: mergedDayStreak,
+              lastStudyDate: latestDate,
+              goalCelebratedDate: lp.goalCelebratedDate >= ip.goalCelebratedDate ? lp.goalCelebratedDate : ip.goalCelebratedDate,
+              bestExamScore: Math.max(lp.bestExamScore, ip.bestExamScore),
+              examsCompleted: Math.max(lp.examsCompleted, ip.examsCompleted),
+            passedTopik1: Boolean(lp.passedTopik1 || ip.passedTopik1),
+            passedTopik2: Boolean(lp.passedTopik2 || ip.passedTopik2),
+              readingSolved: Math.max(lp.readingSolved, ip.readingSolved),
+              saved: {
+              hanja: [...new Set([...(lp.saved.hanja || []), ...(ip.saved.hanja || [])])].slice(0, 3000),
+              grammar: [...new Set([...(lp.saved.grammar || []), ...(ip.saved.grammar || [])])].slice(0, 3000),
+              vocabs: [...new Set([...(lp.saved.vocabs || []), ...(ip.saved.vocabs || [])])].slice(0, 3000),
+              reading: [...new Set([...(lp.saved.reading || []), ...(ip.saved.reading || [])])].slice(0, 3000),
+              listening: [...new Set([...(lp.saved.listening || []), ...(ip.saved.listening || [])])].slice(0, 3000)
+              }
+            },
+            completedSets: [...new Set([...local.completedSets, ...incoming.completedSets])].slice(0, 500),
+            srs: {
+              items: mergedSrsItems,
+              totalReviewed: Math.max(local.srs.totalReviewed, incoming.srs.totalReviewed)
+            },
+            examHistory: mergedHistory
+          });
+        }
+
+        function applyPayload(rawPayload, opts = {}) {
+          const clean = sanitizePayload(rawPayload);
+          if (!clean) return null;
+          const local = buildLocalPayload();
+          const finalPayload = opts.mode === 'replace'
+            ? clean
+            : mergePayloads(local, clean, { respectResetTombstone: Boolean(opts.fromCloud) });
+          suppressAutoPush = true;
+          try {
+            SafeStore.setItem(KEYS.progress, JSON.stringify(finalPayload.progress));
+            completedSets = new Set(finalPayload.completedSets);
+            SafeStore.setItem(KEYS.sets, JSON.stringify(finalPayload.completedSets));
+            SafeStore.setItem(KEYS.srs, JSON.stringify(finalPayload.srs));
+            SafeStore.setItem(KEYS.exam, JSON.stringify(finalPayload.examHistory));
+            saveMeta(finalPayload.updatedAt || Date.now(), finalPayload.resetAt || 0);
+          } finally {
+            suppressAutoPush = false;
+          }
+          StudyProgress.load();
+          HarinSRS.load();
+          loadExamHistory();
+          if (!opts.keepActiveQuiz) exitAllActiveQuizzes();
+          StudyProgress.syncHeader(true);
+          HarinSRS.syncUI();
+          renderRoadmap();
+          renderScriptGrid('hangul');
+          renderScriptGrid('batchim');
+          renderHanja();
+          updateHanjaInspector();
+          renderGrammar();
+          refreshVocabDeck();
+          renderReading();
+          renderListening();
+          renderExamLobby();
+          updateNavCounts();
+          if (document.getElementById('progress-modal-backdrop') && !document.getElementById('progress-modal-backdrop').classList.contains('hidden')) {
+            renderProgressModal();
+          }
+          if (!opts.fromCloud && isConnected()) {
+            scheduleAutoPush();
+          }
+          return finalPayload;
+        }
+
+        // ---- Compact Client-Side Sync Code & Magic `#sync=` Link Encoding ----
+        function bytesToBase64Url(bytes) {
+          let bin = '';
+          const chunk = 0x8000;
+          for (let i = 0; i < bytes.length; i += chunk) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+          }
+          return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+        }
+
+        function base64UrlToBytes(str) {
+          const norm = str.replace(/-/g, '+').replace(/_/g, '/');
+          const pad = norm.length % 4 === 0 ? '' : '='.repeat(4 - (norm.length % 4));
+          const bin = atob(norm + pad);
+          const out = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+          return out;
+        }
+
+        async function encodeSyncCode(payload) {
+          const jsonStr = JSON.stringify(payload);
+          const rawBytes = new TextEncoder().encode(jsonStr);
+          if (typeof CompressionStream !== 'undefined') {
+            try {
+              const cs = new CompressionStream('deflate-raw');
+              const readPromise = new Response(cs.readable).arrayBuffer();
+              const writer = cs.writable.getWriter();
+              const writePromise = writer.write(rawBytes).then(() => writer.close());
+              const [buf] = await Promise.all([readPromise, writePromise]);
+              return CODE_PREFIX + '1Z:' + bytesToBase64Url(new Uint8Array(buf));
+            } catch (e) {}
+          }
+          return CODE_PREFIX + '1U:' + bytesToBase64Url(rawBytes);
+        }
+
+        async function decodeSyncCode(input) {
+          let text = String(input || '').trim();
+          if (!text || text.length > 180000) return null;
+          const hashIdx = text.indexOf('#sync=');
+          if (hashIdx !== -1) {
+            text = text.slice(hashIdx + 6).split('&')[0].trim();
+          }
+          if (text.includes('%')) {
+            try { text = decodeURIComponent(text); } catch (e) {}
+          }
+          const zPrefix = CODE_PREFIX + '1Z:';
+          const uPrefix = CODE_PREFIX + '1U:';
+          let jsonStr = '';
+          try {
+            if (text.startsWith(zPrefix)) {
+              if (typeof DecompressionStream === 'undefined') return null;
+              const bytes = base64UrlToBytes(text.slice(zPrefix.length));
+              const ds = new DecompressionStream('deflate-raw');
+              const writer = ds.writable.getWriter();
+              const writePromise = writer.write(bytes).then(() => writer.close()).catch(() => {});
+              const reader = ds.readable.getReader();
+              const chunks = [];
+              let total = 0;
+              while (true) {
+                const res = await reader.read();
+                if (res.done) break;
+                total += res.value.byteLength;
+                if (total > 262144) {
+                  try { await reader.cancel(); } catch (err) {}
+                  return null;
+                }
+                chunks.push(res.value);
+              }
+              await writePromise;
+              const merged = new Uint8Array(total);
+              let off = 0;
+              for (const c of chunks) { merged.set(c, off); off += c.byteLength; }
+              jsonStr = new TextDecoder().decode(merged);
+            } else if (text.startsWith(uPrefix)) {
+              const bytes = base64UrlToBytes(text.slice(uPrefix.length));
+              if (bytes.byteLength > 262144) return null;
+              jsonStr = new TextDecoder().decode(bytes);
+            } else {
+              return null;
+            }
+          } catch (e) {
+            return null;
+          }
+          const parsed = safeJsonParse(jsonStr, null, 262144);
+          return sanitizePayload(parsed);
+        }
+
+        function buildMagicLink(code) {
+          const proto = String(window.location.protocol || '');
+          const base = (proto === 'http:' || proto === 'https:')
+            ? (window.location.origin + window.location.pathname)
+            : CANONICAL_URL;
+          return base + '#sync=' + code;
+        }
+
+        async function copyText(str) {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              const ok = await Promise.race([
+                navigator.clipboard.writeText(str).then(() => true).catch(() => false),
+                new Promise(resolve => setTimeout(() => resolve(false), 450))
+              ]);
+              if (ok) return true;
+            }
+          } catch (e) {}
+          const ta = document.getElementById('sync-code-input');
+          if (ta) {
+            ta.value = str;
+            ta.focus();
+            ta.select();
+            try { return document.execCommand('copy'); } catch (e) { return false; }
+          }
+          return false;
+        }
+
+        function formatPayloadSummary(p) {
+          const srsCnt = Object.keys(p.srs && p.srs.items ? p.srs.items : {}).length;
+          const savedCnt = SAVED_CATS.reduce((sum, c) => sum + ((p.progress.saved && p.progress.saved[c]) ? p.progress.saved[c].length : 0), 0);
+          return p.progress.xp + ' XP • ' + p.progress.dayStreak + 'd streak • ' + p.completedSets.length + ' cleared sets • ' + srsCnt + ' SRS cards • ' + savedCnt + ' saved';
+        }
+
+        function showIncomingBanner(payload) {
+          pendingIncomingPayload = payload;
+          const banner = document.getElementById('sync-incoming-banner');
+          const sumEl = document.getElementById('sync-incoming-summary');
+          if (sumEl) sumEl.textContent = formatPayloadSummary(payload);
+          if (banner) banner.classList.remove('hidden');
+          openProgressModal();
+        }
+
+        function hideIncomingBanner() {
+          pendingIncomingPayload = null;
+          document.getElementById('sync-incoming-banner')?.classList.add('hidden');
+        }
+
+        async function checkIncomingHash() {
+          const h = String(window.location.hash || '');
+          if (!h.startsWith('#sync=')) return;
+          const rawCode = h.slice(6);
+          try {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          } catch (e) {}
+          const decoded = await decodeSyncCode(rawCode);
+          if (!decoded) {
+            showToast('Invalid or incompatible ' + APP_SHORT + ' Sync Link.');
+            return;
+          }
+          showIncomingBanner(decoded);
+        }
+
+        // ---- Zero-Trust Private GitHub Gist Cloud Sync ----
+        async function ghFetch(path, options = {}) {
+          if (!isConnected()) throw new Error('NOT_CONNECTED');
+          const url = 'https://api.github.com' + path;
+          const res = await fetch(url, {
+            method: options.method || 'GET',
+            headers: Object.assign({
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'Authorization': 'Bearer ' + memCfg.token
+            }, options.body ? { 'Content-Type': 'application/json; charset=utf-8' } : {}),
+            body: options.body || undefined,
+            credentials: 'omit',
+            referrerPolicy: 'no-referrer',
+            cache: 'no-store',
+            redirect: 'error'
+          });
+          const ctype = String(res.headers.get('content-type') || '');
+          if (!res.ok) {
+            const err = new Error('HTTP_' + res.status);
+            err.status = res.status;
+            throw err;
+          }
+          if (!ctype.toLowerCase().includes('json')) throw new Error('BAD_CONTENT_TYPE');
+          const text = await res.text();
+          if (text.length > 524288) throw new Error('PAYLOAD_TOO_LARGE');
+          return safeJsonParse(text, null, 524288);
+        }
+
+        async function findOrCreateGist(localPayload) {
+          if (memCfg.gistId && GIST_ID_RE.test(memCfg.gistId)) {
+            try {
+              const g = await ghFetch('/gists/' + encodeURIComponent(memCfg.gistId));
+              if (g && g.files && g.files[GIST_FILE]) return g;
+            } catch (e) {
+              if (e.status === 401 || e.status === 403) throw e;
+              // Stored Gist deleted — fall through to rediscover
+              memCfg.gistId = '';
+            }
+          }
+          const list = await ghFetch('/gists?per_page=100');
+          if (Array.isArray(list)) {
+            const match = list.find(g => g && g.id && GIST_ID_RE.test(String(g.id)) && g.files && g.files[GIST_FILE]);
+            if (match) {
+              memCfg.gistId = String(match.id);
+              return await ghFetch('/gists/' + encodeURIComponent(memCfg.gistId));
+            }
+          }
+          const created = await ghFetch('/gists', {
+            method: 'POST',
+            body: JSON.stringify({
+              description: GIST_DESC,
+              public: false,
+              files: {
+                [GIST_FILE]: { content: JSON.stringify(localPayload, null, 2) }
+              }
+            })
+          });
+          if (created && created.id && GIST_ID_RE.test(String(created.id))) {
+            memCfg.gistId = String(created.id);
+          }
+          return created;
+        }
+
+        async function patchGist(gistId, payload) {
+          if (!GIST_ID_RE.test(gistId)) throw new Error('BAD_GIST_ID');
+          return await ghFetch('/gists/' + encodeURIComponent(gistId), {
+            method: 'PATCH',
+            body: JSON.stringify({
+              description: GIST_DESC,
+              files: {
+                [GIST_FILE]: { content: JSON.stringify(payload, null, 2) }
+              }
+            })
+          });
+        }
+
+        function updateStatusUI(state, customMsg = '') {
+          const badge = document.getElementById('sync-status-badge');
+          const dot = document.getElementById('cloud-sync-dot');
+          const nowBtn = document.getElementById('sync-gh-now-btn');
+          const discBtn = document.getElementById('sync-gh-disconnect-btn');
+          const connBtn = document.getElementById('sync-gh-connect-btn');
+          const gidInp = document.getElementById('sync-gh-gist-id');
+          const connected = isConnected();
+
+          if (nowBtn) nowBtn.classList.toggle('hidden', !connected);
+          if (discBtn) discBtn.classList.toggle('hidden', !connected);
+          if (connBtn) connBtn.textContent = connected ? 'Update Connection' : 'Connect & Auto-Sync';
+          if (gidInp && connected && memCfg.gistId && document.activeElement !== gidInp) {
+            gidInp.value = memCfg.gistId;
+          }
+
+          if (dot) {
+            dot.classList.toggle('hidden', !connected);
+            dot.classList.toggle('is-syncing', state === 'syncing');
+            dot.classList.toggle('is-error', state === 'error');
+            dot.title = connected
+              ? (state === 'syncing' ? 'Cloud Syncing...' : state === 'error' ? 'Cloud Sync Offline — Saved Locally' : 'Cloud Sync Active')
+              : '';
+          }
+          if (badge) {
+            badge.classList.remove('is-connected', 'is-syncing', 'is-error');
+            if (!connected) {
+              badge.textContent = 'Local Only';
+            } else if (state === 'syncing') {
+              badge.classList.add('is-syncing');
+              badge.textContent = 'Syncing…';
+            } else if (state === 'error') {
+              badge.classList.add('is-error');
+              badge.textContent = customMsg || 'Offline (Saved Locally)';
+            } else {
+              badge.classList.add('is-connected');
+              const t = memCfg.lastSyncAt ? new Date(memCfg.lastSyncAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+              badge.textContent = customMsg || (t ? 'Cloud Synced ✓ ' + t : 'Cloud Synced ✓');
+            }
+          }
+        }
+
+        async function syncNow(opts = {}) {
+          if (!isConnected()) return false;
+          if (syncing) {
+            pendingPush = true;
+            return false;
+          }
+          syncing = true;
+          updateStatusUI('syncing');
+          try {
+            const localPayload = buildLocalPayload();
+            const localFp = fingerprint(localPayload);
+            const gist = await findOrCreateGist(localPayload);
+            let remotePayload = null;
+            if (gist && gist.files && gist.files[GIST_FILE] && typeof gist.files[GIST_FILE].content === 'string') {
+              const parsed = safeJsonParse(gist.files[GIST_FILE].content, null, 262144);
+              remotePayload = sanitizePayload(parsed);
+            }
+
+            let finalPayload = localPayload;
+            if (remotePayload) {
+              const remoteFp = fingerprint(remotePayload);
+              finalPayload = opts.forcePush
+                ? localPayload
+                : mergePayloads(localPayload, remotePayload, { respectResetTombstone: !opts.initialConnect });
+              const finalFp = fingerprint(finalPayload);
+              if (finalFp !== localFp) {
+                applyPayload(finalPayload, { mode: 'replace', fromCloud: true, keepActiveQuiz: true });
+              }
+              if (finalFp !== remoteFp || opts.forcePush) {
+                await patchGist(memCfg.gistId, finalPayload);
+              }
+              lastSyncedFingerprint = finalFp;
+            } else {
+              if (memCfg.gistId) await patchGist(memCfg.gistId, localPayload);
+              lastSyncedFingerprint = localFp;
+            }
+
+            memCfg.lastSyncAt = Date.now();
+            saveCfg(memCfg);
+            updateStatusUI('synced');
+            if (!opts.silent) {
+              SoundFX.playComplete();
+              showToast('Cloud synced with private GitHub vault (' + finalPayload.progress.xp + ' XP)!');
+            }
+            return true;
+          } catch (err) {
+            const st = err && err.status;
+            let msg = 'Offline — saved locally';
+            if (st === 401) msg = 'Token rejected (401)';
+            else if (st === 403) msg = 'Needs Gist permission (403)';
+            else if (st === 404) msg = 'Vault not found (404)';
+            updateStatusUI('error', msg);
+            if (!opts.silent) {
+              showToast(st === 401
+                ? 'GitHub token rejected (401). Please check your token.'
+                : st === 403
+                  ? 'GitHub token lacks Gist Read/Write permission (403).'
+                  : 'Could not reach GitHub Gist — progress stays saved locally.');
+            }
+            return false;
+          } finally {
+            syncing = false;
+            if (pendingPush) {
+              pendingPush = false;
+              scheduleAutoPush();
+            }
+          }
+        }
+
+        function onLocalDataChanged() {
+          if (suppressAutoPush) return;
+          const m = getMeta();
+          saveMeta(Date.now(), m.resetAt);
+          scheduleAutoPush();
+        }
+
+        function onLocalReset() {
+          const now = Date.now();
+          if (isConnected()) {
+            saveMeta(now, now);
+            clearTimeout(syncTimer);
+            syncNow({ silent: true, forcePush: true });
+          } else {
+            saveMeta(0, 0);
+          }
+        }
+
+        function scheduleAutoPush() {
+          if (suppressAutoPush || !isConnected()) return;
+          clearTimeout(syncTimer);
+          syncTimer = setTimeout(() => {
+            const fp = fingerprint(buildLocalPayload());
+            if (fp !== lastSyncedFingerprint) {
+              syncNow({ silent: true });
+            }
+          }, 3200);
+        }
+
+        function switchSyncTab(tabName) {
+          document.querySelectorAll('.sync-mode-tab').forEach(btn => {
+            const active = btn.dataset.syncTab === tabName;
+            btn.classList.toggle('is-active', active);
+            btn.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          ['cloud', 'code', 'file'].forEach(t => {
+            document.getElementById('sync-panel-' + t)?.classList.toggle('hidden', t !== tabName);
+          });
+        }
+
+        function initUI() {
+          loadCfg();
+          const tokInp = document.getElementById('sync-gh-token');
+          const gidInp = document.getElementById('sync-gh-gist-id');
+          const remChk = document.getElementById('sync-gh-remember');
+          if (tokInp && memCfg.token) tokInp.value = memCfg.token;
+          if (gidInp && memCfg.gistId) gidInp.value = memCfg.gistId;
+          if (remChk) remChk.checked = memCfg.remember !== false;
+          updateStatusUI(isConnected() ? 'synced' : 'idle');
+
+          document.querySelectorAll('.sync-mode-tab').forEach(btn => {
+            btn.addEventListener('click', () => {
+              SoundFX.playSubTab();
+              switchSyncTab(btn.dataset.syncTab || 'cloud');
+            });
+          });
+
+          document.getElementById('sync-gh-token-toggle')?.addEventListener('click', e => {
+            if (!tokInp) return;
+            const show = tokInp.type === 'password';
+            tokInp.type = show ? 'text' : 'password';
+            e.currentTarget.textContent = show ? 'Hide' : 'Show';
+          });
+
+          document.getElementById('sync-gh-connect-btn')?.addEventListener('click', async () => {
+            SoundFX.playAction();
+            const tok = String(tokInp ? tokInp.value : '').trim();
+            const gid = String(gidInp ? gidInp.value : '').trim();
+            const remember = remChk ? remChk.checked : true;
+            if (!TOKEN_RE.test(tok)) {
+              showToast('Paste a valid GitHub token starting with ghp_ or github_pat_');
+              return;
+            }
+            if (gid && !GIST_ID_RE.test(gid)) {
+              showToast('Invalid Vault Gist ID format (leave blank for auto-detect).');
+              return;
+            }
+            saveCfg({ token: tok, gistId: gid, lastSyncAt: memCfg.lastSyncAt, remember });
+            await syncNow({ silent: false, initialConnect: true });
+          });
+
+          document.getElementById('sync-gh-now-btn')?.addEventListener('click', async () => {
+            SoundFX.playAction();
+            await syncNow({ silent: false });
+          });
+
+          document.getElementById('sync-gh-disconnect-btn')?.addEventListener('click', () => {
+            SoundFX.playToggle(false);
+            clearTimeout(syncTimer);
+            clearCfg();
+            if (tokInp) { tokInp.value = ''; tokInp.type = 'password'; }
+            if (gidInp) gidInp.value = '';
+            const tog = document.getElementById('sync-gh-token-toggle');
+            if (tog) tog.textContent = 'Show';
+            updateStatusUI('idle');
+            showToast('Cloud Sync disconnected (local study progress kept).');
+          });
+
+          document.getElementById('sync-copy-link-btn')?.addEventListener('click', async () => {
+            SoundFX.playAction();
+            const payload = buildLocalPayload();
+            const code = await encodeSyncCode(payload);
+            const link = buildMagicLink(code);
+            const ta = document.getElementById('sync-code-input');
+            if (ta) ta.value = link;
+            const ok = await copyText(link);
+            showToast(ok ? 'Copied Magic Sync Link! Open it on your other device.' : 'Magic Sync Link generated below — copy it to your other device.');
+          });
+
+          document.getElementById('sync-copy-code-btn')?.addEventListener('click', async () => {
+            SoundFX.playAction();
+            const payload = buildLocalPayload();
+            const code = await encodeSyncCode(payload);
+            const ta = document.getElementById('sync-code-input');
+            if (ta) ta.value = code;
+            const ok = await copyText(code);
+            showToast(ok ? 'Copied ' + APP_SHORT + ' Sync Code (' + code.length + ' chars)!' : 'Sync Code generated below — copy it to your other device.');
+          });
+
+          async function applyFromCodeInput(mode) {
+            SoundFX.playAction();
+            const ta = document.getElementById('sync-code-input');
+            const raw = ta ? ta.value.trim() : '';
+            if (!raw) {
+              showToast('Paste a Sync Code or Magic Sync Link first!');
+              return;
+            }
+            const decoded = await decodeSyncCode(raw);
+            if (!decoded) {
+              showToast('Invalid or unrecognized ' + APP_SHORT + ' Sync Code.');
+              return;
+            }
+            const merged = applyPayload(decoded, { mode });
+            if (ta) ta.value = '';
+            SoundFX.playComplete();
+            showToast(mode === 'replace'
+              ? 'Device progress replaced (' + merged.progress.xp + ' XP)!'
+              : 'Smart-merged device progress (' + merged.progress.xp + ' XP)!');
+          }
+
+          document.getElementById('sync-apply-merge-btn')?.addEventListener('click', () => applyFromCodeInput('merge'));
+          document.getElementById('sync-apply-replace-btn')?.addEventListener('click', () => applyFromCodeInput('replace'));
+
+          document.getElementById('sync-incoming-merge-btn')?.addEventListener('click', () => {
+            if (!pendingIncomingPayload) return;
+            const merged = applyPayload(pendingIncomingPayload, { mode: 'merge' });
+            hideIncomingBanner();
+            SoundFX.playComplete();
+            showToast('Smart-merged cross-device progress (' + merged.progress.xp + ' XP)!');
+          });
+          document.getElementById('sync-incoming-replace-btn')?.addEventListener('click', () => {
+            if (!pendingIncomingPayload) return;
+            const res = applyPayload(pendingIncomingPayload, { mode: 'replace' });
+            hideIncomingBanner();
+            SoundFX.playComplete();
+            showToast('Restored cross-device progress (' + res.progress.xp + ' XP)!');
+          });
+          document.getElementById('sync-incoming-dismiss-btn')?.addEventListener('click', () => {
+            SoundFX.playToggle(false);
+            hideIncomingBanner();
+            showToast('Incoming sync dismissed.');
+          });
+
+          window.addEventListener('hashchange', () => { checkIncomingHash(); });
+          window.addEventListener('online', () => {
+            if (isConnected()) syncNow({ silent: true });
+          });
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && isConnected()) {
+              const now = Date.now();
+              if (now - lastFocusPull > 45000) {
+                lastFocusPull = now;
+                syncNow({ silent: true });
+              }
+            }
+          });
+
+          // Auto-pull on startup if connected, and detect any incoming #sync= link
+          if (isConnected()) {
+            setTimeout(() => { syncNow({ silent: true }); }, 650);
+          }
+          checkIncomingHash();
+        }
+
+        return {
+          KEYS,
+          buildLocalPayload,
+          sanitizePayload,
+          mergePayloads,
+          applyPayload,
+          encodeSyncCode,
+          decodeSyncCode,
+          onLocalDataChanged,
+          onLocalReset,
+          scheduleAutoPush,
+          syncNow,
+          initUI,
+          isConnected
+        };
+      })();
+
+
     // =========================================================================
     // 12. APP INITIALIZATION & EVENT WIRING
     // =========================================================================
@@ -15474,6 +16686,7 @@ button {
         try { SafeStore.removeItem('harin_exam_history_v1'); } catch (err) {}
         completedSets.clear();
         try { SafeStore.removeItem('harin_completed_sets'); } catch (err) {}
+        CrossDeviceSync.onLocalReset();
         exitAllActiveQuizzes();
         renderRoadmap();
         renderScriptGrid('hangul');
@@ -15491,18 +16704,10 @@ button {
         showToast('Study progress & saved bookmarks reset');
       });
 
-      // Safe Sanitized Progress Export / Import (.json)
+      // Safe Sanitized Progress Export / Import (.json) with Smart Merge support
       document.getElementById('progress-export-btn')?.addEventListener('click', () => {
         SoundFX.playAction();
-        const payload = {
-          app: 'Harin-TOPIK1-Studio',
-          schemaVersion: 6,
-          exportedAt: new Date().toISOString(),
-          progress: safeJsonParse(SafeStore.getItem('harin_progress_v1'), {}),
-          completedSets: [...completedSets],
-          srs: { items: HarinSRS.items, totalReviewed: HarinSRS.totalReviewed },
-          examHistory: mockExamState.history.slice(0, 8)
-        };
+        const payload = CrossDeviceSync.buildLocalPayload();
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -15527,87 +16732,17 @@ button {
         const reader = new FileReader();
         reader.onload = () => {
           const data = safeJsonParse(String(reader.result || ''), null, 262144);
-          if (!data || data.app !== 'Harin-TOPIK1-Studio' || !data.progress || typeof data.progress !== 'object' || Array.isArray(data.progress)) {
+          const mergeToggle = document.getElementById('sync-import-merge-toggle');
+          const mode = (mergeToggle && !mergeToggle.checked) ? 'replace' : 'merge';
+          const applied = CrossDeviceSync.applyPayload(data, { mode });
+          if (!applied) {
             showToast('Invalid or unrecognized Harin backup file.');
             return;
           }
-          // Strict allowlisted schema sanitization before writing to storage
-          const p = data.progress;
-          const cleanStrList = (arr) => Array.isArray(arr)
-            ? arr.filter(x => typeof x === 'string' && x.length > 0 && x.length <= 120).slice(0, 3000)
-            : [];
-          const safeDate = (s) => (typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s)) ? s : '';
-          const safeProgress = {
-            xp: clampInt(p.xp, 0, 10000000, 0),
-            streak: clampInt(p.streak, 0, 100000, 0),
-            bestStreak: clampInt(p.bestStreak, 0, 100000, 0),
-            answered: clampInt(p.answered, 0, 10000000, 0),
-            correct: clampInt(p.correct, 0, 10000000, 0),
-            dailyXp: clampInt(p.dailyXp, 0, 1000000, 0),
-            dailyGoal: [100, 150, 300].includes(Number(p.dailyGoal)) ? Number(p.dailyGoal) : 150,
-            dayStreak: clampInt(p.dayStreak, 0, 10000, 0),
-            lastStudyDate: safeDate(p.lastStudyDate),
-            goalCelebratedDate: safeDate(p.goalCelebratedDate),
-            bestExamScore: clampInt(p.bestExamScore, 0, 200, 0),
-            examsCompleted: clampInt(p.examsCompleted, 0, 100000, 0),
-            passedTopik1: Boolean(p.passedTopik1),
-            passedTopik2: Boolean(p.passedTopik2),
-            readingSolved: clampInt(p.readingSolved, 0, 100000, 0),
-            saved: {
-              hanja: cleanStrList(p.saved && p.saved.hanja),
-              grammar: cleanStrList(p.saved && p.saved.grammar),
-              vocabs: cleanStrList(p.saved && p.saved.vocabs),
-              reading: cleanStrList(p.saved && p.saved.reading),
-              listening: cleanStrList(p.saved && p.saved.listening)
-            }
-          };
-          SafeStore.setItem('harin_progress_v1', JSON.stringify(safeProgress));
-          if (Array.isArray(data.completedSets)) {
-            const safeSets = data.completedSets.filter(s => typeof s === 'string' && s.length > 0 && s.length <= 120).slice(0, 500);
-            completedSets = new Set(safeSets);
-            SafeStore.setItem('harin_completed_sets', JSON.stringify(safeSets));
-          }
-          if (data.srs && typeof data.srs === 'object') {
-            const safeItems = {};
-            if (data.srs.items && typeof data.srs.items === 'object' && !Array.isArray(data.srs.items)) {
-              const entries = Object.entries(data.srs.items).slice(0, 3000);
-              for (const [k, v] of entries) {
-                if (!/^(hanja|grammar|vocabs|reading|listening):.{1,120}$/.test(k) || !v || typeof v !== 'object') continue;
-                safeItems[k] = {
-                  b: clampInt(v.b, 1, 5, 1),
-                  t: clampInt(v.t, 0, 8640000000000000, Date.now()),
-                  l: clampInt(v.l, 0, 100000, 0),
-                  r: clampInt(v.r, 0, 100000, 0)
-                };
-              }
-            }
-            SafeStore.setItem('harin_srs_v1', JSON.stringify({
-              items: safeItems,
-              totalReviewed: clampInt(data.srs.totalReviewed, 0, 10000000, 0)
-            }));
-          }
-          if (Array.isArray(data.examHistory)) {
-            SafeStore.setItem('harin_exam_history_v1', JSON.stringify(sanitizeExamHistoryList(data.examHistory)));
-          }
-          StudyProgress.load();
-          HarinSRS.load();
-          loadExamHistory();
-          exitAllActiveQuizzes();
-          StudyProgress.syncHeader(true);
-          HarinSRS.syncUI();
-          renderRoadmap();
-          renderScriptGrid('hangul');
-          renderScriptGrid('batchim');
-          renderHanja();
-          renderGrammar();
-          refreshVocabDeck();
-          renderReading();
-          renderListening();
-          renderExamLobby();
-          updateNavCounts();
-          renderProgressModal();
           SoundFX.playComplete();
-          showToast('Progress safely restored from backup!');
+          showToast(mode === 'replace'
+            ? 'Progress safely restored from backup (' + applied.progress.xp + ' XP)!'
+            : 'Progress smart-merged from backup (' + applied.progress.xp + ' XP)!');
         };
         reader.readAsText(file, 'utf-8');
       });
@@ -15638,7 +16773,8 @@ button {
         const clonedPad = clone.querySelector('#shared-writing-pad');
         const clonedBody = clone.querySelector('body');
         if (clonedPad && clonedBody) { clonedPad.classList.add('hidden'); clonedBody.appendChild(clonedPad); }
-        ['#voice-modal-backdrop', '#progress-modal-backdrop',
+        ['#voice-modal-backdrop', '#progress-modal-backdrop', '#sync-incoming-banner',
+         '#sync-gh-now-btn', '#sync-gh-disconnect-btn', '#cloud-sync-dot',
          '#srs-quiz-view', '#hangul-quiz-view', '#batchim-quiz-view', '#hanja-quiz-view',
          '#gram-quiz-view', '#vocab-quiz-view', '#reading-quiz-view', '#listen-quiz-view',
          '#exam-active-view', '#exam-result-view'].forEach(sel => clone.querySelector(sel)?.classList.add('hidden'));
@@ -15646,15 +16782,20 @@ button {
          '#grammar-list', '#vocab-study-view', '#reading-study-view', '#listen-study-view',
          '#exam-lobby-view'].forEach(sel => clone.querySelector(sel)?.classList.remove('hidden'));
         clone.querySelector('#toast')?.classList.remove('is-open');
+        const clonedSyncBadge = clone.querySelector('#sync-status-badge');
+        if (clonedSyncBadge) {
+          clonedSyncBadge.textContent = 'Local Only';
+          clonedSyncBadge.classList.remove('is-connected', 'is-syncing', 'is-error');
+        }
         clone.querySelectorAll('input, textarea').forEach(inp => {
           if (inp.type === 'checkbox') {
-            if (inp.id === 'voice-session-only-toggle') inp.setAttribute('checked', '');
+            if (inp.id === 'voice-session-only-toggle' || inp.id === 'sync-gh-remember' || inp.id === 'sync-import-merge-toggle') inp.setAttribute('checked', '');
             else inp.removeAttribute('checked');
           } else {
             inp.removeAttribute('value');
             inp.value = '';
           }
-          if (inp.id === 'voice-api-key') inp.setAttribute('type', 'password');
+          if (inp.id === 'voice-api-key' || inp.id === 'sync-gh-token') inp.setAttribute('type', 'password');
         });
         clone.querySelector('#voice-settings-btn')?.classList.remove('has-api');
         [
@@ -16236,6 +17377,7 @@ button {
       safeRun('renderListening', renderListening);
       safeRun('renderExamLobby', renderExamLobby);
       safeRun('renderRoadmap', renderRoadmap);
+      safeRun('CrossDeviceSync.initUI', CrossDeviceSync.initUI);
 
       let savedTab = 'roadmap';
       try {

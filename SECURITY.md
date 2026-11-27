@@ -6,17 +6,17 @@
 
 - **Zero Server / Zero Database / Zero Third-Party Scripts:** No backend server, no external JS/CSS CDNs, no npm supply-chain dependencies, no analytics, no ad trackers, and no cookies.
 - **Strict SHA-256 Content-Security-Policy (CSP):**
-  - `default-src 'none'` with an exact cryptographic script hash (`script-src 'sha256-9FseNCcljK9p0bItYOtiZEGKb0cGonjgbtkC0wENbk8='`) that blocks all injected inline scripts, `eval()`, `new Function()`, inline `on*=` attributes, and external script loads.
+  - `default-src 'none'` with an exact cryptographic script hash (`script-src 'sha256-QswborXNGL0zY539MZxmdaNpnACms2JSnvm8xD4FMFY='`) that blocks all injected inline scripts, `eval()`, `new Function()`, inline `on*=` attributes, and external script loads.
   - `object-src 'none'`, `child-src 'none'`, `frame-src 'none'`, `base-uri 'none'`, `form-action 'none'`, `worker-src 'none'`, `manifest-src 'none'`, and `upgrade-insecure-requests`.
-  - Network connections (`connect-src`) are locked strictly to the 4 optional user-initiated TTS API hosts (`texttospeech.googleapis.com`, `api.openai.com`, `*.tts.speech.microsoft.com`, `api.elevenlabs.io`).
+  - Network connections (`connect-src`) are locked strictly to the optional user-initiated Private GitHub Gist sync API (`https://api.github.com`) and the 4 optional TTS API hosts (`texttospeech.googleapis.com`, `api.openai.com`, `*.tts.speech.microsoft.com`, `api.elevenlabs.io`).
 - **Clickjacking & Framing Defense:** Runtime `enforceFrameSafety()` hides and clears the DOM if framed by any untrusted external origin.
-- **Zero-Trust Fetch & Optional API Key Hygiene:**
-  - Works out of the box with **no API key**.
-  - Optional TTS API keys default to **RAM-only session mode** (wiped automatically on tab close and never exported in backups or downloaded HTML snapshots).
-  - All optional `fetch()` calls enforce `credentials: 'omit'`, `referrerPolicy: 'no-referrer'`, `cache: 'no-store'`, `redirect: 'error'`, strict input regex validation, and audio MIME / 10 MB payload guards.
-- **Safe Backup Import & Anti-XSS:**
-  - Prototype-pollution-proof `safeJsonParse()` (strips `__proto__`, `constructor`, `prototype`) with a 256 KB import ceiling.
-  - Strict allowlisted schema sanitization and numeric clamping on imported `.json` backups and stored exam history.
+- **Zero-Trust Fetch, Cross-Device Sync & Secret Hygiene:**
+  - Works out of the box with **no API key or account**; supports zero-account Magic `#sync` Links & Sync Codes (client-side URL `#hash` only — never sent to servers) and optional automatic Private GitHub Gist Cloud Sync (`public: false`, Gist-only token).
+  - Optional TTS API keys default to **RAM-only session mode** (wiped automatically on tab close), and neither TTS API keys nor GitHub sync tokens are ever exported into `.json` backups, Sync Codes/Links, Gist payloads, or downloaded HTML snapshots.
+  - All optional `fetch()` calls enforce `credentials: 'omit'`, `referrerPolicy: 'no-referrer'`, `cache: 'no-store'`, `redirect: 'error'`, strict input regex validation, and Content-Type / payload size guards.
+- **Safe Backup Import, Smart Merge & Anti-XSS:**
+  - Prototype-pollution-proof `safeJsonParse()` (strips `__proto__`, `constructor`, `prototype`) with a 256 KB import/decompression ceiling.
+  - Strict allowlisted schema sanitization and numeric clamping on all imported `.json` backups, Sync Codes, `#sync` links, GitHub Gist payloads, and stored exam history.
   - Runtime `Object.freeze()` on static security configuration tables.
 - **Verified Malware-Free Static Audit:** Verified `0` `eval`/`Function`/`document.write`/`WebSocket`/`XMLHttpRequest`/`sendBeacon` sinks, `0` Trojan-Source Bidi or invisible zero-width characters, and `0` embedded secrets.
 
@@ -26,9 +26,9 @@ You can cryptographically verify that your local `Harin.html` or `index.html` ma
 
 | File | SHA-256 |
 | --- | --- |
-| `Harin.html` | `a83617ca8cc2aa1bd113dd59e00ae45c0dbd0b0c87abcd706d4e15383f368176` |
-| `index.html` | `a83617ca8cc2aa1bd113dd59e00ae45c0dbd0b0c87abcd706d4e15383f368176` |
-| Inline `<script>` CSP Digest | `sha256-9FseNCcljK9p0bItYOtiZEGKb0cGonjgbtkC0wENbk8=` |
+| `Harin.html` | `676d79545659eab1c2516c3bd1b6ffabee4b146aecaafd398d7a7190463bc3be` |
+| `index.html` | `676d79545659eab1c2516c3bd1b6ffabee4b146aecaafd398d7a7190463bc3be` |
+| Inline `<script>` CSP Digest | `sha256-QswborXNGL0zY539MZxmdaNpnACms2JSnvm8xD4FMFY=` |
 
 **Windows (PowerShell):**
 ```powershell
