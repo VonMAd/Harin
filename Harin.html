@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-TEdCS0TCkkolFDyuVVYiJiaRMI+ATYJM+BCB4WHYvhY='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://translate.googleapis.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fK7E3X0M8OGnKlUzbYPEvOlLEP1ZYvmkhD5+r9sC0Y4='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
   <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,850+ official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 45 Reading passages (including Ordering, Insertion &amp; Blanks), 40 Listening scenarios, and an Official 70-Question 200-Point TOPIK I Mock Exam." />
   <title>Harin (하린 · 夏凜) — TOPIK I (1급–2급) Korean Studio</title>
   <style>
@@ -4848,7 +4848,7 @@ button {
         const isFricative = ['ㅅ','ㅆ','ㅈ','ㅉ','ㅊ','ㅎ'].includes(syl.cho);
 
         // Intonation arc: gentle arch across phrase; rises at end if question, falls gently if statement
-        let f0Start = 224 + Math.sin(phraseProgress * Math.PI) * 24 + (isTense ? 24 : 0);
+        let f0Start = 238 + Math.sin(phraseProgress * Math.PI) * 26 + (isTense ? 24 : 0);
         let f0End = f0Start - 8;
         if (isLast) {
           f0End = isQuestion ? f0Start + 46 : f0Start - 28;
@@ -4869,7 +4869,7 @@ button {
         // Glottal Source: Warm adult female vocal cords (Sawtooth + Fundamental Sine + Vibrato)
         const glottalTilt = ctx.createBiquadFilter();
         glottalTilt.type = 'lowpass';
-        glottalTilt.frequency.setValueAtTime(1450, startTime);
+        glottalTilt.frequency.setValueAtTime(1680, startTime);
 
         const oscSaw = ctx.createOscillator();
         oscSaw.type = 'sawtooth';
@@ -5222,24 +5222,26 @@ button {
         });
       },
 
-      // Rank smooth neural Korean woman voices highest; demote male voices
+      // Rank smooth neural Korean woman voices highest; hard-block all male voices
       scoreKoreanWomanVoice(v) {
         const name = (v.name || '').toLowerCase();
         const isNeural = name.includes('natural') || name.includes('online') || name.includes('neural') || name.includes('enhanced') || name.includes('premium');
-        const maleHints = ['injoon', 'bongjin', 'gookmin', 'hyunsu', 'minsu', 'male', 'man'];
-        if (maleHints.some(m => name.includes(m))) return -50;
+        const maleHints = ['injoon', 'bongjin', 'gookmin', 'hyunsu', 'minsu', 'eddy', 'reed', 'rocko', 'grandpa', 'male', 'man', '남성', '남자'];
+        if (maleHints.some(m => name.includes(m))) return -100;
         if (name.includes('sunhi') && isNeural) return 140;
         if (name.includes('jimin') && isNeural) return 132;
         if (name.includes('yujin') && isNeural) return 128;
         if (name.includes('seoyeon') && isNeural) return 124;
+        if (name.includes('seohyeon') && isNeural) return 124;
+        if (name.includes('soonbok') && isNeural) return 122;
         if (name.includes('yuna') && isNeural) return 120;
         if (name.includes('sunhi')) return 112;
         if (name.includes('google 한국') || name.includes('google korean')) return 108;
         if (name.includes('yuna')) return 102;
         if (name.includes('sora')) return 96;
-        if (name.includes('heami')) return 72; // Windows legacy SAPI5 Heami
+        if (name.includes('heami')) return 72; // Windows legacy SAPI5 Heami (female)
         if (isNeural) return 96;
-        if (name.includes('female') || name.includes('woman')) return 65;
+        if (name.includes('female') || name.includes('woman') || name.includes('여성')) return 65;
         return 40;
       },
 
@@ -5250,7 +5252,10 @@ button {
           const exact = ko.find(v => v.name === preferredExactName);
           if (exact) return exact;
         }
-        return [...ko].sort((a, b) => this.scoreKoreanWomanVoice(b) - this.scoreKoreanWomanVoice(a))[0];
+        const femaleOnly = ko
+          .filter(v => this.scoreKoreanWomanVoice(v) > 0)
+          .sort((a, b) => this.scoreKoreanWomanVoice(b) - this.scoreKoreanWomanVoice(a));
+        return femaleOnly.length ? femaleOnly[0] : null;
       },
 
       hasSmoothBrowserKoreanVoice() {
@@ -5331,15 +5336,18 @@ button {
       },
 
       async playFreeOnlineAudio(text, mySeq) {
-        const chunks = this.splitChunks(text, 140);
+        const chunks = this.splitChunks(text, 110);
         const tone = this.getToneProfile();
         const userSpeed = Number(this.config.speed) || 1;
-        const rate = Math.min(1.2, Math.max(0.75, userSpeed * tone.rateMul));
-        const makeUrl = q => `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=ko&dt=t&q=${encodeURIComponent(q)}`;
+        // Native grown Korean woman voice (clear Seoul female speaker; never Google's deep male tl=ko!)
+        const spd = userSpeed <= 0.8 ? 2 : (userSpeed >= 1.1 ? 4 : 3);
+        const basePlayback = spd === 3 ? (userSpeed * tone.rateMul) : (userSpeed / (spd === 2 ? 0.78 : 1.12));
+        const rate = Math.min(1.18, Math.max(0.82, basePlayback));
+        const makeUrl = q => `https://fanyi.baidu.com/gettts?lan=kor&text=${encodeURIComponent(q)}&spd=${spd}&source=web`;
 
         for (const chunk of chunks) {
           if (mySeq !== this.speakSeq) return false;
-          const ok = await this.playAudioUrl(makeUrl(chunk), rate, tone.volume, mySeq, 3200);
+          const ok = await this.playAudioUrl(makeUrl(chunk), rate, tone.volume, mySeq, 4200);
           if (!ok) return false;
         }
         return true;
@@ -5347,10 +5355,10 @@ button {
 
       async speakBrowserAsync(text, mySeq, preferredExactName = '') {
         if (typeof speechSynthesis === 'undefined') return false;
-        const koVoices = await this.waitForVoices(700);
+        await this.waitForVoices(700);
         if (mySeq !== this.speakSeq) return false;
         const voice = this.pickBrowserKoreanWomanVoice(preferredExactName);
-        if (!voice && koVoices.length === 0) return false;
+        if (!voice) return false;
 
         const tone = this.getToneProfile();
         const userSpeed = Number(this.config.speed) || 1;
@@ -5690,9 +5698,10 @@ button {
           const opts = [...meta.presets];
           if (p === 'free') {
             HarinVoice.getKoreanVoices()
+              .filter(v => HarinVoice.scoreKoreanWomanVoice(v) > 0)
               .sort((a, b) => HarinVoice.scoreKoreanWomanVoice(b) - HarinVoice.scoreKoreanWomanVoice(a))
               .forEach(v => {
-                opts.push({ id: 'voice:' + v.name, label: 'Browser Voice: ' + v.name + ' (' + v.lang + ')' });
+                opts.push({ id: 'voice:' + v.name, label: 'Browser Woman Voice: ' + v.name + ' (' + v.lang + ')' });
               });
           }
           opts.forEach(pr => {
