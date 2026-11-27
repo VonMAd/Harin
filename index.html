@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5vlXZrC9/N7/Q4uoeNX/58qCRb7Sh/ULj9GE6s1hUII='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9FseNCcljK9p0bItYOtiZEGKb0cGonjgbtkC0wENbk8='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://fanyi.baidu.com; connect-src https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
   <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,762 official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 70 Reading passages (including Ordering, Insertion &amp; Blanks), 80 Listening scenarios, and a 6-Mode Official TOPIK I Mock Exam Center." />
   <title>Harin (하린 · 夏凜) — TOPIK I (1급–2급) Korean Studio</title>
   <style>
@@ -3868,6 +3868,7 @@ button {
               <p id="listen-quiz-summary" class="insp-tip"></p>
             </div>
             <div class="complete-actions">
+              <button id="listen-quiz-next-set" type="button" class="hidden btn btn-primary">Next Set <svg class="ico"><use href="#i-arrow-r"/></svg></button>
               <button id="listen-quiz-retake-mistakes" type="button" class="hidden btn btn-warn">Retake Mistakes</button>
               <button id="listen-quiz-restart" type="button" class="btn btn-primary">Restart Simulator</button>
               <button id="listen-quiz-exit" type="button" class="btn btn-secondary">Back to Scenarios</button>
@@ -9026,7 +9027,18 @@ button {
 
     function switchTab(tabName, playSound = true) {
       if (!TAB_ORDER.includes(tabName)) tabName = 'roadmap';
+      const prevTab = activeTab;
       HarinVoice.stop();
+
+      // Auto-pause active timed Mock Exam if user navigates away so timer never expires unseen
+      if (prevTab === 'exam' && tabName !== 'exam' && typeof mockExamState !== 'undefined' && mockExamState.active && !mockExamState.paused) {
+        mockExamState.paused = true;
+        const pBtn = document.getElementById('exam-pause-btn');
+        if (pBtn) pBtn.textContent = 'Resume';
+        if (typeof syncExamPausedUI === 'function') syncExamPausedUI();
+        showToast('Exam paused — return to TOPIK Exam tab to resume.');
+      }
+
       activeTab = tabName;
       try { SafeStore.setItem('harin_active_tab', tabName); } catch (e) {}
       const idx = TAB_ORDER.indexOf(tabName);
@@ -9039,11 +9051,22 @@ button {
         btn.classList.toggle('is-active', btn.dataset.tab === tabName);
       });
 
-      if (tabName === 'roadmap' && typeof renderRoadmap === 'function') renderRoadmap();
-      else if (tabName === 'hangul') mountWritingPad('hangul', selectedHangul.char, 0);
+      if (tabName === 'roadmap') {
+        if (typeof srsQuizState !== 'undefined' && srsQuizState.active && prevTab === 'roadmap' && typeof exitSrsReviewSession === 'function') {
+          exitSrsReviewSession();
+        } else if (typeof renderRoadmap === 'function') {
+          renderRoadmap();
+        }
+      } else if (tabName === 'hangul') mountWritingPad('hangul', selectedHangul.char, 0);
       else if (tabName === 'batchim') mountWritingPad('batchim', selectedBatchim.char, 0);
       else if (tabName === 'hanja') mountWritingPad('hanja', extractHanjaGlyph(selectedHanja.char), selectedHanja.strokes);
-      else if (tabName === 'exam' && typeof renderExamLobby === 'function') renderExamLobby();
+      else if (tabName === 'exam' && typeof renderExamLobby === 'function') {
+        // Preserve active Mock Exam or Exam Results when returning to the Exam tab
+        const resVisible = !document.getElementById('exam-result-view')?.classList.contains('hidden');
+        if (typeof mockExamState === 'undefined' || (!mockExamState.active && !resVisible)) {
+          renderExamLobby();
+        }
+      }
     }
 
     // =========================================================================
@@ -9394,7 +9417,10 @@ button {
         return;
       }
       const cleaned = String(userVal || '').trim().toLowerCase().replace(/[\[\]]/g, '');
-      if (!cleaned) return;
+      if (!cleaned) {
+        showToast('Type the Romanization or tap a choice!');
+        return;
+      }
 
       st.locked = true;
       const current = st.queue[st.idx];
@@ -9653,7 +9679,11 @@ button {
       if (!k) return;
       const inp = document.getElementById('hanja-drill-syll');
       const fb = document.getElementById('hanja-drill-fb');
-      if (!inp || !inp.value.trim()) return;
+      if (!inp || !inp.value.trim()) {
+        showToast('Type the Korean syllable or Romanization first!');
+        inp?.focus();
+        return;
+      }
       const ok = matchHanjaRootInput(inp.value, k);
       inp.classList.toggle('is-ok', ok);
       inp.classList.toggle('is-err', !ok);
@@ -10301,7 +10331,11 @@ button {
           hintTxt.classList.add('hidden');
         }
         const input = document.getElementById('gram-build-input');
-        if (input) input.value = '';
+        if (input) { input.value = ''; input.disabled = false; }
+        const clrBtn = document.getElementById('gram-build-clear');
+        if (clrBtn) clrBtn.disabled = false;
+        const chkBtn = document.getElementById('gram-build-check');
+        if (chkBtn) chkBtn.textContent = 'Check Sentence';
         gramQuizState.bankTokens = shuffleArray(cur.buildTokens.map((text, idx) => ({ id: idx, text })));
         renderGrammarBuilderTokens(cur);
       }
@@ -10364,11 +10398,20 @@ button {
       const typed = (document.getElementById('gram-build-input')?.value || '').trim();
       const built = gramQuizState.selectedTokens.map(t => t.text).join(' ');
       const candidate = typed || built;
-      if (!candidate) return;
+      if (!candidate) {
+        showToast('Tap word tiles or type the Korean sentence first!');
+        return;
+      }
 
       const normalize = s => String(s || '').replace(/[\s\u3000\u3002.?!,·~]/g, '');
       const isRight = normalize(candidate) === normalize(cur.buildAnswer);
       gramQuizState.locked = true;
+      const bInp = document.getElementById('gram-build-input');
+      if (bInp) bInp.disabled = true;
+      const clrBtn = document.getElementById('gram-build-clear');
+      if (clrBtn) clrBtn.disabled = true;
+      const chkBtn = document.getElementById('gram-build-check');
+      if (chkBtn) chkBtn.textContent = 'Next Question →';
       StudyProgress.recordAnswer(isRight);
       const fb = document.getElementById('gram-quiz-feedback');
       if (isRight) {
@@ -10779,7 +10822,11 @@ button {
       const fb = document.getElementById('vocab-tense-drill-fb');
       if (!inp || !fb) return;
       const raw = inp.value.trim();
-      if (!raw) return;
+      if (!raw) {
+        showToast('Type the conjugated Korean form first!');
+        inp.focus();
+        return;
+      }
 
       const targetObj = conj[vocabTenseDrillKey];
       const targetMeta = TENSE_DRILL_TARGETS.find(t => t.key === vocabTenseDrillKey) || TENSE_DRILL_TARGETS[0];
@@ -13601,8 +13648,22 @@ button {
       document.getElementById('listen-quiz-complete')?.classList.remove('hidden');
       const attempted = listenQuizState.correct + listenQuizState.mistakes.length;
       const pct = attempted > 0 ? Math.round((listenQuizState.correct / attempted) * 100) : 0;
+      const fullList = getFilteredListening();
+      const setInfo = slicePassageSet(fullList, listenSetIndex);
       const cleared = !listenQuizState.isMistakesReview && didClearSet(listenQuizState.correct, attempted, listenQuizState.queue.length);
-      if (cleared) markSetCompleted('listening', listenFilter, listenCategory, listenSetIndex >= 0 ? listenSetIndex : 0);
+      if (cleared && listenSetIndex >= 0) {
+        markSetCompleted('listening', listenFilter, listenCategory, listenSetIndex);
+        renderPassageSubSetBar('listen-subset-bar', 'listening', fullList, listenFilter, listenCategory, listenSetIndex, nextIdx => {
+          listenSetIndex = nextIdx; renderListening();
+          if (listenQuizState.active) startListeningQuiz();
+        });
+      }
+      const nextSetBtn = document.getElementById('listen-quiz-next-set');
+      if (nextSetBtn) {
+        const hasNext = !listenQuizState.isMistakesReview && setInfo.isSplit && listenSetIndex >= 0 && listenSetIndex + 1 < setInfo.totalSets;
+        nextSetBtn.classList.toggle('hidden', !hasNext);
+        if (hasNext) nextSetBtn.innerHTML = 'Next Set (Set ' + (listenSetIndex + 2) + ') <svg class="ico"><use href="#i-arrow-r"/></svg>';
+      }
       updateQuizProgressUI('listen', listenQuizState.queue.length, listenQuizState.queue.length, listenQuizState.correct, attempted);
       document.getElementById('listen-quiz-summary').textContent =
         'Score: ' + listenQuizState.correct + ' / ' + attempted + ' (' + pct + '% accuracy • ' + listenQuizState.queue.length + ' scenarios)'
@@ -13963,8 +14024,9 @@ button {
     }
 
     function launchReadingLesson(lvl = 'ALL', cat = 'ALL', startQuiz = false) {
-      readingFilter = lvl; readingCategory = cat; readingSearch = '';
+      readingFilter = lvl; readingCategory = cat; readingSearch = ''; readingSetIndex = 0;
       const inp = document.getElementById('reading-search'); if (inp) inp.value = '';
+      updateSearchClearBtn('reading-search', 'reading-search-clear');
       switchTab('reading', false);
       renderReading();
       if (startQuiz) startReadingQuiz(); else exitReadingQuiz();
@@ -14280,6 +14342,21 @@ button {
       return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
     }
 
+    function syncExamPausedUI() {
+      const paused = Boolean(mockExamState.paused);
+      const choices = document.getElementById('exam-choices');
+      const nextBtn = document.getElementById('exam-next-btn');
+      const orb = document.getElementById('exam-listen-orb');
+      const spk = document.getElementById('exam-speak-btn');
+      if (choices) {
+        choices.style.opacity = paused ? '0.42' : '';
+        choices.style.pointerEvents = paused ? 'none' : '';
+      }
+      if (nextBtn) nextBtn.disabled = paused;
+      if (orb) orb.disabled = paused;
+      if (spk) spk.disabled = paused;
+    }
+
     function stopExamTimer() {
       if (mockExamState.timerId) { clearInterval(mockExamState.timerId); mockExamState.timerId = null; }
     }
@@ -14425,9 +14502,11 @@ button {
       });
       wrap.innerHTML = '';
       wrap.appendChild(frag);
+      syncExamPausedUI();
     }
 
     function handleMockExamChoice(opt, clickedBtn) {
+      if (mockExamState.paused) { showToast('Exam is paused — click Resume to continue.'); return; }
       const q = mockExamState.questions[mockExamState.idx];
       if (!q) return;
 
@@ -14975,6 +15054,8 @@ button {
       document.getElementById('srs-quiz-view')?.classList.remove('hidden');
       document.getElementById('srs-quiz-active')?.classList.remove('hidden');
       document.getElementById('srs-quiz-complete')?.classList.add('hidden');
+      const rmBtnLbl = document.getElementById('roadmap-srs-btn-lbl');
+      if (rmBtnLbl) rmBtnLbl.textContent = 'Back to Study Path';
       renderSrsQuizQuestion();
     }
 
@@ -14984,6 +15065,23 @@ button {
       document.getElementById('srs-quiz-view')?.classList.add('hidden');
       document.getElementById('roadmap-main-view')?.classList.remove('hidden');
       renderRoadmap();
+    }
+
+    function exitAllActiveQuizzes() {
+      HarinVoice.stop();
+      stopExamTimer();
+      mockExamState.active = false;
+      mockExamState.paused = false;
+      if (typeof syncExamPausedUI === 'function') syncExamPausedUI();
+      if (srsQuizState.active) exitSrsReviewSession();
+      if (scriptQuizState.hangul.active) exitScriptQuiz('hangul');
+      if (scriptQuizState.batchim.active) exitScriptQuiz('batchim');
+      if (hanjaQuizState.active) exitHanjaQuiz();
+      if (gramQuizState.active) exitGrammarQuiz();
+      if (vocabQuizState.active) exitVocabQuiz();
+      if (readingQuizState.active) exitReadingQuiz();
+      if (listenQuizState.active) exitListeningQuiz();
+      renderExamLobby();
     }
 
     function finishSrsReviewSession() {
@@ -15159,28 +15257,33 @@ button {
       } else if (lesson.mod === 'hanja') {
         hanjaFilter = lesson.filterLvl || 'ALL'; hanjaCategory = lesson.cat || 'ALL'; hanjaSearch = ''; hanjaSetIndex = lesson.setIdx || 0;
         const inp = document.getElementById('hanja-search'); if (inp) inp.value = '';
+        updateSearchClearBtn('hanja-search', 'hanja-search-clear');
         switchTab('hanja', false); renderHanja();
         if (startQuiz) startHanjaQuiz(); else exitHanjaQuiz();
       } else if (lesson.mod === 'grammar') {
         gramFilter = lesson.filterLvl || 'ALL'; gramCategory = lesson.cat || 'ALL'; gramSearch = ''; gramSetIndex = lesson.setIdx || 0;
         const inp = document.getElementById('gram-search'); if (inp) inp.value = '';
+        updateSearchClearBtn('gram-search', 'gram-search-clear');
         switchTab('grammar', false); renderGrammar();
         if (startQuiz) startGrammarQuiz(); else exitGrammarQuiz();
       } else if (lesson.mod === 'vocabs') {
         vocabLevelFilter = lesson.filterLvl || 'ALL'; vocabCategory = lesson.cat || 'ALL'; vocabSearch = ''; vocabSetIndex = lesson.setIdx || 0;
         const inp = document.getElementById('vocab-search'); if (inp) inp.value = '';
+        updateSearchClearBtn('vocab-search', 'vocab-search-clear');
         switchTab('vocabs', false); refreshVocabDeck();
         if (startQuiz) startVocabQuiz(); else exitVocabQuiz();
       } else if (lesson.mod === 'reading') {
         launchReadingLesson(lesson.filterLvl || 'ALL', lesson.cat || 'ALL', startQuiz);
       } else if (lesson.mod === 'listening') {
-        listenFilter = lesson.filterLvl || 'ALL'; listenCategory = lesson.cat || 'ALL'; listenSearch = '';
+        listenFilter = lesson.filterLvl || 'ALL'; listenCategory = lesson.cat || 'ALL'; listenSearch = ''; listenSetIndex = lesson.setIdx || 0;
         const inp = document.getElementById('listen-search'); if (inp) inp.value = '';
+        updateSearchClearBtn('listen-search', 'listen-search-clear');
         switchTab('listening', false); renderListening();
         if (startQuiz) startListeningQuiz(); else exitListeningQuiz();
       } else if (lesson.mod === 'exam') {
         switchTab('exam', false);
         if (startQuiz) startMockExam(lesson.preset || 'topikfull');
+        else renderExamLobby();
       }
       showToast('Opened ' + lesson.num + ': ' + lesson.title);
     }
@@ -15371,6 +15474,7 @@ button {
         try { SafeStore.removeItem('harin_exam_history_v1'); } catch (err) {}
         completedSets.clear();
         try { SafeStore.removeItem('harin_completed_sets'); } catch (err) {}
+        exitAllActiveQuizzes();
         renderRoadmap();
         renderScriptGrid('hangul');
         renderScriptGrid('batchim');
@@ -15488,6 +15592,7 @@ button {
           StudyProgress.load();
           HarinSRS.load();
           loadExamHistory();
+          exitAllActiveQuizzes();
           StudyProgress.syncHeader(true);
           HarinSRS.syncUI();
           renderRoadmap();
@@ -15533,7 +15638,13 @@ button {
         const clonedPad = clone.querySelector('#shared-writing-pad');
         const clonedBody = clone.querySelector('body');
         if (clonedPad && clonedBody) { clonedPad.classList.add('hidden'); clonedBody.appendChild(clonedPad); }
-        ['#voice-modal-backdrop', '#progress-modal-backdrop'].forEach(sel => clone.querySelector(sel)?.classList.add('hidden'));
+        ['#voice-modal-backdrop', '#progress-modal-backdrop',
+         '#srs-quiz-view', '#hangul-quiz-view', '#batchim-quiz-view', '#hanja-quiz-view',
+         '#gram-quiz-view', '#vocab-quiz-view', '#reading-quiz-view', '#listen-quiz-view',
+         '#exam-active-view', '#exam-result-view'].forEach(sel => clone.querySelector(sel)?.classList.add('hidden'));
+        ['#roadmap-main-view', '#hangul-study-view', '#batchim-study-view', '#hanja-study-view',
+         '#grammar-list', '#vocab-study-view', '#reading-study-view', '#listen-study-view',
+         '#exam-lobby-view'].forEach(sel => clone.querySelector(sel)?.classList.remove('hidden'));
         clone.querySelector('#toast')?.classList.remove('is-open');
         clone.querySelectorAll('input, textarea').forEach(inp => {
           if (inp.type === 'checkbox') {
@@ -15552,7 +15663,7 @@ button {
           '#vocab-quick-list', '#vocab-category-pills', '#vocab-subset-bar', '#vocab-tense-grid',
           '#reading-study-view', '#reading-category-pills', '#reading-subset-bar',
           '#listen-study-view', '#listen-category-pills', '#listen-subset-bar',
-          '#roadmap-stages-list', '#roadmap-stage-pills',
+          '#roadmap-stages-list', '#roadmap-stage-pills', '#exam-history-list',
           '#progress-stats-grid', '#progress-dojang-grid', '#progress-modules-list', '#petal-layer'
         ].forEach(sel => {
           const el = clone.querySelector(sel);
@@ -15713,6 +15824,7 @@ button {
         document.getElementById('gram-build-hint-btn')?.classList.add('hidden');
       });
       document.getElementById('gram-build-clear')?.addEventListener('click', () => {
+        if (gramQuizState.locked) return;
         SoundFX.playAction();
         gramQuizState.selectedTokens = [];
         const input = document.getElementById('gram-build-input'); if (input) input.value = '';
@@ -15825,6 +15937,7 @@ button {
       });
       document.getElementById('listen-quiz-next')?.addEventListener('click', () => { SoundFX.playAction(); listenQuizState.idx++; renderListeningQuizQuestion(); });
       document.getElementById('listen-quiz-submit-all')?.addEventListener('click', finishListeningQuiz);
+      document.getElementById('listen-quiz-next-set')?.addEventListener('click', () => { SoundFX.playAction(); listenSetIndex++; renderListening(); startListeningQuiz(); });
       document.getElementById('listen-quiz-restart')?.addEventListener('click', () => { SoundFX.playAction(); startListeningQuiz(); });
       document.getElementById('listen-quiz-retake-mistakes')?.addEventListener('click', () => { SoundFX.playAction(); startListeningQuiz(listenQuizState.mistakes); });
       document.getElementById('listen-quiz-exit')?.addEventListener('click', () => { SoundFX.playToggle(false); exitListeningQuiz(); });
@@ -15898,7 +16011,7 @@ button {
       document.getElementById('reading-search-clear')?.addEventListener('click', () => {
         const inp = document.getElementById('reading-search'); if (inp) { inp.value = ''; inp.focus(); }
         updateSearchClearBtn('reading-search', 'reading-search-clear');
-        readingSearch = ''; renderReading();
+        readingSearch = ''; readingSetIndex = 0; renderReading();
         if (readingQuizState.active) startReadingQuiz();
       });
       document.getElementById('reading-quiz-toggle')?.addEventListener('click', () => {
@@ -15929,15 +16042,21 @@ button {
         mockExamState.paused = !mockExamState.paused;
         SoundFX.playToggle(!mockExamState.paused);
         e.currentTarget.textContent = mockExamState.paused ? 'Resume' : 'Pause';
+        syncExamPausedUI();
+        if (mockExamState.paused) HarinVoice.stop();
         showToast(mockExamState.paused ? 'Exam timer paused' : 'Exam timer resumed');
       });
       const replayExamAudio = e => {
+        if (mockExamState.paused) { showToast('Exam is paused — click Resume to continue.'); return; }
         const q = mockExamState.questions[mockExamState.idx];
         if (q && q.audioText) HarinVoice.speak(q.audioText, e.currentTarget);
       };
       document.getElementById('exam-listen-orb')?.addEventListener('click', replayExamAudio);
       document.getElementById('exam-speak-btn')?.addEventListener('click', replayExamAudio);
-      document.getElementById('exam-next-btn')?.addEventListener('click', () => { SoundFX.playAction(); mockExamState.idx++; renderMockExamQuestion(); });
+      document.getElementById('exam-next-btn')?.addEventListener('click', () => {
+        if (mockExamState.paused) { showToast('Exam is paused — click Resume to continue.'); return; }
+        SoundFX.playAction(); mockExamState.idx++; renderMockExamQuestion();
+      });
       document.getElementById('exam-quit-btn')?.addEventListener('click', finishMockExam);
       document.getElementById('exam-drill-srs-btn')?.addEventListener('click', startSrsReviewSession);
       document.getElementById('exam-retake-btn')?.addEventListener('click', () => { SoundFX.playAction(); startMockExam(mockExamState.presetKey); });
@@ -15984,7 +16103,7 @@ button {
       document.getElementById('fc-prev')?.addEventListener('click', () => stepVocabCard(-1));
       document.getElementById('fc-next')?.addEventListener('click', () => stepVocabCard(1));
       document.getElementById('fc-shuffle')?.addEventListener('click', () => {
-        if (vocabDeck.length < 2) return;
+        if (vocabDeck.length < 2) { showToast('Need at least 2 words in this set to shuffle.'); return; }
         SoundFX.playAction();
         vocabDeck = shuffleArray(vocabDeck);
         vocabIndex = 0;
@@ -16087,7 +16206,7 @@ button {
             const spk = document.getElementById('srs-fb-speak') || document.getElementById('srs-quiz-speak-btn');
             if (spk && !spk.classList.contains('hidden')) spk.click();
           }
-        } else if (activeTab === 'exam' && mockExamState.active) {
+        } else if (activeTab === 'exam' && mockExamState.active && !mockExamState.paused) {
           if (numKey >= 0 && (!mockExamState.instantFeedback || !mockExamState.locked)) {
             const btns = document.querySelectorAll('#exam-choices button');
             if (btns[numKey]) { e.preventDefault(); btns[numKey].click(); }
