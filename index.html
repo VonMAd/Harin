@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Gc/f9Pqt/aAmF9GiH2uC7sHfHKSnkvrS8LCFymmoB48='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://tts-translate.kakao.com; connect-src https://api.github.com https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-yQdWGIr9MPpRaxCoRTA7JBoj93GhWeZ4esLuqxrF+7U='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob: data: https://tts-translate.kakao.com; connect-src https://api.github.com https://texttospeech.googleapis.com https://api.openai.com https://*.tts.speech.microsoft.com https://api.elevenlabs.io; font-src 'self'; object-src 'none'; child-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests" />
   <meta name="description" content="Harin (하린 · 夏凜) — Complete TOPIK I (1급–2급) Korean Mastery Studio with 22-Milestone Study Path, Smart SRS, Hangul, Batchim, 383 Hanja Word Roots, 177 Grammar patterns, 1,762 official TOPIK I Vocabulary flashcards with Korean Conjugation Studio, 70 Reading passages (including Ordering, Insertion &amp; Blanks), 80 Listening scenarios, and a 6-Mode Official TOPIK I Mock Exam Center." />
   <title>Harin (하린 · 夏凜) — TOPIK I (1급–2급) Korean Studio</title>
   <style>
@@ -4499,10 +4499,10 @@ button {
       <div class="field-group">
         <label class="field-label">Speaking Speed</label>
         <div id="voice-speed-group" class="segmented">
-          <button type="button" class="seg-btn" data-speed="0.75">0.75&times; Slow</button>
-          <button type="button" class="seg-btn" data-speed="0.9">0.9&times; Clear</button>
+          <button type="button" class="seg-btn" data-speed="0.6">0.6&times; Very Slow</button>
+          <button type="button" class="seg-btn" data-speed="0.7">0.7&times; Slow</button>
+          <button type="button" class="seg-btn" data-speed="0.8">0.8&times; Learner</button>
           <button type="button" class="seg-btn" data-speed="1">1.0&times; Natural</button>
-          <button type="button" class="seg-btn" data-speed="1.15">1.15&times; Fast</button>
         </div>
       </div>
 
@@ -5531,7 +5531,7 @@ button {
         azureRegion: 'koreacentral',
         elevenVoiceId: '',
         tone: 'warm',
-        speed: 1,
+        speed: 0.8,
         autoSpeak: false,
         sessionOnlyKeys: true
       },
@@ -5564,6 +5564,12 @@ button {
           }
         } catch (e) {}
         if (!VOICE_TONES[this.config.tone]) this.config.tone = 'warm';
+        // One-time learner-pace migration: older saves defaulted to 1.0x, which is too fast for study
+        if (!SafeStore.getItem('harin_learner_pace_v1')) {
+          if (!(Number(this.config.speed) < 0.85)) this.config.speed = 0.8;
+          try { SafeStore.setItem('harin_learner_pace_v1', '1'); } catch (e) {}
+        }
+        { const sp = Number(this.config.speed); this.config.speed = (sp >= 0.5 && sp <= 1.5) ? sp : 0.8; }
         if (this.config.provider === 'browser' || !VOICE_PROVIDERS[this.config.provider]) {
           this.config.provider = 'free';
         } else if (this.config.provider !== 'free' && !(this.config.keys[this.config.provider] || '').trim()) {
@@ -5786,7 +5792,7 @@ button {
           audio.preservesPitch = true;
           audio.mozPreservesPitch = true;
           audio.webkitPreservesPitch = true;
-          audio.playbackRate = Math.min(1.25, Math.max(0.75, Number(playbackRate) || 1));
+          audio.playbackRate = Math.min(1.25, Math.max(0.6, Number(playbackRate) || 1));
           audio.volume = 0.05;
           this.currentAudio = audio;
 
@@ -5834,13 +5840,13 @@ button {
 
       // Crystal-clear Zero-API Native Seoul Korean Woman Audio (Kakao i Newtone 64kbps MP3; seamless chunk preloading)
       async playFreeOnlineAudio(text, mySeq) {
-        const chunks = this.splitChunks(text, 220);
+        // Sentence-sized chunks + a short breath between them so learners can follow each sentence
+        const chunks = this.splitChunks(text, 120);
         const tone = this.getToneProfile();
-        const userSpeed = Number(this.config.speed) || 1;
-        // Keep 1.0x at native 1.0 playbackRate for warm/crisp so audio stays 100% distortion-free
-        const defaultRate = this.config.tone === 'soft' ? 0.90 : (this.config.tone === 'gentle' ? 0.95 : 1.0);
+        const userSpeed = Number(this.config.speed) || 0.8;
         const toneMul = this.config.tone === 'soft' ? 0.92 : (this.config.tone === 'gentle' ? 0.96 : 1.0);
-        const rate = userSpeed === 1 ? defaultRate : Math.min(1.22, Math.max(0.75, userSpeed * toneMul));
+        const rate = Math.min(1.22, Math.max(0.6, userSpeed * toneMul));
+        const gapMs = Math.round(Math.min(700, Math.max(250, 380 / userSpeed)));
         const makeUrl = q => `https://tts-translate.kakao.com/newtone?message=${encodeURIComponent(q)}`;
 
         let nextAudio = null;
@@ -5862,6 +5868,10 @@ button {
             }
             const ok = await this.playAudioUrl(makeUrl(chunks[i]), rate, tone.volume, mySeq, 4500, curAudio);
             if (!ok) return false;
+            if (i + 1 < chunks.length) {
+              await new Promise(r => setTimeout(r, gapMs));
+              if (mySeq !== this.speakSeq) return false;
+            }
           }
           return true;
         } finally {
@@ -5890,7 +5900,7 @@ button {
 
           const utter = new SpeechSynthesisUtterance(chunkText);
           utter.lang = (voice && voice.lang) || 'ko-KR';
-          utter.rate = Math.min(1.3, Math.max(0.7, userSpeed * tone.rateMul));
+          utter.rate = Math.min(1.3, Math.max(0.6, userSpeed * tone.rateMul));
           utter.pitch = isNeural ? Math.min(1.06, Math.max(0.96, tone.pitch)) : tone.pitch;
           utter.volume = tone.volume;
           if (voice) utter.voice = voice;
@@ -6000,7 +6010,7 @@ button {
         if (!/^[!-~]{8,256}$/.test(apiKey)) throw new Error('Invalid API key format');
         const tone = this.getToneProfile();
         const isWarm = this.config.tone === 'warm' || this.config.tone === 'gentle';
-        const speed = Math.min(1.25, Math.max(0.75, (Number(this.config.speed) || 1) * tone.rateMul));
+        const speed = Math.min(1.25, Math.max(0.6, (Number(this.config.speed) || 1) * tone.rateMul));
         const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
         const safeFetchOpts = { credentials: 'omit', referrerPolicy: 'no-referrer', cache: 'no-store', redirect: 'error' };
         const validateAudioBlob = async (res) => {
